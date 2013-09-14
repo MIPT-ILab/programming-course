@@ -7,6 +7,8 @@ First you should set your username and email:
 $ git config --global user.name "Name Surname"
 $ git config --global user.email your_email@gmail.com
 }}}
+*If you will be asked for password you should use password from [https://code.google.com/hosting/settings here], NOT from your google account!*
+
 And to your notice you may [http://git-scm.com/book/en/Getting-Started-First-Time-Git-Setup customise git as you want]
 
 The main git command is
