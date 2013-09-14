@@ -1,13 +1,13 @@
-#summary One-sentence summary of this page.
+#summary How to attach images to wiki pages.
 
-= Introduction =
-
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+= It's quite simple:) =
+You should do theese easy steps:
+ # clone the wiki repository
+{{{
+git clone https://code.google.com/p/galaxy-expansion.wiki/
+}}}
+ # store your image in img folder
+ # attach image to wiki
+{{{
+[http://wiki.galaxy-expansion.googlecode.com/git/img/your_image.png]
+}}}
