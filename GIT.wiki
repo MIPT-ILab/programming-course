@@ -1,0 +1,63 @@
+#summary git short manual and branching convention.
+
+= Quick start =
+
+First you should set your username and email:
+{{{
+$ git config --global user.name "Name Surname"
+$ git config --global user.email your_email@gmail.com
+}}}
+And to your notice you may [http://git-scm.com/book/en/Getting-Started-First-Time-Git-Setup customise git as you want]
+
+The main git command is
+{{{
+$ git help <verb>
+}}}
+
+Now you may clone our repository.
+{{{
+$ git clone https://username@code.google.com/p/galaxy-expansion/ 
+}}}
+
+Next you should switch to develop branch (few moments later about branches)
+{{{
+$ git checkout develop
+}}}
+
+Create branch for your feature
+{{{
+$ git branch new_feature
+}}}
+
+Code a lot, add and delete files and, of course, commit to your personal branch using svn-like syntax:
+{{{
+$ git add file_or_folder
+$ git rm file_or_folder
+$ git commit -m "bla-bla-bla, it's historical commit"
+}}}
+
+When your feature is ready you should
+  # switch to develop branch (I hope, you remember how to do this;))
+  # merge your branch with develop (<u>don't forget about --no-ff, it's needed to save history</u>)
+{{{
+$ git merge --no-ff new_feature
+}}}
+  # solve conflicts if needed (intuitively answer the questions)
+  # delete your new_future branch and don't panic, it's already in history
+{{{
+$ git branch -d new_feature
+}}}
+  # and send it to the main repository
+{{{
+$ git push develop
+}}}
+
+Note, before pushing develop branch <u> you should send your code for reviewing </u>(see the code review wiki page).
+
+That's all that you need to start:)
+
+= More about branching =
+Of course, you may use local new-feature sub-branches but be careful! It's easy to lost your control.
+You may push your local branches to the main repo without merging for reviewing.
+And [http://nvie.com/posts/a-successful-git-branching-model/ here] you may read more about branching. This web-page is our main branching convention. Picture above is amazing illustration.
+[http://wiki.galaxy-expansion.googlecode.com/git/img/branching.png]
