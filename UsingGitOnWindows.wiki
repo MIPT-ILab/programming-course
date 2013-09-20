@@ -104,6 +104,6 @@ git commit -a -m 'Change description'
 = Статьи, требующие написания =
 
 Дальнейшее чтение по работе с Git
-* GitRevisions
-* GitAddDelete
-* GitEmergencyRestore - что делать, если запороли репозиторий
+ * GitRevisions
+ * GitAddDelete
+ * GitEmergencyRestore - что делать, если запороли репозиторий
