@@ -1,0 +1,9 @@
+#summary One-sentence summary of this page.
+
+Данная страница может использоваться для хранения ссылок на внешние ресурсы, которые не нашли себе места в других разделах.
+
+
+ * Синтаксис данной вики [http://code.google.com/p/support/wiki/WikiSyntax]
+ *
+ *
+ *
