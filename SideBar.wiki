@@ -1,5 +1,5 @@
 =Содержимое Вики=
 
  * [Mentors]
- * GitOnWindows
+ * UsingGitOnWindows
  * CodeReview
