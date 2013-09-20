@@ -2,4 +2,8 @@
 
 = Руководители (менторы) занятий =
 
-*TODO* Напиши меня.
+*TODO* Менторы, впишите себя. Фотки используйте размера не больше 120x120, иначе всё поедет.
+
+|| *Фото* || *Имя * || *email* ||
+|| http://mdsp.googlecode.com/svn/wiki/team-photos/2010-2011/grigory-rechistov.jpg || Григорий Речистов || grigory.rechistov@gmail.com ||
+|| http://atakua.doesntexist.org/public/favdevil120.png || Ментор Менторович || nobody@example.com||
