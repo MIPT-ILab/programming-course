@@ -1,13 +1,18 @@
 #summary How to attach images to wiki pages.
+#labels HowTo
 
-= It's quite simple:) =
-You should do theese easy steps:
+= It's quite simple =
+You should do these easy steps:
  # clone the wiki repository
 {{{
-git clone https://code.google.com/p/galaxy-expansion.wiki/
+git clone https://grigory.rechistov@code.google.com/p/mipt-ilab-course.wiki
 }}}
- # store your image in img folder
+ # store your image in the newly repository folder
  # attach image to wiki
 {{{
-[http://wiki.galaxy-expansion.googlecode.com/git/img/your_image.png]
+[http://wiki.mipt-ilab-course.googlecode.com/git/descent.png]
 }}}
+
+= The result = 
+
+[http://wiki.mipt-ilab-course.googlecode.com/git/descent.png]
