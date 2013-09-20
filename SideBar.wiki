@@ -2,8 +2,13 @@
 
  * [Mentors]
  * UsingGitOnWindows
- * CodeReview
 
+
+ * CodeReview
+ * Testing
+ * CodeStyle
 
  * [GIT]
  * [WikiImages]
+
+ * LinksAndResources
