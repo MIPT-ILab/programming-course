@@ -10,8 +10,25 @@ GIT - это система организации совместного дос
   
 = Если у вас Windows =
 == Установка GIT ==
-Для использования
-http://sourceforge.net/projects/gitextensions/files/latest/download
+Как и принято в Windows, программу можно установить методом "далее-далее-я принимаю условия лицензионного соглашения-готово".
+
+Скачайте программу GIT для Windows [http://code.google.com/p/msysgit/downloads/list отсюда]. 
+
+Скачайте программу для графического просмотра изменений в версиях файла [http://sourceforge.net/projects/kdiff3/files/kdiff3/0.9.97/KDiff3-32bit-Setup_0.9.97.exe/download отсюда]
+
+Скачайте графический интерфейс для работы с GIT [http://sourceforge.net/projects/gitextensions/files/latest/download отсюда].
+
+Запустите Git Extensions. Если вы сделали все правильно, то увидите такое окно:
+[http://wiki.mipt-ilab-course.googlecode.com/git/descent.png]
+
+== Настройка Git Extensions ==
+
+
+
+= Если у вас Linux =
+Если вы используете линукс, то наверняка понимаете, насколько же неудобны сложные графические интерфейсы, усложняющие простые вещи.
+
+ 
 
 
 
