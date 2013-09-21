@@ -19,7 +19,7 @@ GIT - это система организации совместного дос
 Скачайте графический интерфейс для работы с GIT [http://sourceforge.net/projects/gitextensions/files/latest/download отсюда].
 
 Запустите Git Extensions. Если вы сделали все правильно, то увидите такое окно:
-[http://wiki.mipt-ilab-course.googlecode.com/git/descent.png]
+[http://wiki.mipt-ilab-course.googlecode.com/git/git_extensions_ok.png]
 
 == Настройка Git Extensions ==
 
