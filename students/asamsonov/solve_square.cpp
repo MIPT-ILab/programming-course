@@ -3,72 +3,75 @@
 #include <math.h> 
 #include <assert.h> 
 
-// Программа решает квадратное уравнение. 
+// РџСЂРѕРіСЂР°РјРјР° СЂРµС€Р°РµС‚ РєРІР°РґСЂР°С‚РЅРѕРµ СѓСЂР°РІРЅРµРЅРёРµ. 
 
-#define LITTLE 0.000001 // LITTLE верхним регистром смотрится необычно. :) 
+#define LITTLE 0.000001 // LITTLE РІРµСЂС…РЅРёРј СЂРµРіРёСЃС‚СЂРѕРј СЃРјРѕС‚СЂРёС‚СЃСЏ РЅРµРѕР±С‹С‡РЅРѕ. :) 
 
-int solve_square(double a, double b, double c, double *x1, double *x2); //Возвращает в х1, х2 корни квадратного уравнения. 
+int solve_square(double a, double b, double c, double *x1, double *x2); //Р’РѕР·РІСЂР°С‰Р°РµС‚ РІ С…1, С…2 РєРѕСЂРЅРё РєРІР°РґСЂР°С‚РЅРѕРіРѕ СѓСЂР°РІРЅРµРЅРёСЏ. 
 
 int main(int argc, const char *argv[])
 {
-	double a = 0, b = 0, c = 0; 
+    double a = 0, b = 0, c = 0; 
 
-    printf ("Put a, b and c from ax^2 + bx + c in.\n"); //>>> Input ;) >>> input - noun, put in - verb.                  //>>> Неплохо бы проверить, что возвращает сканф! 
-	if (scanf ("%lg %lg %lg", &a, &b, &c) == NULL) return printf ("Input is not valid.\n"), 1;
+    printf ("Put a, b and c from ax^2 + bx + c in.\n"); //>>> Input ;) >>> input - noun, put in - verb.                  
+    //>>> РќРµРїР»РѕС…Рѕ Р±С‹ РїСЂРѕРІРµСЂРёС‚СЊ, С‡С‚Рѕ РІРѕР·РІСЂР°С‰Р°РµС‚ СЃРєР°РЅС„! 
+	  if (scanf ("%lg %lg %lg", &a, &b, &c) == NULL) return printf ("Input is not valid.\n"), 1;
 
     double x1 = 0, x2 = 0; 
-	int nRoots = solve_square (a, b, c, &x1, &x2);       
+	  int nRoots = solve_square (a, b, c, &x1, &x2);       
 
-        // Return check block. 
+    // Return check block. 
 
-	switch (nRoots) 
+	  switch (nRoots) 
     { 
-		case 0: printf ("Solutions: x1 = %lg; x2 = %lg\n", x1, x2);   break; 
-	    case 1: printf ("Solution: x1 = x2 = %lg\n", x1);             break; 
+		    case 0: printf ("Solutions: x1 = %lg; x2 = %lg\n", x1, x2);   break; 
+	      case 1: printf ("Solution: x1 = x2 = %lg\n", x1);             break; 
         case 2: printf ("No solutions in R set.\n");                  break; 
-		case 3: printf ("Solution: x1 = x2 = any number in R.\n");    break; 
-	    default: printf ("ERROR! Undocumented return %d!\n", nRoots); return 1; 
+        case 3: printf ("Solution: x1 = x2 = any number in R.\n");    break; 
+        default: printf ("ERROR! Undocumented return %d!\n", nRoots); return 1; 
     } 
 
-	return 0; //...
+	  return 0; //...
 } 
 
-int solve_square(double a, double b, double c, double *x1, double *x2) // Возвращает в х1, х2 корни квадратного уравнения. 
+int solve_square(double a, double b, double c, double *x1, double *x2) // Р’РѕР·РІСЂР°С‰Р°РµС‚ РІ С…1, С…2 РєРѕСЂРЅРё РєРІР°РґСЂР°С‚РЅРѕРіРѕ СѓСЂР°РІРЅРµРЅРёСЏ. 
 { 
-	assert(x1); assert(x2); assert(x1 != x2);  // <<< Pre-condition. 
+	  assert(x1); assert(x2); assert(x1 != x2);  // <<< Pre-condition. 
 
-	double D = b*b - 4*a*c; 
-        //const double LITTLE = 0.000001; // Константа для сравнения Double с нулем. 
-		// Что лучше использовать: глобальные константы или define?
+	  double D = b*b - 4*a*c; 
+    //const double LITTLE = 0.000001; // РљРѕРЅСЃС‚Р°РЅС‚Р° РґР»СЏ СЃСЂР°РІРЅРµРЅРёСЏ Double СЃ РЅСѓР»РµРј. 
+		// Р§С‚Рѕ Р»СѓС‡С€Рµ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ: РіР»РѕР±Р°Р»СЊРЅС‹Рµ РєРѕРЅСЃС‚Р°РЅС‚С‹ РёР»Рё define?
 
-    if (fabs (a) < LITTLE) {                 // Если коэффициент а = 0. --- Лучше fabs (a) < EPS 
-                /* bx + c = 0; bx = -c; x = -c/ b*/ 
-		if ((fabs (b) < LITTLE) && (fabs (c) > LITTLE)) { return 2; }      // Нет решений в R. 
-        else if ((fabs (b) < LITTLE) && (fabs (c) < LITTLE)) { return 3; } // Решение - любое число в R. 
+    if (fabs (a) < LITTLE) {// Р•СЃР»Рё РєРѕСЌС„С„РёС†РёРµРЅС‚ Р° = 0. --- Р›СѓС‡С€Рµ fabs (a) < EPS 
+        /* bx + c = 0; bx = -c; x = -c/ b*/ 
+	      if ((fabs (b) < LITTLE) && (fabs (c) > LITTLE)) { return 2; }      // РќРµС‚ СЂРµС€РµРЅРёР№ РІ R. 
+        else if ((fabs (b) < LITTLE) && (fabs (c) < LITTLE)) { return 3; } // Р РµС€РµРЅРёРµ - Р»СЋР±РѕРµ С‡РёСЃР»Рѕ РІ R. 
         else { 
-			*x1 = (-c / b); 
-            return 1; // Один корень. >>> one team, one love, one root)) -- nostalgy?
+			      *x1 = (-c / b); 
+            return 1; // РћРґРёРЅ РєРѕСЂРµРЅСЊ. >>> one team, one love, one root)) -- nostalgy?
         } 
-	} 
+	  } 
     else { 
-		if (D > LITTLE) { // Дискриминант > 0. 
-			D = sqrt(D); 
-		    *x1 = (-b - D) / (2 * a); 
-		    *x2 = (-b + D) / (2 * a); 
-	        return 0; // Два корня, все отлично. 
-		} 
-		else if ((D < LITTLE) && (D > -LITTLE)) { // Дискриминант = 0. 
-			*x1 = (-b / (2 * a)); 
-			return 1; // Один корень. 
-		} 
-		else { return 2; } // Нет корней в R. 
+		    if (D > LITTLE) { // Р”РёСЃРєСЂРёРјРёРЅР°РЅС‚ > 0. 
+			      D = sqrt(D); 
+		        *x1 = (-b - D) / (2 * a); 
+		        *x2 = (-b + D) / (2 * a); 
+	          return 0; // Р”РІР° РєРѕСЂРЅСЏ, РІСЃРµ РѕС‚Р»РёС‡РЅРѕ. 
+		    } 
+		    else if ((D < LITTLE) && (D > -LITTLE)) { // Р”РёСЃРєСЂРёРјРёРЅР°РЅС‚ = 0. 
+			      *x1 = (-b / (2 * a)); 
+			      return 1; // РћРґРёРЅ РєРѕСЂРµРЅСЊ. 
+		    } 
+		    else { return 2; } // РќРµС‚ РєРѕСЂРЅРµР№ РІ R. 
     } 
-	/* DOCS OF RETURN. 
-    : 0 - 2 корня. 
-	: 1 - 1 корень. 
-    : 2 - Нет корней. 
-    : 3 - Корень - любое действительное число. 
-    : 4 - Некий EF. // EF - Epic Fail.
+	  /* DOCS OF RETURN. 
+    : 0 - 2 РєРѕСЂРЅСЏ. 
+	  : 1 - 1 РєРѕСЂРµРЅСЊ. 
+    : 2 - РќРµС‚ РєРѕСЂРЅРµР№. 
+    : 3 - РљРѕСЂРµРЅСЊ - Р»СЋР±РѕРµ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕРµ С‡РёСЃР»Рѕ. 
+    : 4 - РќРµРєРёР№ EF. // EF - Epic Fail.
     */  
-	return 4; 
-} 
+	  return 4; 
+}
+// РљСЃС‚Р°С‚Рё, РєРѕРіРґР° РґРµР»Р°СЋ commit, С‚Р°Р±СѓР»СЏС†РёСЏ Р±СЊРµС‚СЃСЏ. (Р•СЃР»Рё РІ edit copy-paste РґРµР»Р°С‚СЊ - С‚Рѕ Р¶Рµ.) РљР°Рє СЃ СЌС‚РёРј Р±РѕСЂРѕС‚СЊСЃСЏ?
+// Р С‡С‚Рѕ РЅР°СЃС‡РµС‚ РєРѕРјРјРµРЅС‚РѕРІ? РљР°РєРёРµ-С‚Рѕ РїСЂРѕР±Р»РµРјС‹ СЃ РєРѕРґРёСЂРѕРІРєРѕР№. "СЂРµРіРёСЃС‚СЂ" -> "Г°ГҐГЈГЁГ±ГІГ°" РЅРµ СЂР°РґСѓРµС‚.
