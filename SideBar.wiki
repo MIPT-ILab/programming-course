@@ -1,14 +1,16 @@
 =Содержимое=
 
+==Инфраструктура==
  * [Mentors]
  * UsingGitOnWindows
+ * [GIT]
 
-
+==Программирование==
+ * CommentStyle
  * CodeReview
  * Testing
  * CodeStyle
 
- * [GIT]
+==Разное==
  * [WikiImages]
-
  * LinksAndResources
