@@ -9,4 +9,4 @@
 || http://storage.ded32.net.ru/Lib/Avt.100x80.jpg || Илья Дединский || ded32.net.ru@gmail.com, skype: ded32.net.ru ||
 ||  || Виталий Крепак || krepakvitaliy@gmail.com||
 ||  || Иван Пенкин || grek.penkin@gmail.com||
-|| http://atakua.doesntexist.org/public/favdevil120.png || Ментор Менторович || nobody@example.com||
+#|| http://atakua.doesntexist.org/public/favdevil120.png || Ментор Менторович || nobody@example.com||
