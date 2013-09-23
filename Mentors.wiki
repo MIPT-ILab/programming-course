@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Information on mentors
 
 = Руководители (менторы) занятий =
 
