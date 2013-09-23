@@ -13,7 +13,9 @@
 || http://storage.ded32.net.ru/Lib/Images/ILab/VitalyKrepak.jpg || Виталий Крепак || krepakvitaliy@gmail.com||
 || http://wiki.mipt-ilab-course.googlecode.com/git/penkin.png || Иван Пенкин || grek.penkin@gmail.com||
 ||  https://dl.dropboxusercontent.com/u/14320318/w_29a8a103.jpg || Ковальков Константин || kkovalkov92@gmail.com ||
+|| http://storage.ded32.net.ru/Lib/Images/ILab/OlegPonomarev.jpg || Олег Пономарев ||  ||
 || http://storage.ded32.net.ru/Lib/Images/ILab/AndrewBelogaev.jpg || Андрей Белогаев ||  ||
 || http://storage.ded32.net.ru/Lib/Images/ILab/EugeneGlushkov.jpg || Евгений Глушков ||  ||
 || http://storage.ded32.net.ru/Lib/Images/ILab/IgorSmirnov.jpg || Игорь Смирнов ||  ||
 || http://storage.ded32.net.ru/Lib/Images/ILab/VasyaRadchenko.jpg || Василий Радченко ||  ||
+|| http://storage.ded32.net.ru/Lib/Images/ILab/SevaLivinsky.jpg || Всеволод Ливинский ||  ||
