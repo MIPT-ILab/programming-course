@@ -11,5 +11,5 @@
 || http://mdsp.googlecode.com/svn/wiki/team-photos/2010-2011/grigory-rechistov.jpg || Григорий Речистов || grigory.rechistov@gmail.com ||
 || http://storage.ded32.net.ru/Lib/Avt.100x80.jpg || Илья Дединский || ded32.net.ru@gmail.com, skype: ded32.net.ru ||
 ||  || Виталий Крепак || krepakvitaliy@gmail.com||
-||  || Иван Пенкин || grek.penkin@gmail.com||
+|| http://wiki.mipt-ilab-course.googlecode.com/git/penkin.png || Иван Пенкин || grek.penkin@gmail.com||
 ||  https://dl.dropboxusercontent.com/u/14320318/w_29a8a103.jpg || Ковальков Константин || kkovalkov92@gmail.com ||
