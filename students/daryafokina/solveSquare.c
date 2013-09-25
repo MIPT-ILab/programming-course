@@ -31,7 +31,7 @@ int main()
 	printf("Hello. \n");
 	printf("This is a programme for solution of a quadratic equation. \n");
 	printf("Enter the coefficients a,b,c.\n");
-	scanf_s("%lg %lg %lg",&a,&b,&c);
+	scanf("%lg %lg %lg",&a,&b,&c);
 	nRoots=SolveSquare(a,b,c,&x1,&x2);
 	switch (nRoots) {
 		case 2: 
