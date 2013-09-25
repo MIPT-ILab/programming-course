@@ -5,7 +5,17 @@
 *TODO* Менторы, впишите себя. Фотки используйте размера не больше 120x120, иначе всё поедет.
 
 || *Фото* || *Имя * || *email* ||
-|| http://mdsp.googlecode.com/svn/wiki/team-photos/2010-2011/grigory-rechistov.jpg || Григорий Речистов || grigory.rechistov@gmail.com ||
-|| http://storage.ded32.net.ru/Lib/Avt.100x80.jpg || Илья Дединский || ded32.net.ru@gmail.com, skype: ded32.net.ru ||
-||  || Виталий Крепак || krepakvitaliy@gmail.com||
+<wiki:comment>
 || http://atakua.doesntexist.org/public/favdevil120.png || Ментор Менторович || nobody@example.com||
+</wiki:comment>
+|| http://mdsp.googlecode.com/svn/wiki/team-photos/2010-2011/grigory-rechistov.jpg || Григорий Речистов || grigory.rechistov@gmail.com ||
+|| http://storage.ded32.net.ru/Lib/Images/ILab/IlyaDedinsky.jpg || Илья Дединский || ded32.net.ru@gmail.com, skype: ded32.net.ru ||
+|| http://storage.ded32.net.ru/Lib/Images/ILab/VitalyKrepak.jpg || Виталий Крепак || krepakvitaliy@gmail.com||
+|| http://storage.ded32.net.ru/Lib/Images/ILab/VanyaPenkin.jpg || Иван Пенкин || grek.penkin@gmail.com||
+||  https://dl.dropboxusercontent.com/u/14320318/w_29a8a103.jpg || Ковальков Константин || kkovalkov92@gmail.com ||
+|| http://storage.ded32.net.ru/Lib/Images/ILab/OlegPonomarev.jpg || Олег Пономарев || onponomarev@parallels.mipt.ru ||
+|| http://storage.ded32.net.ru/Lib/Images/ILab/AndrewBelogaev.jpg || Андрей Белогаев || rewrite2007@yandex.ru ||
+|| http://storage.ded32.net.ru/Lib/Images/ILab/EugeneGlushkov.jpg || Евгений Глушков || eugene.glushkov@gmail.com ||
+|| http://storage.ded32.net.ru/Lib/Images/ILab/IgorSmirnov.jpg || Игорь Смирнов ||  ||
+|| http://storage.ded32.net.ru/Lib/Images/ILab/VasyaRadchenko.jpg || Василий Радченко || rad4enko.v.a@mail.ru ||
+|| http://storage.ded32.net.ru/Lib/Images/ILab/SevaLivinsky.jpg || Всеволод Ливинский || vsevolod.livinskij@frtk.ru ||
