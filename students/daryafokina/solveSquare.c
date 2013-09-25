@@ -46,8 +46,6 @@ int main()
 		case -1:
 			printf("# The equation is has infinitely many roots.");
 	}
-	getchar();
-	getchar();
 	return 0;
 }
 int SolveSquare(double a, double b, double c, double* x1, double* x2)
