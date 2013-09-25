@@ -33,18 +33,30 @@ int main()
 	printf("Enter the coefficients a,b,c.\n");
 	scanf("%lg %lg %lg",&a,&b,&c);
 	nRoots=SolveSquare(a,b,c,&x1,&x2);
-	switch (nRoots) {
-		case 2: 
-			printf("# The equaton has number of roots:\n %d\n# Roots: %lg, %lg \n", nRoots, x1, x2);
-			break;
-		case 1: 
-			printf("# The equaton has number of roots:\n %d\n# Roots: %lg \n", nRoots, x1);
-			break;
-		case 0:
-			printf("# The equaton has no roots.");
-			break;
-		case -1:
-			printf("# The equation is has infinitely many roots.");
+	if(nRoots==2)
+	{
+		printf("The equation has 2 different roots: \n");
+		printf("%lg, %lg \n",x1,x2);
+	}
+	else
+	{
+		if(nRoots==1)
+		{
+			printf("The equation has 1 root: \n");
+			printf("%lg \n",x1);
+		}
+		else
+		{
+			if(nRoots==0)
+			{
+				printf("The equation has no roots. \n");
+			}
+			else
+			{
+				printf("The equation has infinitely many roots. \n");
+			
+			}
+		}
 	}
 	return 0;
 }
@@ -53,7 +65,7 @@ int SolveSquare(double a, double b, double c, double* x1, double* x2)
 	double d=0;
 	assert(x1!=NULL);
 	assert(x2);
-	assert(x1!=x2);\\
+	assert(x1!=x2);
 	d=b*b-4*a*c;
 	if(a!=0)
 	{
