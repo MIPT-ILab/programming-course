@@ -8,7 +8,7 @@
 <wiki:comment>
 || http://atakua.doesntexist.org/public/favdevil120.png || Ментор Менторович || nobody@example.com||
 </wiki:comment>
-|| http://mdsp.googlecode.com/svn/wiki/team-photos/2010-2011/grigory-rechistov.jpg || Григорий Речистов || grigory.rechistov@gmail.com ||
+|| http://wiki.mipt-ilab-course.googlecode.com/git/ggg-120px-helmet.jpg ||Григорий Речистов || grigory.rechistov@gmail.com ||
 || http://storage.ded32.net.ru/Lib/Images/ILab/IlyaDedinsky.jpg || Илья Дединский || ded32.net.ru@gmail.com, skype: ded32.net.ru ||
 || http://storage.ded32.net.ru/Lib/Images/ILab/VitalyKrepak.jpg || Виталий Крепак || krepakvitaliy@gmail.com||
 || http://storage.ded32.net.ru/Lib/Images/ILab/VanyaPenkin.jpg || Иван Пенкин || grek.penkin@gmail.com||
