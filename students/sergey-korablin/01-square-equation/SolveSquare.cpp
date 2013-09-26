@@ -10,10 +10,8 @@
 //}=================================================================================
 
 #include <stdio.h>
-#include <cmath>
+#include <math.h>
 #include <assert.h>
-
-using namespace std;
 
 //! Approximation to zero
 const double EPS = 0.00000001;
@@ -23,16 +21,16 @@ const int SS_INFINITE_ROOTS = -1;
 
 
 //{=================================================================================
-//! IsZero - check double value equality to zero.
+//! isZero - check double value equality to zero.
 //!
 //! @param      x    Input value
 //!
 //! @return          true, if offset between x and zero is less then EPS.
 //}=================================================================================
-bool IsZero ( const double x );
+bool isZero ( const double x );
 
 //{=================================================================================
-//! SquareSol - solve a square or linear equation specified by its coefficients.
+//! squareSol - solve a square or linear equation specified by its coefficients.
 //!
 //! @param      a    Equation a-coefficient
 //! @param      b    Equation b-coefficient
@@ -44,20 +42,20 @@ bool IsZero ( const double x );
 //!
 //! @note            Calculation precision is considered to be DBL_EPSILON.
 //}=================================================================================
-int SquareSol ( const double a,
+int squareSol ( const double a,
                 const double b,
                 const double c,
                 double *x1,
                 double *x2 );
 
 //{=================================================================================
-//! PrintSols - print the roots of a square or linear equation.
+//! printSols - print the roots of a square or linear equation.
 //!
 //! @param      Num  Number of roots
 //! @param      x1   Min. root of equation, if exist (if not, value will not be used)
 //! @param      x2   Min. root of equation, if exist (if not, value will not be used)
 //}=================================================================================
-void PrintSols ( const int Num,
+void printSols ( const int Num,
                  const double x1,
                  const double x2 );
 
@@ -67,33 +65,37 @@ int main () {
            c = 0,
            x1 = 0,
            x2 = 0;
-    int NumSol = 0;
-    bool CorrectInput = false;
+    int numSol = 0;
+    bool isInputCorrect = false;
     printf ( "# Solve a square or linear equation specified by its coefficients\n"
              "# Author: Korablin S.\n" );
-    while (!CorrectInput) {
+
+    while ( !isInputCorrect ) {
         printf ( "# Please, enter the coefficients of equation (A, B, C)\n" );
-        CorrectInput = scanf ( "%lf %lf %lf", &a, &b, &c ) == 3;
+        isInputCorrect = scanf ( "%lf %lf %lf", &a, &b, &c ) == 3;
     }
-    NumSol = SquareSol ( a, b, c, &x1, &x2 );
-    PrintSols ( NumSol, x1, x2 );
+
+    numSol = squareSol ( a, b, c, &x1, &x2 );
+
+    printSols ( numSol, x1, x2 );
+
     return 0; // GR: программа должна возвращать  ноль, только если она завершилась успехом
-              // GR: Если NumSol < 0 , то это вряд ли успех, надо вернуть что-то другое.
+              // GR: Если numSol < 0 , то это вряд ли успех, надо вернуть что-то другое.
               // ANS: Считаю, что отсутствие решений - тоже успех для функции main
 }
 
-bool IsZero ( const double x ) {
+bool isZero ( const double x ) {
     return ( abs ( x ) <= EPS );
 }
 
-int SquareSol ( const double a,
+int squareSol ( const double a,
                 const double b,
                 const double c, 
                 double *x1,
                 double *x2 ) {
-    if ( IsZero ( a ) ) {
-        if ( IsZero ( b ) ) {
-            if ( IsZero ( c ) ) {
+    if ( isZero ( a ) ) {
+        if ( isZero ( b ) ) {
+            if ( isZero ( c ) ) {
                 return SS_INFINITE_ROOTS;
             }
             else {
@@ -101,7 +103,7 @@ int SquareSol ( const double a,
             }
         }
         else {
-            if ( IsZero ( c ) ) {
+            if ( isZero ( c ) ) {
                 *x1 = 0.0;
                 return 1;
             }
@@ -112,8 +114,8 @@ int SquareSol ( const double a,
         }
     }
     else {
-        if ( IsZero ( c ) ) {
-            if ( IsZero ( b ) ) {
+        if ( isZero ( c ) ) {
+            if ( isZero ( b ) ) {
                 *x1 = 0.0;
                 return 1;
             }
@@ -132,7 +134,7 @@ int SquareSol ( const double a,
         }
         else {
             double D = b * b - 4 * a * c ;
-            if ( IsZero ( D ) ) {
+            if ( isZero ( D ) ) {
                 *x1 = - b / ( 2 * a );
                 return 1;
             }
@@ -157,7 +159,7 @@ int SquareSol ( const double a,
     }
 } 
 
-void PrintSols ( const int Num,
+void printSols ( const int Num,
                  const double x1,
                  const double x2 ) {
     switch ( Num ) {
