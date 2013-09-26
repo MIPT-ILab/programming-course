@@ -85,6 +85,75 @@ const int SS_INFINITE_ROOTS = -1; //!< Значение, возвращаемо�
 
 Вот ее исходник: http://sourceforge.net/projects/txlib/files/TXLib/TXLib.h/download
 
+К примеру, такой код:
+{{{
+//{=================================================================================
+//! @file square_equation.c
+//! @date 2013-09-26
+//! @author Sergey Ivanychev <...@gmail.com>, 376 group, DCAM MIPT
+//! @version 1.03
+//! @note V1.01:
+//!    - added function squaresolve()
+//!    - main() has been changed
+//!    - added multiple equations support
+//!    - calculates and returns the sum of the roots
+//!
+//! @note V.1.02:
+//!  - added "square_eq" structure where factors and number of roots are contained //!
+//!  - fixed squaresolve():
+//!  -- there's no -0.0 anymore!
+//!  - fixed main():
+//!  -- the roots aren't stored in memory anymore
+//!  - added check if number of equations is positive
+//!  - removed the array of roots, structure square_eq is created
+//! @par V.1.03
+//!  - added preprocessor support
+//!  -- from now, float numbers are compared using IS_ZERO, IS_ABOVE_ZERO, IS_BELOW_ZERO
+//!  -- my ASSERT added, if #define DEBUG is commented out, ASSERT would be replaced with space
+//!  -- added #define OUT, which cancels friendly output if #define _EJC (Judge System Support)
+//!  -  doxygen comments added
+//!
+//! @note TODO: - Figure out how to use the dynamic memory
+//}==============================================================================================
+//----------------------------------------------------------------------------------------
+
+#include <stdio.h>
+#include <math.h>
+#include <float.h>
+
+#define IS_ZERO(x) (fabs(x) < DBL_EPSILON)
+#define IS_ABOVE_ZERO(x) (x > DBL_EPSILON)
+#define IS_BELOW_ZERO(x) (x < -DBL_EPSILON)
+
+//--------------------------------------------------------------------------
+//#define _EJC
+//--------------------------------------------------------------------------
+#ifdef _EJC
+#define OUT if(0)
+#else
+#define OUT
+#endif // _EJC
+//--------------------------------------------------------------------------
+#define DEBUG
+//--------------------------------------------------------------------------
+#ifdef DEBUG
+#define ASSERT(cond) \
+if (!(cond)) {\
+    printf("All gone bad: %s, file: %s, line: %d\n", #cond, __FILE__, __LINE__);\
+    abort();\
+    }
+#else
+#define ASSERT(cond)
+#endif //DEBUG
+
+...
+
+}}}
+
+Даст вот такой красивый док:
+
+http://i.imgur.com/E0bwjZW.png
+
 Язык комментов - русский или английский? Я думаю, на 1 курсе надо разрешать и то, и то, но откровенно способствовать тем, кто пишет по-английски (без явного гугл-транслейта, легко распознаваемого по ужасной грамматике). Например, ревьювить их код в первую очередь.
 
 =О выводе на экран=
