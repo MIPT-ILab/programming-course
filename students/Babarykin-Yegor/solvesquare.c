@@ -9,33 +9,38 @@ int solve(double a,double b,double c,double* x1,double* x2);
 
 int main()
 {
-	double a=0,b=0,c=0;
-	double x1=0,x2=0;
+	double a=0, b=0, c=0;
+	double x1=0, x2=0;
+   
 	printf("#enter the coefficients of the equation a*x^2+b*x+c=0\n");
 	printf("\n#please enter the coefficient a=");
 	scanf("%lg",&a);
+   
 	printf("#please enter the coefficient b=");
 	scanf("%lg",&b);
+   
 	printf("#please enter the coefficient c=");
 	scanf("%lg",&c);
-    int num=solve(a,b,c,&x1,&x2);
-    if (num==-1)
+   
+    int num = solve(a, b, c, &x1, &x2);
+    
+    if (num == -1)
     {
         printf("\n#This equation has an infinite number of solutions");
     }
-    else if (num==0)
+    else if (num == 0)
     {
         printf("\n#This equation has not got solutions");
     }
-    else if (num==1)
+    else if (num == 1)
     {
         printf("\n#This equation has 1 solution\n");
         printf("%lg",x1);
     }
-    else if (num==2)
+    else if (num == 2)
     {
         printf("\n#This equation has 2 solutions\n");
-        printf("%lg %lg",x1,x2);
+        printf("%lg %lg", x1, x2);
     }
     return num;
 }
@@ -62,7 +67,7 @@ int main()
 int solve(double a,double b,double c,double* x1,double* x2)
 {
 
-    /*Проверка входных данных*/
+    /*ГЏГ°Г®ГўГҐГ°ГЄГ  ГўГµГ®Г¤Г­Г»Гµ Г¤Г Г­Г­Г»Гµ*/
     assert(x1!=NULL);
     assert(x2);
     assert(x1!=x2);
@@ -80,11 +85,11 @@ int solve(double a,double b,double c,double* x1,double* x2)
         {
             if (fabs(c)<=eps)
             {
-                number=-1;//бесконечно много решений
+                number=-1;//ГЎГҐГ±ГЄГ®Г­ГҐГ·Г­Г® Г¬Г­Г®ГЈГ® Г°ГҐГёГҐГ­ГЁГ©
             }
             else
             {
-                number=0;//решений нет
+                number=0;//Г°ГҐГёГҐГ­ГЁГ© Г­ГҐГІ
             }
         }
         return number;
