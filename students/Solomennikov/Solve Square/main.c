@@ -3,12 +3,11 @@
 //! @date    2013-09-25 20:09
 //! @author  Solomennikov Semen, 999solom.s.v.999@gmail.com
 //!
-//! Решение квадратного уравнения с честным разбором частных случаев.
+//! The solution of a quadratic equation with an honest analysis of particular cases.
 //!
-//! @par     Условие задачи
-//!          Программа вводит 3 коэффициента квадратного уравнения. Надо вывести
-//!          количество его корней (-1 в случае бесконечного их к-ва) и сами корни.
-//!
+//! @par     Condition of the task:
+//!          We enter 3 coefficients of the square equation. Program should print
+//!          the number of solutions and roots. (-1 whether it's infinite) and roots.
 //!
 //! @warning Math!
 //}=================================================================================
