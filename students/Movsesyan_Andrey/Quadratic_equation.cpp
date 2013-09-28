@@ -1,7 +1,6 @@
 #include <math.h>
 #include <stdio.h>
 #include <float.h>
-#include <iostream>
 
 int SolveSquare(double a, double b, double c, double *x1, double *x2);
 int main()
