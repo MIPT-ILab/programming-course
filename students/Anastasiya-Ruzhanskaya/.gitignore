@@ -1,0 +1,14 @@
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+*.swo
+*.swp
+*.vi
+*.o
+*~
+.project
+.svn
+build
+bin
