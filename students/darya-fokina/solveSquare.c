@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
+
 //{===================================================================================
 //! SolveSquare - solve a square or linear equation specified by its coefficients.
 //!
@@ -23,6 +24,7 @@
 //!
 //! @return         Number of roots or zero if none, -1 if infinite number of roots
 //}===================================================================================
+
 int SolveSquare(double a, double b, double c, double* x1, double* x2);
 
 int main() {
