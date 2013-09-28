@@ -10,6 +10,6 @@
 = Разное =
 
  * Синтаксис данной вики [http://code.google.com/p/support/wiki/WikiSyntax]
- *
+ * Интерактивный тур по использованию Git: http://githowto.com/ru
  *
  *
