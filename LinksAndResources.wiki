@@ -11,5 +11,5 @@
 
  * Синтаксис данной вики [http://code.google.com/p/support/wiki/WikiSyntax]
  * Интерактивный тур по использованию Git: http://githowto.com/ru
- *
+ * Как правильно задавать вопросы http://segfault.kiev.ua/smart-questions-ru.html 
  *
