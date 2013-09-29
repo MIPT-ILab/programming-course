@@ -5,6 +5,8 @@
 *
 *	Quadratic equations solving apparatus.
 *
+*  @version 1.0
+*
 *	@par The input consists of 3 coefficients of
 *	square equation. Output usually consists of two rows of
 *	numbers: 'Number of roots' and 'Roots', where
