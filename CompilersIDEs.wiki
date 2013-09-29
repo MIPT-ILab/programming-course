@@ -32,7 +32,7 @@
 
 [http://www.codeblocks.org/images/stories/imagebrowser/scr1.png]
 
-==QtCreator==
+==`QtCreator`==
 
 Среда для разработки для фреймворка Qt, но может быть использована и для простых программ на C++ для Linux/Windows.
 
@@ -55,6 +55,7 @@
 Первая IDE в настоящее время не развивается. Orwell Dev C++ продолжил развитие проекта.
 
 Скачать Bloodshed Dev++ : http://www.bloodshed.net/devcpp.html
+
 Скачать Orwell Dev-C++ :  http://sourceforge.net/projects/orwelldevcpp/?source=directory
 
 [http://a.fsdn.com/con/app/proj/orwelldevcpp/screenshots/devcpp5200.png]
@@ -70,11 +71,15 @@ GCC. В вариантах GNU/Linux, BSD устанавливается чер�
 apt-get install -y build-essential
 }}}
 
+[http://files.cyberciti.biz/uploads/tips/2008/09/gnu-logo.png]
+
 ==Cygwin==
 
 Набор программ, призванных воспроизвести среду Linux для систем Windows с помощью пакетного менеджера. В составе идёт пакет компилятора GCC, а также полное окружение командной строки (bash)
 
 Скачать: http://www.cygwin.com/install.html
+
+[http://kevinboone.net/cygwin_logo.png]
 
 ==MinGW==
 
@@ -82,11 +87,15 @@ Minimalist GNU for Windows. Минимальное окружение для з�
 
 Скачать: http://sourceforge.net/projects/mingw/files/Installer/
 
+[http://sourceforge.net/images/potm-2005-09_logo_mingw.gif]
+
 ==Intel C Compiler==
 
 Называемый сейчас Intel Composer XE, набор компиляторов для Windows и Linux. Позволяет собирать приложения, оптимизированные для процессоров Intel.
 
 Скачать 30-дневную ознакомительную версию: http://software.intel.com/en-us/Intel-composer-xe-evaluation-options/
+
+[http://software.intel.com/sites/default/files/landing_page/large_product_images/IntelC%2B%2BCompiler-240x210.png]
 
 =Другие IDE=
 
