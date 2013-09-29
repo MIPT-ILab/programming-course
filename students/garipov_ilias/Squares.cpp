@@ -18,7 +18,7 @@
 #include <float.h>
 #include <assert.h>
 
-#define IS_ZERO( x ) (fabs(x) < DBL_EPSILON)
+#define IS_ZERO( x ) (fabs(x) <= DBL_EPSILON)
 #define IS_BELOW_ZERO( x ) (x < -DBL_EPSILON)
 
 #ifndef NDEBUG
