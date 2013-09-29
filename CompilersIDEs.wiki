@@ -16,26 +16,96 @@
 
 Однако, у них есть общий недостаток. Они скрывают некоторые важные аспекты процесса сборки приложений, которые видны при прямом запуске компилятора. 
 
-==Microsoft Visual Studio==
-
-
 ==Eclipse CDT==
 
-==Code Blocks==
+Плагин для Eclipse для разработки C/C++. Использует компилятор GCC. Поддерживает разработку в Windows и Linux.
+
+Скачать: http://www.eclipse.org/cdt/downloads.php
+
+[https://www.ibm.com/developerworks/ru/library/au-unix-eclipse/fig01.jpg]
+
+==Code::Blocks==
+
+Кроссплатформенная среда разработки для C++. Может использовать различные компиляторы.
+
+Скачать: http://www.codeblocks.org/downloads/26
+
+[http://www.codeblocks.org/images/stories/imagebrowser/scr1.png]
+
+==QtCreator==
+
+Среда для разработки для фреймворка Qt, но может быть использована и для простых программ на C++ для Linux/Windows.
+
+Скачать: http://qt-project.org/downloads#qt-creator
+
+[http://blog.wbou.de/fp-content/images/qtcreator.png]
+
+==Microsoft Visual Studio==
+
+Среда для разработки под Windows. Бесплатная версия имеет название Express Edition.
+
+Отмечу, что создавать консольные приложения в последних версиях всё сложнее и запутаннее.
+
+Скачать: http://www.microsoft.com/visualstudio/eng/visual-studio-2013
+
+[http://withfriendship.com/images/c/10437/Microsoft-Visual-Studio-wallpaper.png]
+
+==Bloodshed Dev C++ и Orwell Dev C++==
+
+Первая IDE в настоящее время не развивается. Orwell Dev C++ продолжил развитие проекта.
+
+Скачать Bloodshed Dev++ : http://www.bloodshed.net/devcpp.html
+Скачать Orwell Dev-C++ :  http://sourceforge.net/projects/orwelldevcpp/?source=directory
+
+[http://a.fsdn.com/con/app/proj/orwelldevcpp/screenshots/devcpp5200.png]
 
 =Компиляторы=
 
-==GNU Compiler Collection для Linux==
+Идут без своего IDE, могут компилировать программы, написанные в любом подходящем текстовом редакторе. Запускаются из командной строки.
+
+==GNU Compiler Collection для Unix==
+
+GCC. В вариантах GNU/Linux, BSD устанавливается через пакетный менеджер, например, для Debian и Ubuntu:
+{{{
+apt-get install -y build-essential
+}}}
 
 ==Cygwin==
 
+Набор программ, призванных воспроизвести среду Linux для систем Windows с помощью пакетного менеджера. В составе идёт пакет компилятора GCC, а также полное окружение командной строки (bash)
+
+Скачать: http://www.cygwin.com/install.html
+
 ==MinGW==
+
+Minimalist GNU for Windows. Минимальное окружение для запуска GCC на Windows. Несовместимо с Cygwin, однако имеет некоторые преимущества для Windows-прграмм.
+
+Скачать: http://sourceforge.net/projects/mingw/files/Installer/
 
 ==Intel C Compiler==
 
-=Нерекомендуемые компиляторы=
+Называемый сейчас Intel Composer XE, набор компиляторов для Windows и Linux. Позволяет собирать приложения, оптимизированные для процессоров Intel.
+
+Скачать 30-дневную ознакомительную версию: http://software.intel.com/en-us/Intel-composer-xe-evaluation-options/
+
+=Другие IDE=
+
+Существует множество разных дргуих IDE. Прежде чем начинать их использовать, удостоверьтесь, что ваш ментор захочет помогать вам с их настройкой.
+
+ * Текстовые редакторы с подсветкой синтаксиса: MC, nano, Notepad++, Akelpad.
+ * Anjuta DevStudio https://projects.gnome.org/anjuta/
+ * KDevelop http://www.kdevelop.org/
+ * Emacs http://www.gnu.org/software/emacs/
+ * (g)Vim http://www.vim.org/
+ * Apple XCode https://developer.apple.com/technologies/tools/
+
+Смотри также http://en.wikipedia.org/wiki/Comparison_of_integrated_development_environments#C.2FC.2B.2B
+
+=Нерекомендуемые компиляторы и IDE=
 
 На дворе 21 век, и некоторые вещи следует оставить в музее истории.
 
  * Компиляторы для DOS: Borland Turbo C++, Microsoft C для DOS, (Open)Watcom, DJGPP ...
- * IDE без поддержки: Borland C++ Builder
+ * IDE без поддержки: Borland C++ Builder, Visual Studio древнейших версий, GCC версии 3.4 ...
+ * Неподходящие текстовые редакторы: Блокнот, Word, OpenOffice.org ...
+ * Малоизвестные и экзотические компиляторы: Digital Mars, Solaris Studio, IBM XL C++
