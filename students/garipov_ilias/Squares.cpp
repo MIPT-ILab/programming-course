@@ -1,17 +1,18 @@
 /**
 *	@file    Squares.cpp
-*	@date    2013-09-29 19:00
+*	@date    2013-09-30 19:25
 *	@author  Il'yas Garipov <logirz728@gmail.com>
 *
 *	Quadratic equations solving apparatus.
 *
-*  @version 1.0
+*	@version 1.0.1
 *
-*	@par The input consists of 3 coefficients of
-*	square equation. Output usually consists of two rows of
-*	numbers: 'Number of roots' and 'Roots', where
-*	'Roots' may hold up to two numbers, or not exist at all
-*	if there aren't any.
+*	@par The input consists of a, b and c in 'a*x^2 + b*x + c'
+*	formula. Output consists of up to two rows of numbers:
+*	"Roots' amount" and "Roots", wherein
+*	"Roots' amount" represents the amount of roots the equation has.
+*	"Roots" either holds those roots, or doesn't exist at all
+*	if amount of roots isn't a natural number.
 */
 
 
@@ -27,9 +28,9 @@
 	#define DOUT( toprint ) printf( "\n# " toprint )
 	#define DPUT( toput , x ) printf( "\n# " toput , x )
 	#define DLN
-	#define DPUTCLOSURE DOUT("=============================================================================");\
-                        DPUT("FILE: %s", __FILE__ );\
-                        DPUT("TIME OF COMPILATION: %s", __TIME__ )
+	#define DPUTCLOSURE	DOUT("=============================================================================");\
+						DPUT("FILE: %s", __FILE__ );\
+						DPUT("TIME OF COMPILATION: %s", __TIME__ )
 #else
 	#define DOUT
 	#define DPUT
@@ -39,7 +40,24 @@
 
 
 
-
+/**
+*		SolveSqr - solve a quadratic equation defined by its coefficients
+*
+*	@note 1)In documentation below, (1) is a*x^2 + b*x + c = 0;
+*		2)If the amount of roots isn't a natural number we do nothing with x1 and x2;
+*		3)Also, we take calculation precision as DBL_EPSILON
+*
+*	@param		a	The 'a' in (1)
+*	@param		b	The 'b' in (1)
+*	@param		c	The 'c' in (1)
+*	@param[out]	x1	First root
+*	@param[out]	x2	Second root
+*
+*	@return If roots exist, their quantity.
+*	If there are none, 0.
+*	If there are all the roots in the world, -1.
+*
+*/
 int SolvSqr(float a, float b, float c,
             float* x1, float* x2);
 
@@ -82,36 +100,23 @@ int main()
 		case(ALLRTS) :
 			DOUT("Any real number can be a root of the given equation\n\n");
 			break;
+
+		default :
+			DOUT("Something's rotten here:");
+			DOUT("\tUnhandled exception in solver's return value.");
+			DPUTCLOSURE;
+			return 1;
 	}
 
-	DLN printf("\n");		//!< Same as on the line 62.
+	DLN printf("\n");		//!< Yet again, for a neatly formatted output.
 	DOUT("=============================================================================");
-	DOUT("Request processed and result delivered.");
+	DOUT("Request processed and result delivered successfully.");
 	DOUT("\tRestart application to process another quadratic equation.");
 	DPUTCLOSURE;
 	return 0;
 }
 
-/**
-*		SolveSqr - solve a quadratic equation defined by its coefficients
-*
-*	@note 1)In documentation below, (1) is a*x^2 + b*x + c = 0;
-*		and if one or both roots do not exist, or if there is
-*		an infinite number of them, we do nothing with x1 and x2.
-*
-*		2)Also, we take calc precision as DBL_EPSILON
-*
-*	@param		a	The 'a' in (1)
-*	@param		b	The 'b' in (1)
-*	@param		c	The 'c' in (1)
-*	@param[out]	x1	First root
-*	@param[out]	x2	Second root
-*
-*	@return If roots exist, their quantity.
-*	If there are none, 0.
-*	If there are all the roots in the world, -1.
-*
-*/
+
 int SolvSqr(float a, float b, float c,
             float* x1, float* x2)
 {
