@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
@@ -82,7 +81,8 @@ int SolveSquare (double a, double b, double c, double* X1, double* X2)
 	  {
 		double d=(b*b-4*a*c);
 		if (abs(d)<KON)
-			{*X1=(-b)/(2*a);
+			{
+		*X1=(-b)/(2*a);
 		 return 1;
 		 }
 		else
@@ -94,6 +94,3 @@ int SolveSquare (double a, double b, double c, double* X1, double* X2)
 
 	}
 	}
-
-
-
