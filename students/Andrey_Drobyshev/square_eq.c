@@ -1,5 +1,5 @@
 //{=======================================================================
-//! @file square_eq.c
+//! @file square_eq.c 
 //! @date 30.09.2013 23:39
 //! @author Andrey Drobyshev <immortalguardian1@gmail.com>
 //! @ version 1.01
