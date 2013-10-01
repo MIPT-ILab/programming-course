@@ -12,7 +12,7 @@
 //! @note V1.02:
 //!
 //!        - bug with returning -0 in equations like
-//!        0 + b*x + c = 0 is corrected.
+//!        0 + b*x + 0 = 0 is corrected.
 //!
 //! The program just solves a quadratic equation.
 //!
