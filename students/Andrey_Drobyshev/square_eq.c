@@ -1,13 +1,18 @@
 //{=======================================================================
-//! @file square_eq.c 
+//! @file square_eq.c
 //! @date 30.09.2013 23:39
 //! @author Andrey Drobyshev <immortalguardian1@gmail.com>
-//! @ version 1.01
+//! @ version 1.02
 //! @note V1.01:
 //!
-//! 	- variables for coefficients (a, b, c) are double now;
-//!	- doxygen comments added;
-//!	- filename was changed from <ssq.c> to <square_eq.c>.
+//!     - variables for coefficients (a, b, c) are double now;
+//!	    - doxygen comments added;
+//!	    - filename was changed from <ssq.c> to <square_eq.c>.
+//!
+//! @note V1.02:
+//!
+//!        - bug with returning -0 in equations like
+//!        0 + b*x + c = 0 is corrected.
 //!
 //! The program just solves a quadratic equation.
 //!
@@ -23,7 +28,7 @@
 #define ASSERT(condition) if (!(condition))\
 			  {\
 				printf("#Assertion failed: wrong variables addresses (%s)\n", #condition);\
-				printf("#File %s\n#Line %d", __FILE__, __LINE__\n);\
+				printf("#File %s\n#Line %d", __FILE__, __LINE__);\
                 		abort();\
 			  }
 
@@ -101,11 +106,12 @@ int ssq ( double a, double b, double c, double* x1, double* x2)
         else  // The equation is linear
                 if ( fabs(b) > eps)
                 {
-                        *x1 = (-c) / b;
+                        if ( fabs(c) > eps)  //If c == 0 x1 will keep 0
+                            *x1 = ( ( -c) / b);
                         return 1;
                 }
                 else
-                        if ( (fabs(b) < eps == 0) && ( fabs(c) == 0))
+                        if ( fabs(c) < eps)
                                 return 3;
                         else
                                 return 0;
