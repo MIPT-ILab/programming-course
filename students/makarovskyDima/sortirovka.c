@@ -1,13 +1,14 @@
 #include <stdio.h>
 int main()
 {
-    int a[1000],j,c,i,t;
+    double a[1000],t;
+    int i,j,c;
     printf("enter the number of array elements\n");
-    scanf("%d\n",&c);
+    scanf("%d",&c);
     printf("enter the array elements\n");
     
          for(i=0;i<c;i++)
-         scanf("%d",&a[i]);
+         scanf("%lg",&a[i]);
     
        
          for(j=0;j<c;j++)
@@ -25,7 +26,7 @@ int main()
              }
              
         for(i=0;i<c;i++)
-         printf("%d ",a[i]);
+         printf("%lg ",a[i]);
 
        system("pause");
        return 0;
