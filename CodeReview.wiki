@@ -32,6 +32,12 @@
 
 [http://wiki.mipt-ilab-course.googlecode.com/git/code-review-comment.png]
 
+==Выбор ревизий для ревью==
+
+Если вы хотите увидеть и комментировать изменения между несколькими ревизиями для файла, Google Code позволяет вам выбрать диапазон с помощью указания номеров ревизий правой и левой части:
+
+[http://wiki.mipt-ilab-course.googlecode.com/git/review-revision-selection.png]
+
 ==Публикация комментариев==
 
 *Важно не забыть опубликовать свои комментарии, нажав кнопку Publish your comments !*
