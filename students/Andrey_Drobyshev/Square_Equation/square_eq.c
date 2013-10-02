@@ -5,7 +5,7 @@
 //! @ version 1.02
 //! @note V1.01:
 //!
-//!     - variables for coefficients (a, b, c) are double now;
+//!	    - variables for coefficients (a, b, c) are double now;
 //!	    - doxygen comments added;
 //!	    - filename was changed from <ssq.c> to <square_eq.c>.
 //!
