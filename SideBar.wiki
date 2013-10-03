@@ -4,6 +4,7 @@
  * [Mentors]
  * UsingGitOnWindows
  * [GIT]
+ * WorkingWithIssues
 
 ==Программирование==
  * CommentStyle
