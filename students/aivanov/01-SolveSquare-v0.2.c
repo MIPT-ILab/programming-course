@@ -14,11 +14,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define ASSERT(cond)															\
-	if (!(cond))																\
-	{																			\
-		printf("%s is not true, file %s, line %d\n", #cond, __FILE__, __LINE__);\
-		abort();																\
+#define ASSERT(cond)   \
+	if (!(cond))   \
+	{   \
+		printf("%s is not true, file %s, line %d\n", #cond, __FILE__, __LINE__);   \
+		abort();   \
 	}
 
 //{=================================================================================
