@@ -27,6 +27,8 @@
 
 int SolveSquare(double a, double b, double c, double* x1, double* x2);
 
+const double EPS = 0.00001;
+
 int main() {
 
 	double a = 0, b = 0, c = 0, d = 0;
@@ -38,15 +40,17 @@ int main() {
 	scanf("%lg %lg %lg",&a,&b,&c);
 	nRoots=SolveSquare(a,b,c,&x1,&x2);
 	switch (nRoots) {
-		case 2: printf("# The equaton has number of roots:\n %d\n# Roots: %lg, %lg \n", nRoots, x1, x2);
+		case 2: printf("# The equaton has number of roots:\n %d\n"
+				"# Roots: %lg, %lg \n", nRoots, x1, x2);
 			break;
-		case 1:	printf("# The equaton has number of roots:\n %d\n# Roots: %lg \n", nRoots, x1);
+		case 1:	printf("# The equaton has number of roots:\n"
+				"%d\n# Roots: %lg \n", nRoots, x1);
 			break;
 		case 0:	printf("# The equaton has no roots.");
 			break;
 		case -1: printf("# The equation is has infinitely many roots.");
 			break;
-		default assert(0);
+		default: assert(0);
 	}
 	getchar();
 	getchar();
@@ -67,7 +71,7 @@ int SolveSquare(double a, double b, double c, double* x1, double* x2) {
 			return 2;
 		}
 		else {
-			if (fads(d) < EPS) {
+			if (fabs(d) < EPS) {
 				*x1 = -b/(2*a);
 				return 1;
 			}
@@ -80,8 +84,8 @@ int SolveSquare(double a, double b, double c, double* x1, double* x2) {
 			return 1;
 		}
 		else {
-			if (fabs(c) > EPS) return 0;
-			else { return -1;}
+			if (fabs(c) < EPS) return -1;
+			else { return 0;}
 		}
 	}
 }
