@@ -27,7 +27,7 @@
 
 int SolveSquare(double a, double b, double c, double* x1, double* x2);
 
-const double EPS = 0.00001;
+const double EPS= 0.00001;
 
 int main() {
 
