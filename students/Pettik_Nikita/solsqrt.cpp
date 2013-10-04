@@ -31,7 +31,7 @@
                 message,              \
                 #cond,                \
                 __FILE__,__LINE__);   \
-       abort();                       \
+        abort();                      \
        }                              \
     }
 
@@ -77,19 +77,19 @@ int main()
  	double x1 = 0, x2 = 0;
  	printf ("#Enter the coefficients of the quadratic equation ax^2+bx+c=0\n");
  	int ret = scanf ("%lg %lg %lg", &a, &b, &c);
-    if (ret < 3) return printf ("#ERROR: Input is not correct!");
+ 	if (ret < 3) return printf ("#ERROR: Input is not correct!");
 
  	int nRoots=SolveSquare(a, b, c, &x1, &x2);
-    switch (nRoots)
-    {
-	 	 case 0 : printf("#The equation has no solution");break;
-	 	 case 1 : printf("#Root of the quadratic equation is x=%lg", x1);break;
-	 	 case 2 : printf("#Roots of the quadratic equation are x=%lg and x=%lg",x1,x2);break;
-	 	 case SS_INTINITE_ROOTS : printf("#The equation has an infinite number of roots");break;
-	 	 default : printf("#Unexpected return of SolveSquare(): %d", nRoots);
+ 	switch (nRoots)
+ 	{
+ 	    case 0 : printf("#The equation has no solution");break;
+ 	    case 1 : printf("#Root of the quadratic equation is x=%lg", x1);break;
+ 	    case 2 : printf("#Roots of the quadratic equation are x=%lg and x=%lg",x1,x2);break;
+ 	    case SS_INTINITE_ROOTS : printf("#The equation has an infinite number of roots");break;
+ 	    default : printf("#Unexpected return of SolveSquare(): %d", nRoots);
     }
 
-    printf("\n");
+ 	printf("\n");
  	system("Pause");
  	return 0;
 
@@ -117,21 +117,21 @@ int SolveSquare (double a, double b, double c, double *x1, double *x2)
  	{
 		*x1 = c / (-b);
 		return 1;
-    }
-    double discr = b*b - 4*a*c;
-    if (iszero(discr))
-    {
+    	}
+    	double discr = b*b - 4*a*c;
+    	if (iszero(discr))
+    	{
 	 	 *x1 = -b / (2 * a);
 	 	 return 1;
-    }
-    if (discr < EPS) return 0;
-    else
-    {
+    	}
+    	if (discr < EPS) return 0;
+    	else
+    	{
 	 	*x1 = (- b + sqrt(discr)) / (2 * a);
 		*x2 = (- b - sqrt(discr)) / (2 * a);
 		return 2;
-    }
-    return 4;
+    	}
+    	return 4;
 }
 
 
