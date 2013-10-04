@@ -87,7 +87,7 @@ int main()
  	    case 2 : printf("#Roots of the quadratic equation are x=%lg and x=%lg",x1,x2);break;
  	    case SS_INTINITE_ROOTS : printf("#The equation has an infinite number of roots");break;
  	    default : printf("#Unexpected return of SolveSquare(): %d", nRoots);
-    }
+ 	}
 
  	printf("\n");
  	system("Pause");
