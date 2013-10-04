@@ -1,8 +1,8 @@
 //{===================================================================================
 //! @file    solsqrt.cpp
-//! @date    2013-10-03 23:40
+//! @date    2013-10-04 01:25
 //! @author  Nikita Pettik 377 group  <kitnerh@gmail.com>
-//! @version 1.1
+//! @version 1.2
 //!
 //! Solution of the square equation
 //!
@@ -25,7 +25,7 @@
     {                                 \
     if (!(cond))                      \
         {                             \
-        printf ("%s is false!, "  \
+        printf ("%s is false!, "      \
                 "file %s, line %d\n", \
                 #cond,                \
                 __FILE__,__LINE__);   \
@@ -40,6 +40,7 @@
 const int SS_INTINITE_ROOTS = -1;
 
 //! Very small constant to compare variables of type "double" with zero.
+
 const double EPS = 1e-9;
 
 //{===================================================================================
