@@ -1,16 +1,23 @@
 //{=================================================================================
 //! @file    01-mergesort.c
-//! @date    2013-10-03 18:13
+//! @date    2013-10-05 00:54
+//! @version 1.1
 //! @author  Pronin Alexander <texhobeer95@gmail.com>
 //!
 //! Sorting array of integer elements, using merge sort
+//!
+//! ChangeLog:
+//! v. 1.0 (2013-10-03 18:13):  start working with project
+//! v. 1.1 (2013-10-05 00:55):  added assert checking for all addresses and
+//!                             arrays, changed some function's arguments types
 //}=================================================================================
 
 #include <stdio.h>
+#include <assert.h>
 
 const int MAX_SIZE = 10000;
 
-void mergesort (int* data, int* memory, int size);
+void mergesort (int* data, int* memory, const int size);
 void swap (int* a, int* b);
 void merge (int* data, int* memory, int size);
 
@@ -20,7 +27,7 @@ int main()
     printf ("# Array sort, using merge sort\n");
     printf ("# Author: Pronin Alexander\n");
     printf ("# E-mail: texhobeer95@gmail.com\n");
-    printf ("# v. 1.0 date: 2013-10-03 18:13\n\n");
+    printf ("# v. 1.1 date: 2013-10-05 00:55\n\n");
     printf ("# Minimal array size = 1, Maximal array size = %d, elements are integer\n", MAX_SIZE);
     printf ("# Enter number of array's elements:\n");
     scanf ("%d", &size);
@@ -33,14 +40,16 @@ int main()
         return 0;
     }
     else {
-    printf ("# Enter array's elements:\n");
-    for (i=0; i<size; i++) {
+    printf ("# Enter array's elements(type: int):\n");
+    for (i=0; i < size; i++) {
+        assert (0 <= i && i < size);
         scanf ("%d", &data[i]);
         memory[i] = data[i];
     }
     mergesort (data, memory, size);
     printf ("# Sorted array:\n");
-    for (i=0; i<size; i++) {
+    for (i=0; i < size; i++) {
+        assert (0 <= i && i < size);
         printf ("%d ", data[i]);
     }
     printf ("\n");
@@ -55,8 +64,10 @@ int main()
 //! @param      memory  First element address (helping array)
 //! @param      size    Size of those arrays
 //}=================================================================================
-void mergesort (int* data, int* memory, int size)
+void mergesort (int* data, int* memory, const int size)
 {
+    assert (data != NULL);
+    assert (memory != NULL);
     if (size == 2) {
         if (data[0] > data[1]) {
             swap (&data[0], &data[1]);
@@ -78,6 +89,8 @@ void mergesort (int* data, int* memory, int size)
 //}=================================================================================
 void swap (int* a, int* b)
 {
+    assert (a != NULL);
+    assert (b != NULL);
     int c = *a;
     *a = *b;
     *b = c;
@@ -90,10 +103,15 @@ void swap (int* a, int* b)
 //! @param      memory  First element address (helping array)
 //! @param      size    Size of those arrays
 //}=================================================================================
-void merge (int* data, int* memory, int size)
+void merge (int* data, int* memory, const int size)
 {
+    assert (data != NULL);
+    assert (memory != NULL);
     int L = 0, R = size/2, i=0;
     while ((L != size/2) && (R != size)) {
+        assert (0 <= L && L < size/2);
+        assert (size/2 <= R && R < size);
+        assert (0 <= i && i < size);
         if (data[L] > data[R]) {
             memory[i] = data[R];
             R++;
@@ -107,6 +125,7 @@ void merge (int* data, int* memory, int size)
         else if (data[L] == data[R]) {
             memory[i] = data[L];
             i++;
+            assert (0 <= i && i < size);
             memory[i] = data[R];
             L++;
             R++;
@@ -115,6 +134,8 @@ void merge (int* data, int* memory, int size)
     }
     if (L == size/2) {
         while (R != size) {
+            assert (size/2 <= R && R < size);
+            assert (0 <= i && i < size);
             memory[i] = data[R];
             R++;
             i++;
@@ -122,12 +143,15 @@ void merge (int* data, int* memory, int size)
     }
     else {
         while (L != size/2) {
+            assert (0 <= L && L < size/2);
+            assert (0 <= i && i < size);
             memory[i] = data[L];
             L++;
             i++;
         }
     }
     for (i=0; i<size; i++) {
+        assert (0 <= i && i < size);
         data[i] = memory[i];
     }
 }
