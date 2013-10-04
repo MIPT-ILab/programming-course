@@ -7,13 +7,10 @@
 //!
 //! @return             Number of roots (always 1)
 //!
-//! @note               Program doesn't consider case b = 1
+//! @note               Program doesn't consider case b = 0
 //}============================================================================
 
 //-------- Headers ------------------------------------------------------------
-#include <stdio.h>
-#include <math.h>
-#include <assert.h>
 #include "equations.h"
 //-----------------------------------------------------------------------------
 
