@@ -2,7 +2,7 @@
 //! @file    solsqrt.cpp
 //! @date    2013-10-04 01:25
 //! @author  Nikita Pettik 377 group  <kitnerh@gmail.com>
-//! @version 1.3
+//! @version 1.3 : Added changed assert
 //!
 //! Solution of the square equation
 //!
@@ -104,9 +104,9 @@ int iszero (double c)
 
 int SolveSquare (double a, double b, double c, double *x1, double *x2)
 {
- 	ASSERT (x1 == NULL, "111");           /*Verification of address variables*/
- 	//ASSERT (x2 != NULL);
- 	//ASSERT (x1 != x2);
+ 	ASSERT (x1 != NULL, "Pointer to the first root is NULL");           /*Verification of address variables*/
+ 	ASSERT (x2 != NULL, "Pointer to the second root is NULL");
+ 	ASSERT (x1 != x2, "Pointer to the first root match with pointer to the second root");
 
 
  	if (iszero(a) && iszero(b) &&  iszero(c)) return SS_INTINITE_ROOTS;
