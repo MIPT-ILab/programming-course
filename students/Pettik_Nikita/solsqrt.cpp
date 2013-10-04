@@ -1,32 +1,49 @@
-//{=================================================================================
+//{===================================================================================
 //! @file    solsqrt.cpp
-//! @date    2013-10-03 00:26
+//! @date    2013-10-04 01:25
 //! @author  Nikita Pettik 377 group  <kitnerh@gmail.com>
+//! @version 1.2
 //!
 //! Solution of the square equation
 //!
 //! @par     Condition of the problem
 //!
 //! The program needs to enter three coefficients of the quadratic equation.
-//! The program prints the roots, or -1 in case of an infinite number of roots
+//! The program prints the roots of equation.
 //!
-//}=================================================================================
+//}===================================================================================
 
 
 
-#include<stdio.h>
-#include<math.h>
-#include<assert.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <assert.h>
+#include <stdlib.h>
+
+
+#define ASSERT( cond )                \
+    {                                 \
+    if (!(cond))                      \
+        {                             \
+        printf ("%s is false!, "      \
+                "file %s, line %d\n", \
+                #cond,                \
+                __FILE__,__LINE__);   \
+       abort();                       \
+       }                              \
+    }
+
+
 
 //! The value returned SolveSquare in the case of infinitely many roots.
 
 const int SS_INTINITE_ROOTS = -1;
 
 //! Very small constant to compare variables of type "double" with zero.
+
 const double EPS = 1e-9;
 
-//{=================================================================================
+//{===================================================================================
 //! SolveSquare - solve a square or linear equation specified by its coefficients.
 //!
 //! @param      a   Equation a-coefficient
@@ -38,15 +55,16 @@ const double EPS = 1e-9;
 //! @return         Number of roots or zero if none, -1 if infinite number of roots
 //!
 //! @note           Calculation precision is considered to be DBL_EPSILON.
-//}=================================================================================
+//}===================================================================================
 
 int SolveSquare (double a, double b, double c, double *x1, double *x2);
 
-//{=================================================================================
+//{===================================================================================
 //! iszero - function compares the variable of type "double" with zero
 //!
-//! @return  result of the comparison
-//}=================================================================================
+//! @return  it returns 0 if the absolute value of the  parameter is less then epsilon
+//!          otherwise returns 1
+//}===================================================================================
 
 int iszero (double c);
 
@@ -57,7 +75,7 @@ int main()
  	double x1 = 0, x2 = 0;
  	printf ("#Enter the coefficients of the quadratic equation ax^2+bx+c=0\n");
  	int ret = scanf ("%lg %lg %lg", &a, &b, &c);
-    if (ret < 3) return printf("#ERROR: Input is not correct!"), 1;
+    if (ret < 3) return printf("#ERROR: Input is not correct!");
 
  	int nRoots=SolveSquare(a, b, c, &x1, &x2);
     switch (nRoots)
@@ -82,9 +100,9 @@ int iszero (double c)
 int SolveSquare (double a, double b, double c, double *x1, double *x2)
 {
 
- 	assert (x1 != NULL);           /*Verification of address variables*/
- 	assert (x2 != NULL);
- 	assert (x1 != x2);
+ 	ASSERT (x1 != NULL);           /*Verification of address variables*/
+ 	ASSERT (x2 != NULL);
+ 	ASSERT (x1 != x2);
 
 
  	if (iszero(a) && iszero(b) &&  iszero(c)) return SS_INTINITE_ROOTS;

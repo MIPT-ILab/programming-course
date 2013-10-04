@@ -8,11 +8,7 @@
 //!      It receives three coefficients of given equation and analyzes it.
 //}============================================================================
 
-
 //-------- Headers ------------------------------------------------------------
-#include <stdio.h>
-#include <math.h>
-#include <assert.h>
 #include "equations.h"
 //-----------------------------------------------------------------------------
 
@@ -54,6 +50,7 @@ int main()
                      "%8lg %8lg\n", x_base, x_ex );
             break;
   default :
+            printf ( "# I don't know, what's going on. And you?\n" );
             break;
  }
 
