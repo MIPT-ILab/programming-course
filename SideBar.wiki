@@ -4,6 +4,7 @@
  * [Mentors]
  * UsingGitOnWindows
  * [GIT]
+  * GitStatus
  * WorkingWithIssues
 
 ==Программирование==
@@ -12,6 +13,7 @@
  * Testing
  * CodeStyle
  * [CompilersIDEs]
+ * WindowsCmd
 
 ==Разное==
  * [WikiImages]
