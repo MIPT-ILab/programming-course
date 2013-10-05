@@ -1,5 +1,7 @@
 =Содержимое=
 
+[http://code.google.com/p/mipt-ilab-course/w/list Все страницы этой вики]
+
 ==Инфраструктура==
  * [Mentors]
  * UsingGitOnWindows
