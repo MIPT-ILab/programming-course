@@ -1,0 +1,16 @@
+#summary Scanf details
+
+Для проверки результата исполнения функции `scanf()` используйте её код возврата. Пример:
+
+{{{
+#include <stdio.h>
+
+int main() {
+    int d;
+    float f;
+    char s[100];
+    int ret = scanf("%d %f %s", &d, &f, s);
+    printf("ret == %d\n", ret);
+    return ret;
+}
+}}}
