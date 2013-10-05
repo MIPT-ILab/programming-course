@@ -1,20 +1,20 @@
 #include "Ivanychev.h"
 
 /**
-		get_str					function that scans for string
+		get_str					function that scans for a string
 
-		@param[out]	string		pointer, where the input string would be located
+		@param[out]	string		string to be filled with data
 		@param		MAXLINE		The maximum size of input string
 
-		@return					The size of input string
+		@return					The length of input string
 **/
 int get_str(char * string, const int max);
 
 /**
 		is_there_string				searches for string in string
 
-		@param[out]		searched	a searched-for string
-		@param[out]		string		where we are looking for it
+		@param[out]		searched	a string to search for
+		@param[out]		string		source string
 
 		return						pointer to the found fragment, if it's found, otherwise NULL
 **/
@@ -34,7 +34,7 @@ int get_str(char * string, const int MAXLINE)
 	ASSERT(string);
 	int counter = 0;
 	char c = 0;
-	while (((c = getchar()) != '\n')&&(c != EOF)&&(counter < MAXLINE - 1))	string[counter++] = c;
+	while ( ((c = getchar()) != '\n') && (c != EOF) && (counter < MAXLINE - 1) )	string[counter++] = c;
 	if ( !(string[counter - 1]) ) string[(counter++) - 1] = 0;
 
 	return counter;
@@ -48,34 +48,23 @@ char* is_there_string(char* searched, char* string)
 	ASSERT(searched);
 	ASSERT(string);
 
-	int size_scd = string_size(searched);
-	int size_str = string_size(string);
-	VERIFY(size_scd > 0);
-	VERIFY(size_str > 0);
-
 	char scd_start = searched[0];
 	char* position = string;
 	int cond = 0;
-	for (; position <= string - size_scd + size_str; position++)
-	{
-		ASSERT(position >= string);
-		ASSERT(position <= string + size_str - 1);
-
+	for ( ; *(position); position++)
 		if (position[0] == scd_start)
+		{	
 			cond = 0;
-		for (int i = 0; i < size_scd; ++i)
-		{
-			ASSERT(position + i >= string);
-			ASSERT(position + i <= string + size_str - 1);
-
-			if ((searched[i]) != (position[i]))  
-			{
-				cond = 1;
-				break;
-			}
+			for (int i = 0; searched[i]; i++ )
+				if (( searched[i] ) != ( position[i] ))  
+				{
+					cond = 1;
+					break;
+				}
+			
+			if ( !(cond) ) return position;
 		}
-		if (!(cond)) return position;
-	}
+	
 	return NULL;
 			
 }
@@ -84,6 +73,7 @@ char* is_there_string(char* searched, char* string)
 
 
 
+/*
 int string_size(char * string)
 {
 	ASSERT(string);
@@ -91,6 +81,7 @@ int string_size(char * string)
 	while (*(string++)) size++;
 	return size;
 }
+*/
 
 /*
 int compare_strings(char* str1, char* str2)

@@ -2,7 +2,11 @@
 			@file			main.cpp
 			@author			Sergey Ivanychev, DCAM MIPT, 376 group
 			@mainpage
-			@version		1.00
+			@version		1.01
+			@par			Changelog V 1.01
+							- is_there_string function rewrited, now it doesn't calculate the size of string
+							- VERIFY macros fixed: abort; -> abort();
+							- doxygen describtion fixed
 
 			@par			Program requests a string and searched-for string. If there's the same, the program prints input string
 							and points it using '^' characters. If there isn't, it prints a message about that fact
