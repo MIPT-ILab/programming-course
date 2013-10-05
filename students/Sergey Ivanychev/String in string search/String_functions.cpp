@@ -32,12 +32,21 @@ int string_size(char * string);
 int get_str(char * string, const int MAXLINE)
 {
 	ASSERT(string);
-	int counter = 0;
-	char c = 0;
-	while ( ((c = getchar()) != '\n') && (c != EOF) && (counter < MAXLINE - 1) )	string[counter++] = c;
-	if ( !(string[counter - 1]) ) string[(counter++) - 1] = 0;
+	VERIFY(MAXLINE > 0);
+	const int alive = 1;
+	int len = 0;
 
-	return counter;
+	while (alive)
+	{
+		string[len] = getchar();
+		if (string[len] == EOF)		break;
+		if (string[len] == '\n')	break;
+		if (len == MAXLINE - 1)			break;
+		len++;
+
+	}
+	string[len] = 0;
+	return len;
 }
 
 //\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/
@@ -53,20 +62,20 @@ char* is_there_string(char* searched, char* string)
 	int cond = 0;
 	for ( ; *(position); position++)
 		if (position[0] == scd_start)
-		{	
+		{
 			cond = 0;
 			for (int i = 0; searched[i]; i++ )
-				if (( searched[i] ) != ( position[i] ))  
+				if (( searched[i] ) != ( position[i] ))
 				{
 					cond = 1;
 					break;
 				}
-			
+
 			if ( !(cond) ) return position;
 		}
-	
+
 	return NULL;
-			
+
 }
 
 //\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/\_/
