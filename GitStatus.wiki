@@ -1,0 +1,32 @@
+#summary Using `git status` to not to mess things up
+ 
+=Введение=
+
+Команда `git status` позволяет вам контролировать то, что попадёт в репозиторий при коммите и, в конечном счёте, при пуше.
+
+=Пример вывода=
+{{{
+ggg@scilla:~/mipt-ilab-course.wiki$ git status 
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#       new file:   cmd-menu.png
+#
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#       modified:   UsingGitOnWindows.wiki
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#       cmd-config.png
+
+}}}
+
+
+=Как интерпретировать вывод=
+
+*TODO*
