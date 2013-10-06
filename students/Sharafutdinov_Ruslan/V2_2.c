@@ -1,3 +1,15 @@
+//{====================================================================================
+//! @file V2_2.c
+//! @date    2013-10-06 16:06
+//! @author Sharafutdinov Ruslan <shar.rus72@gmail.com>
+//!
+//! Programm simplifies root of number
+//!
+//! @par The programm number
+//!      The programm outputs number of the rational part
+//!                       and numger of the irrational part
+//}====================================================================================
+
 #include <stdio.h>
 #include <math.h>
 
@@ -21,7 +33,12 @@ int main()
     return 0;
 
 }
-
+//! check - determine is number square of another number or not
+//!
+//! @param      i   number
+//!
+//! @return         1 - if number is square of other number
+//!                 0 - if number is not square of other number
 int check ( int i)
 {
     int p = 1;
@@ -30,7 +47,10 @@ int check ( int i)
             return 1;
     return 0;
 }
-
+//!  normalization_of_the_root_coefficient_b - determine the coefficient b
+//! @param      n   number
+//!
+//! @return        b -  the coefficient b
 int normalization_of_the_root_coefficient_b (int n)
 {
     int i = 0, b = 1;
@@ -44,7 +64,10 @@ int normalization_of_the_root_coefficient_b (int n)
 
     return b;
 }
-
+//!  normalization_of_the_root_coefficient_b - determine the coefficient a
+//! @param      n   number
+//!
+//! @return        a -  the coefficient a
 int normalization_of_the_root_coefficient_a (int n)
 {
     int a = 0;

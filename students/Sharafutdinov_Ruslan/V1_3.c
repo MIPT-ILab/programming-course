@@ -4,6 +4,19 @@
 Формат ввода. Натуральное число N, 0<= N <2^31.
 Формат вывода. Одна строка, содержащая "YES" или "NO". */
 
+//{====================================================================================
+//! @file V1_3.c
+//! @date    2013-09-29 20:45
+//! @author Sharafutdinov Ruslan <shar.rus72@gmail.com>
+//!
+//! Programm checks, can you weigh number on balance with
+//! mass = 4 ^ k (k = 0, 1, 2...
+//!
+//! @par The programme enters number
+//!      It needs to output YES if you can weigh this number
+//!                         NO if you cannot weigh this number
+//}====================================================================================
+
 
 #include <stdio.h>
 #include <math.h>
@@ -25,6 +38,12 @@ int main()
         printf ("NO");
     return 0;
 }
+//! Hang - checks, can you weight this number or not
+//!
+//! @param      number  number
+//!
+//! @return         1 - if you can
+//!                 0 - if you can not
 
 int Hang( int number)
 {

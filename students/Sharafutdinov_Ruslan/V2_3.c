@@ -1,3 +1,13 @@
+//{====================================================================================
+//! @file Var2taskCotv.c
+//! @date    2013-09-29 21:20
+//! @author Sharafutdinov Ruslan <shar.rus72@gmail.com>
+//!
+//! Programm calculate prime number with number N
+//!
+//! @par The programm inputs number
+//!      The programm outputs N-th prime number
+//}====================================================================================
 
 #include <stdio.h>
 #include <math.h>
@@ -19,6 +29,12 @@ int main()
     return 0;
 }
 
+//! Search_prime_number -  calculate N-th prime number
+//!
+//! @param      n   number
+//!
+//! @return     i - 1  N-th prime number
+
 long int Search_prime_number (int n)
 {
     int counter = 0, i = 2;
@@ -30,6 +46,12 @@ long int Search_prime_number (int n)
         }
     return i - 1;
 }
+
+//! prime - determines whether a number is prime
+//! @param      i   number
+//!
+//! @return     0  if number is prime
+//!             1 if  number is not prime
 
 int prime (int i)
 {

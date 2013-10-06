@@ -1,8 +1,3 @@
-/* Вариант 1 задача 1 */
-/*Напишите программу, которая из списка натуральных чисел выделяет простые. Число 1 не является простым.
-Формат ввода. Число 0<N<10000  и N натуральных чисел из отрезка [1, 100000]
-Формат вывода . Простые числа из данных в том порядке,  в котором они даны на входе */
-
 //{=================================================================================
 //! @file    V1_1.c
 //! @date    2013-6-10 12:18
@@ -11,6 +6,7 @@
 //! Finding prime numbers in a string of numbers.
 //!
 //}=================================================================================
+
 # include <stdio.h>
 # include <math.h>
 
@@ -35,11 +31,13 @@ int main()
 
     return 0;
 }
+
 //! prime - determine is number prime or not prime
 //!
 //! @param   number   number
 //!
-//! @return  1 - if number is prime and 0 - if number is not prime
+//! @return  1 - if number is prime
+//!          0 - if number is not prime
 
 int prime( int number)
 {
