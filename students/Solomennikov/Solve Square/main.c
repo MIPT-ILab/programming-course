@@ -62,9 +62,13 @@ int main()
 //Input the function which will calculate our equation.
 int calc(double a, double b, double c, double *x1, double *x2)
 {
+        //>>> Необходимо проверять переданные адреса assert'ом, они могут оказаться и нулевыми.
     double D = pow(b,2) - 4*a*c;
 
     // First, we check whether the coefficients are equal to zero.If it is, the equation hasn`t solutions.
+        //>>> Проверка действительных чисел на точное равенство/неравенство некорректна из-за ограниченной точности, 
+        //>>> необходимо использовать fabs (a) < DBL_EPSILON (модуль "а" меньше точности расчетов, определенной в #include <float.h>). 
+        //>>> Это обсуждалось вот тут:https://groups.google.com/forum/?hl=ru#!topic/ilab-students/NfzpH_z1OEg
     if (a == 0 & b == 0 & c == 0)
     return -1;
 
@@ -89,6 +93,7 @@ int calc(double a, double b, double c, double *x1, double *x2)
 
         else
         {
+            //>>> Для логических блоков желательно делать отступы, так код становится более читаемым.
         *x1 =  sqrt (-c/a);
         *x2 = -sqrt (-c/a);
 

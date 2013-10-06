@@ -3,7 +3,7 @@
  * @mainpage
  * @date    2013-09-28 00:50
  * @author  Alexey Kulikov <alexeyqu@gmail.com>, group 376, DCAM MIPT
- * @version 1.03
+ * @version 1.031
  *
  * @note    V1.00:
  *          - added SolveSquare() function
@@ -27,6 +27,10 @@
  *          - added inline functions comparing double value with zero
  *            (is_zero, above_zero, below_zero)
  *
+ * @par     V1.031
+ *          - style of define flags determinig ASSERT is standart now
+ *          - gcc doesn't allow to use constants in cases, does it? For now, define is used.
+ *
  * Solve a quadratic equation considering particular cases.
  *
  * @par     Task.
@@ -42,27 +46,39 @@
 #include <math.h>
 #include <float.h>
 
-#define _EJC
+#define SS_INVALID_EQUATION -1 //!< @def Value returned by SolveSquare function if number of roots is infinite
 
-#ifdef _EJC
-#define DBG printf ("# ");
+#ifndef NDEBUG
+    #define DBG printf ("# "),
+    #define ASSERT(cond)                                                            \
+    if (!cond)                                                                      \
+    {                                                                               \
+        printf ("Critical failure in assertion '%s'! \nfile %s, line %d \n"         \
+                "Now keep calm and EXTERMINATE! EXTERMINATE! EXTERMINATE!!!\n"      \
+                , #cond, __FILE__, __LINE__);                                           \
+        abort();                                                                        \
+    }
 #else
-#define DBG if (0)
+    #define DBG if (0)
+    #define ASSERT(cond)
 #endif
 
-#define ASSERT(cond)                                                                \
-if (!cond)                                                                          \
-{                                                                                   \
-    printf ("Critical failure in assertion '%s'! \nfile %s, line %d \n"             \
-            "Now keep calm and EXTERMINATE! EXTERMINATE! EXTERMINATE!!!\n"          \
-            , #cond, __FILE__, __LINE__);                                           \
-    abort();                                                                        \
-}
-
-const int SS_INVALID_EQUATION = -1; //!< Value returned by SolveSquare function if number of roots is infinite
-
+/** ********************************************************************************
+ * SolveSquare - solves a quadratic or linear equation specified by its coefficients.
+ *
+ * @param      a   Equation a-coefficient
+ * @param      b   Equation b-coefficient
+ * @param      c   Equation c-coefficient
+ * @param[out] x1  1st root of equation, if exist (if not, value will be unchanged)
+ * @param[out] x2  2nd root of equation, if exist (if not, value will be unchanged)
+ *
+ * @return         Number of roots or zero if none, -1 if infinite number of roots or equation is invalid
+ *
+ * @note           Calculation precision is considered to be DBL_EPSILON.
+************************************************************************************/
 int SolveSquare (double a, double b, double c,
                  double* x1, double* x2);
+
 inline int is_zero (double x);
 inline int above_zero (double x);
 inline int below_zero (double x);
@@ -97,26 +113,13 @@ int main()
         case 2: DBG printf ("x1, x2 = \n"); printf ("%lg %lg\n", x1, x2);         break;
         case 1: DBG printf ("x1 =\n"); printf ("%lg\n", x1);                      break;
         case 0:                                                                   break;
-        case -1: DBG printf ("The equation is invalid.\n");                       break; // Why it doesn't allow to use constant here (in case)?
+        case SS_INVALID_EQUATION: DBG printf ("The equation is invalid.\n");      break;
         default: DBG printf ("Error! Undocumented return value (%d)!\n", NRoots); return 1;
     }
 
     return 0;
 }
 
-/** ********************************************************************************
- * SolveSquare - solves a quadratic or linear equation specified by its coefficients.
- *
- * @param      a   Equation a-coefficient
- * @param      b   Equation b-coefficient
- * @param      c   Equation c-coefficient
- * @param[out] x1  1st root of equation, if exist (if not, value will be unchanged)
- * @param[out] x2  2nd root of equation, if exist (if not, value will be unchanged)
- *
- * @return         Number of roots or zero if none, -1 if infinite number of roots or equation is invalid
- *
- * @note           Calculation precision is considered to be DBL_EPSILON.
-************************************************************************************/
 int SolveSquare (double a, double b, double c,
                  double* x1, double* x2)
 {

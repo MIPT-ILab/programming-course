@@ -1,0 +1,16 @@
+{
+    "test@test.test" :
+    {
+            "name"    : "Name of student",
+            "branch"  : "master",
+            "path"    : "",
+            "mentors" : [ "mentor1@t.t"," mentor2@t.t"]
+    },
+    "gvozdarev.sa@gmail.com" :
+    {
+            "name"    : "Sergey Gvozdarev",
+            "branch"  : "master",
+            "path"    : "students/gvozdarev.sa",
+            "mentors" : [ "gvozdarev.sa@gmail.com" ]
+    }
+}
