@@ -6,9 +6,11 @@
 //!
 //! Решение квадратного уравнения
 //!
-//! @par     Условие задачи:
+//! @par     Условие задачи
 //!          Программа вводит 3 коэффициента квадратного уравнения. Надо вывести
 //!          количество его корней (-1 в случае бесконечного их к-ва) и сами корни.
+//!   
+//! 
 //}=================================================================================
 
 
@@ -30,22 +32,10 @@
           else {printf("# Equation has infinite roots \n");  }
         }
     }
-
-    //{=================================================================================
-//! SolveSquare - solve a square or linear equation specified by its coefficients.
-//!
-//! @param      a   Equation a-coefficient
-//! @param      b   Equation b-coefficient
-//! @param      c   Equation c-coefficient
-//! @param[out] x1  1st root of equation, if exist (if not, value will be unchanged)
-//! @param[out] x2  2nd root of equation, if exist (if not, value will be unchanged)
-//!
-//! @return         Number of roots or zero if none, -1 if infinite number of roots
-//}=================================================================================
     int SolveSquare(double a, double b, double c, double  *x1, double *x2)
     { assert(x1!=NULL); assert(x2!=NULL); assert(x1!=x2);   //Precondition tests
       double D=b*b-4*a*c;
-      if((a==0)&&(b!=0)&&(c!=0))
+      if(a==0)
       {*x1=-c/b;
         return 1;}
       if(a==b==c==0)
