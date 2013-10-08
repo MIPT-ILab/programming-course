@@ -1,6 +1,6 @@
 //{=================================================================================
 //! @file    NOK.cpp
-//! @date    2013-10-06 21:20
+//! @date    2013-10-07 17:45
 //! @author  Sergey Korablin <ogneej@gmail.com>
 //!
 //! Calculation of least common multiple
@@ -12,7 +12,7 @@
 #include <stdio.h>
 
 //{=================================================================================
-//! NOD - calculation of greatest common divisor.
+//! nod - calculation of greatest common divisor.
 //!
 //! @param      a    Input 1
 //! @param      b    Input 2
@@ -21,25 +21,25 @@
 //!
 //! @note            NOD defined, if at least one of inputs isn't a zero.
 //}=================================================================================
-unsigned long NOD ( unsigned long a,
+unsigned long nod ( unsigned long a,
                     unsigned long b );
 
 //{=================================================================================
-//! NOK - calculation of least common multiple, based on NOD
+//! nok - calculation of least common multiple, based on NOD
 //!
 //! @param      a    Input 1
 //! @param      b    Input 2
 //!
 //! @return          NOK of a and b
 //}=================================================================================
-unsigned long NOK ( unsigned long a,
+unsigned long nok ( unsigned long a,
                     unsigned long b );
 
 
 int main () {
     unsigned long x = 1,
                   y = 1;
-    
+
     bool isInputCorrect = false;
     printf ( "# Calculation of least common multiple, based on NOD\n"
              "# Author: Korablin S.\n" );
@@ -49,11 +49,11 @@ int main () {
     }
 
     printf ( "#LCM of this numbers:\n"
-             "%ld\n", NOK ( x, y ) );
-    return 0; 
+             "%ld\n", nok ( x, y ) );
+    return 0;
 }
 
-unsigned long NOD ( unsigned long a, unsigned long b ) {
+unsigned long nod ( unsigned long a, unsigned long b ) {
     unsigned long c;
     while ( a != b ) {
         if ( a < b ) {
@@ -62,7 +62,7 @@ unsigned long NOD ( unsigned long a, unsigned long b ) {
             b = c;
         }
         c = ( a - b ) / b;
-        if ( c == 0 ) {
+        if ( 0 == c ) {
             c = 1;
         }
         a -= c * b;
@@ -71,6 +71,6 @@ unsigned long NOD ( unsigned long a, unsigned long b ) {
     return a;
 }
 
-unsigned long NOK ( unsigned long a, unsigned long b ) {
-    return ( a * b ) / NOD ( a, b );
+unsigned long nok ( unsigned long a, unsigned long b ) {
+    return ( a * b ) / nod ( a, b );
 }

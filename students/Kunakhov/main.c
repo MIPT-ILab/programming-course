@@ -2,9 +2,20 @@
 
 //{===================================================================
 //!@file  main.c
-//!@date 2013-10-02
+//!asks the number of quadratic equations and The factors
+//!displays the roots
+//!@date 2013-10-08
 //!@author Kunakhov Ivan <Ivan.Kunakhov@frtk.ru>
-//!@version 1.01
+//!@version 1.03
+//!@note v1.01
+//!-added documentation
+//!-added added a multiple equations solving
+//!
+//!@note v1.02
+//!-added ASSERT define
+//!-added some coments
+//!@note v1.03
+//! -fixed ASSERT
 //}===================================================================
 
 
@@ -12,6 +23,17 @@
 #include <math.h>
 #include <assert.h>
 #include <float.h>
+#include <stdlib.h>
+
+
+#define ASSERT( cond )                      \
+    if ( !( cond ) )                        \
+    {                                       \
+        printf ("Fatal error: %s, "         \
+        "file: %s, line: %d \n",            \
+        #cond, __FILE__, __LINE__);         \
+        abort();                            \
+    }
 
 
 /**
@@ -21,8 +43,7 @@
     @param  c    -  x^0 coefficient
     @param x1    -  root
     @param x2    -  root
-    @param d     - discriminant
-    @param x     - root if a=0
+    @note ASSERT for checking the input and Solve_Square function data
 **/
 
 
@@ -31,9 +52,9 @@ int solve_sqare ( double a, double b, double c, double *x1, double *x2)
     double d = 0, x = 0;
 
 
-    assert(x1);
-    assert(x2);
-    assert(x1 != x2);
+    ASSERT(x1 != NULL);
+    ASSERT(x2!=NULL);
+    ASSERT(x1 != x2);
 
 
 
@@ -73,17 +94,8 @@ int solve_sqare ( double a, double b, double c, double *x1, double *x2)
 
 
 /**
-main-asks the number of quadratic equations and The factors
-           displays the roots
-    @param  a    -   x^2 factor
-    @param  b    -  x^1 factor
-    @param  c    -  x^0 factor
-    @param  x1   -  first root
-    @param  x2   - second root
-    @param  n    - the number of roots
-    @param  k    - number of equations
-    @param  i    - counter
-    @return solves the equations with every coefficients(returns 0)
+main
+    @return solves the equations with coefficients wich you input (returns 0)
 **/
  int main ()
 {
