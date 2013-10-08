@@ -6,7 +6,7 @@
 //!displays the roots
 //!@date 2013-10-08
 //!@author Kunakhov Ivan <Ivan.Kunakhov@frtk.ru>
-//!@version 1.02
+//!@version 1.03
 //!@note v1.01
 //!-added documentation
 //!-added added a multiple equations solving
@@ -14,6 +14,8 @@
 //!@note v1.02
 //!-added ASSERT define
 //!-added some coments
+//!@note v1.03
+//! -fixed ASSERT
 //}===================================================================
 
 
@@ -21,7 +23,7 @@
 #include <math.h>
 #include <assert.h>
 #include <float.h>
-
+#include <stdlib.h>
 
 
 #define ASSERT( cond )                      \
@@ -50,9 +52,9 @@ int solve_sqare ( double a, double b, double c, double *x1, double *x2)
     double d = 0, x = 0;
 
 
-    assert(x1);
-    assert(x2);
-    assert(x1 != x2);
+    ASSERT(x1 != NULL);
+    ASSERT(x2!=NULL);
+    ASSERT(x1 != x2);
 
 
 
