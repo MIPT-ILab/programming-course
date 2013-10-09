@@ -18,33 +18,33 @@
 //! Maximal value of number of numbers in input
 #define MAXNUMBER 1000
 
-//! Public array of initial appearances of input numbers. [0] not used, it makes code more readable, but requires 1 bit more.
-bool WasEntered [ MAXNUMBER + 1 ] = { 0 }; // Zero is 'false'. I use auto-initialization (all other items also will be 'false')
-
-//! Public array of repeated numbers. [0] not used, same as above.
-bool WasRepeated [ MAXNUMBER + 1 ] = { 0 }; // same as above
-
 //{=================================================================================
 //! GetInput - read input data and set up arrays WasEntered and WasRepeated
 //!
-//! @param      N    Number of numbers to read
+//! @param      N               Number of numbers to read
+//! @param      *WasEntered     Bool array, filling by this function
+//! @param      *WasRepeated    Bool array, filling by this function
 //!
 //! @return          0, if there was non-recurring number(s)
 //!                  -1, if all number were recurring
 //}=================================================================================
-int GetInput ( int N );
+int GetInput ( int N, bool *WasEntered, bool *WasRepeated );
 
 //{=================================================================================
 //! PrintAnswer - print non-recurring numbers, if exists, or -1 if none.
 //!
 //! @note         print -1, if none.
+//! @param        *WasEntered     Bool array, filled by function GetInput
+//! @param        *WasRepeated    Bool array, filled by function GetInput
 //}=================================================================================
-void PrintAnswer ();
+void PrintAnswer ( bool *WasEntered, bool *WasRepeated );
 
 
 int main () {
     int N;
     bool InputIsCorrect = false;
+    bool WasEntered [ MAXNUMBER + 1 ] = { 0 }; // Zero is 'false'. I use auto-initialization (all other items also will be 'false')
+    bool WasRepeated [ MAXNUMBER + 1 ] = { 0 }; // same as above
     printf ( "# Deleting recurring numbers\n"
              "# Author: Korablin S.\n" );
     do {
@@ -53,9 +53,9 @@ int main () {
     }
     while ( !InputIsCorrect );
     printf ( "# Please, enter %d natural numbers (each in 1..1000)\n", N );
-    if ( GetInput ( N ) == 0 ) {
+    if ( GetInput ( N, WasEntered, WasRepeated ) == 0 ) {
         printf ( "# Non-recurring numbers:\n" );
-        PrintAnswer ();
+        PrintAnswer ( WasEntered, WasRepeated );
     }
     else {
         printf ( "# There are no non-recurring numbers. Code:\n" );
@@ -64,7 +64,7 @@ int main () {
     return 0;
 }
 
-int GetInput ( int N ) {
+int GetInput ( int N, bool *WasEntered, bool *WasRepeated ) {
     int i = 0,
         inp = 1;
     int counter = 0;
@@ -84,7 +84,7 @@ int GetInput ( int N ) {
     return ( counter == 0 )?-1:0; //not sure that it looks great
 }
 
-void PrintAnswer ()
+void PrintAnswer ( bool *WasEntered, bool *WasRepeated )
 {
     int i;
     for ( i = 1; i <= MAXNUMBER + 1; i++ ) {
