@@ -9,6 +9,7 @@
   * GitStatus
   * GitBranches
  * WorkingWithIssues
+ * [HOWTO_create_new_test]
 
 ==Программирование==
  * CommentStyle
