@@ -33,7 +33,7 @@ int SquareFind(int num)
 int main()
 {
     unsigned int num = 0;
-    OUT("# Enter number, and I'll check if it consist of some sqares:\n");
+    OUT("# Enter number, and I'll check if it includes of some sqares:\n");
     scanf("%d", &num);
     int k = 0;
     k = SquareFind(num);
