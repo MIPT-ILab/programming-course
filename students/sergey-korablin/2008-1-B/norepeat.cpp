@@ -1,6 +1,6 @@
 //{=================================================================================
 //! @file    norepeat.cpp
-//! @date    2013-10-09 20:41
+//! @date    2013-10-09 21:15
 //! @author  Sergey Korablin <ogneej@gmail.com>
 //!
 //! Deleting recurring numbers
@@ -21,8 +21,8 @@
 //! Public array of initial appearances of input numbers. [0] not used, it makes code more readable, but requires 1 bit more.
 bool WasEntered [ MAXNUMBER + 1 ] = { 0 }; // Zero is 'false'. I use auto-initialization (all other items also will be 'false')
 
-//! Public array of repeated numbers. [0] not used, it makes code more readable, but requires 1 bit more.
-bool WasRepeated [ MAXNUMBER + 1 ] = { 0 }; // Zero is 'false'. I use auto-initialization (all other items also will be 'false')
+//! Public array of repeated numbers. [0] not used, same as above.
+bool WasRepeated [ MAXNUMBER + 1 ] = { 0 }; // same as above
 
 //{=================================================================================
 //! GetInput - read input data and set up arrays WasEntered and WasRepeated
@@ -44,13 +44,14 @@ void PrintAnswer ();
 
 int main () {
     int N;
-    bool isInputCorrect = false;
+    bool InputIsCorrect = false;
     printf ( "# Deleting recurring numbers\n"
              "# Author: Korablin S.\n" );
-    while ( !isInputCorrect ) {
+    do {
         printf ( "# Please, enter number of input numbers (1..100000)\n" );
-        isInputCorrect = ( scanf ( "%d", &N ) == 1 );
+        InputIsCorrect = ( scanf ( "%d", &N ) == 1 );
     }
+    while ( !InputIsCorrect );
     printf ( "# Please, enter %d natural numbers (each in 1..1000)\n", N );
     if ( GetInput ( N ) == 0 ) {
         printf ( "# Non-recurring numbers:\n" );
