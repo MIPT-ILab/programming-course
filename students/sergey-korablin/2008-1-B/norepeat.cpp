@@ -19,10 +19,10 @@
 #define MAXNUMBER 1000
 
 //! Public array of initial appearances of input numbers. [0] not used, it makes code more readable, but requires 1 bit more.
-bool WasEntered [MAXNUMBER+1]={0}; // Zero is 'false'. I use auto-initialization (all other items also will be 'false')
+bool WasEntered [ MAXNUMBER + 1 ] = { 0 }; // Zero is 'false'. I use auto-initialization (all other items also will be 'false')
 
 //! Public array of repeated numbers. [0] not used, it makes code more readable, but requires 1 bit more.
-bool WasRepeated [MAXNUMBER+1]={0}; // Zero is 'false'. I use auto-initialization (all other items also will be 'false')
+bool WasRepeated [ MAXNUMBER + 1 ] = { 0 }; // Zero is 'false'. I use auto-initialization (all other items also will be 'false')
 
 //{=================================================================================
 //! GetInput - read input data and set up arrays WasEntered and WasRepeated
@@ -37,7 +37,7 @@ int GetInput ( int N );
 //{=================================================================================
 //! PrintAnswer - print non-recurring numbers, if exists, or -1 if none.
 //!
-//! @note            print -1, if none.
+//! @note         print -1, if none.
 //}=================================================================================
 void PrintAnswer ();
 
@@ -80,7 +80,7 @@ int GetInput ( int N ) {
             }
         }
     }
-    return ( counter == 0 )?-1:0;
+    return ( counter == 0 )?-1:0; //not sure that it looks great
 }
 
 void PrintAnswer ()
