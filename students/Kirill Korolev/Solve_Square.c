@@ -1,6 +1,6 @@
 /** *********************************************************
 
- Program for solving square equations
+ A program for solving square equations
  
  @file Solve_Square.c
  @date September 21, 2013
@@ -18,6 +18,11 @@
      - added a multiple equations solving
      - added a constant EPS instead system DBL_EPSILON
      - added a standart ASSERT arguments type
+ 
+ @note Ver. 1.03 (October 8, 2013)
+     - deleted a documentation for the main function
+     - added an output with 6 numbers after a point
+     - added a messege to the ASSERT define
 
 ************************************************************/
 
@@ -26,12 +31,12 @@
 #include <math.h>
 #include <stdlib.h>
 
-#define ASSERT( cond )                 \
+#define ASSERT( cond, messege )        \
     if ( !( cond ) )                   \
     {                                  \
         printf ("Fatal error: %s, "    \
         "file: %s, line: %d \n",       \
-        #cond, __FILE__, __LINE__);    \
+        #messege, __FILE__, __LINE__); \
         abort();                       \
     }
 
@@ -56,18 +61,6 @@ const double EPS = 0.000001;
 
 int Solve_Square(double, double, double, double *, double *);
 
-/** **********************************************************************************
- 
- main - takes 3 coefficients from the keyboard, put it in Solve_Square function
- and write the result on the screen.
- 
- @return  0
- 
- @note - Write the solutions with an accuracy of 6 ymbols after a point.
-       - Use a define ASSERT for checking the input and Solve_Square function data.
- 
-*************************************************************************************/
-
 int main()
 {
     double a = 0, b = 0, c =0, x1 = 0, x2 = 0;
@@ -83,22 +76,22 @@ int main()
         printf("Please, write a, b and c:\n");
     
         int coef_num = 0;
-        coef_num = scanf("%lf %lf %lf", &a, &b, &c);                               /**< Takes from the keyboard 3 coef. */
-        ASSERT(coef_num == 3);                                                     /**< Checking the number of coef. */
+        coef_num = scanf("%lf %lf %lf", &a, &b, &c);                               /** Takes from the keyboard 3 coef. */
+        ASSERT(coef_num == 3, "A unapropriate type for a, b or c");                /** Checking the number of coef. */
     
         printf("The current equation: %lg*x^2 + %lg*x + %lg = 0\n", a, b, c);
     
-        solv_num = Solve_Square(a, b, c, &x1, &x2);                                /**< Running the Solve_Square function. */
-        ASSERT((solv_num >= -1) || (solv_num <= 2));                               /**< Checking the number of solutions. */
+        solv_num = Solve_Square(a, b, c, &x1, &x2);                                /** Running the Solve_Square function. */
+        ASSERT(( (solv_num >= -1) || (solv_num <= 2) ), "Solve_Square returned an inappropriate number of solutions.");   /** Checking the number of solutions. */
     
         if (solv_num == 2)
-            printf("There are two solutions:\nx1 = %lg  x2 = %lg", x1 , x2);       /**< Output for 2 differernt solutions */
+            printf("There are two solutions:\nx1 = %.6lg  x2 = %.6lg", x1 , x2);       /** Output for 2 differernt solutions */
         else if (solv_num == -1)
-            printf("There is an infinite number of solutions.");                   /**< Output for infinitly many solutions. */
+            printf("There is an infinite number of solutions.");                   /** Output for infinitly many solutions. */
         else if (solv_num == 1)
-            printf("There is one solution:\nx = %lg", x1);                         /**< Outbut for 1 solution. */
+            printf("There is one solution:\nx = %.6lg", x1);                         /** Outbut for 1 solution. */
         else
-            printf("There is no solutions");                                       /**< Output for an absence of any solutions. */
+            printf("There is no solutions");                                       /** Output for an absence of any solutions. */
     
         printf("\n\n");
     }
@@ -107,11 +100,11 @@ int main()
 
 int Solve_Square(double a, double b, double c, double * x1, double * x2)
 {
-    ASSERT(x1 != NULL);                               /**< Checking the correctness of the "x1" adress */
-    ASSERT(x2 != NULL);                               /**< Checking the correctness of the "x2" adress */
-    ASSERT(x1 != x2);                                 /**< Checking the difference of "x1" and "x2" adresses */
+    ASSERT((x1 != NULL), "x1 is a NULL address");                               /** Checking the correctness of the "x1" adress */
+    ASSERT((x2 != NULL), "x2 is a NULL address");                               /** Checking the correctness of the "x2" adress */
+    ASSERT((x1 != x2), "x1 and x2 are the same addresses");                     /** Checking the difference of "x1" and "x2" adresses */
     
-    if (fabs(a) < EPS)                                /**< For a case "a == 0" */
+    if (fabs(a) < EPS)                                /** For a case "a == 0" */
     {
         if (fabs(b) > EPS)
         {
@@ -134,7 +127,7 @@ int Solve_Square(double a, double b, double c, double * x1, double * x2)
                 return -1;
         }
     }
-    else                                             /**< For a case "a != 0" */
+    else                                             /** For a case "a != 0" */
     {
         double d = b*b - 4*a*c;
         if (fabs(d) < EPS)
