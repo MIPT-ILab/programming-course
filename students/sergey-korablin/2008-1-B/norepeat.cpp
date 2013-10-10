@@ -66,8 +66,8 @@ int main () {
 }
 
 int GetInput ( int N, bool *WasEntered, bool *WasRepeated ) {
-    assert ( WasEntered != NULL );
-    assert ( WasRepeated != NULL );
+    assert ( NULL != WasEntered );
+    assert ( NULL != WasRepeated );
     int i = 0,
         inp = 1;
     int counter = 0;
@@ -89,8 +89,8 @@ int GetInput ( int N, bool *WasEntered, bool *WasRepeated ) {
 
 void PrintAnswer ( bool *WasEntered, bool *WasRepeated )
 {
-    assert ( WasEntered != NULL );
-    assert ( WasRepeated != NULL );
+    assert ( NULL != WasEntered );
+    assert ( NULL != WasRepeated );
     int i;
     for ( i = 1; i <= MAXNUMBER + 1; i++ ) {
         if ( WasEntered [i] && !WasRepeated [i] )
