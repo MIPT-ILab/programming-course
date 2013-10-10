@@ -1,7 +1,7 @@
 
 //{=================================================================================
 //! @file    Square_Equation.c
-//! @date    2013-10-10 05:10
+//! @date    2013-10-04 04:01
 //! @author  Anna Saenko <HannaSanoke@gmail.com>
 //!
 //! The solution of the quadratic equation
@@ -27,7 +27,7 @@
       printf("# Enter coefficients\n");
       scanf("%lf %lf %lf",&a,&b,&c);
 
-      int nRoots = SolveSquare(a,b,c,&x1,&x2);
+      int nRoots=SolveSquare(a,b,c,&x1,&x2);
 
       printf("# Equation has %i roots:\n",nRoots);
 
@@ -72,7 +72,7 @@
       assert(("# Pointers of first and second roots are coincident",x1!=x2));
 
       double D = b*b - 4*a*c ;
-
+      
       const double eps = 0.000001;
 
       if(( fabs(a) < eps )&&( fabs(b) >= eps )&&( fabs(c) >= eps ))
@@ -87,14 +87,14 @@
       if( D > 0 )
         {
           *x1 = ( -b + sqrt(D) )/(2*a);
-          *x2 = ( -b - sqrt(D) )/(2*a);
+          *x2 = (-b-sqrt(D))/(2*a);
           return 2;
         }
       else
         {
-         if( D == 0 )
+         if(D== 0)
          {
-           *x1 = -b/(2*a);
+           *x1=-b/(2*a);
            return 1;
          }
          else return 0;
