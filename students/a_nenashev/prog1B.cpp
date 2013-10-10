@@ -1,3 +1,20 @@
+/*************************************************************************************
+* @file    prog1B.cpp
+* @date    2013-10-10 1:09
+* @author  Alex Nenashev <a.nenash95@gmail.com>
+*
+* Finding squares
+*
+* @version v1.1
+*
+* What's new in this version:
+* - Doxygen texts
+* - More good code
+*
+* @par     Program gets number and finds out, if it is a square(prints YES if so, NO if not)
+*
+*************************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -13,6 +30,16 @@
     #define OUT if(0) printf
 #endif
 
+/** ********************************************************
+* @par num       main part of function, if it's a square, return 0, 1 if not
+* @par i         counter
+*
+*
+*
+* @note Warning, if i = 1, so, every number will be a square.
+* Lolz
+*
+***********************************************************/
 int SquareFind(int num)
 {
     assert(num);
@@ -38,15 +65,6 @@ int main()
     int k = 0;
     k = SquareFind(num);
     OUT ("# The result is: ");
-    if (k == 1)
-    {
-        printf("YES\n");
-        return 0;
-    }
-    if (k == 0)
-    {
-        printf("NO\n");
-        return 0;
-    }
+    (k == 1)? printf("YES\n") : printf("NO\n");
     return 0;
 }
