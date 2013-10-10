@@ -16,6 +16,10 @@
 //!-added some coments
 //!@note v1.03
 //! -fixed ASSERT
+//!@note v1.04
+//! -ASSERT may display an error message and the place where it is made
+//! -improved codestyle
+//!- Removed description to main
 //}===================================================================
 
 
@@ -26,23 +30,21 @@
 #include <stdlib.h>
 
 
-#define ASSERT( cond )                      \
+#define ASSERT( cond, txt)                      \
     if ( !( cond ) )                        \
     {                                       \
-        printf ("Fatal error: %s, "         \
-        "file: %s, line: %d \n",            \
-        #cond, __FILE__, __LINE__);         \
+        printf ("Error: %s \n file: %s, line: %d \n",#txt, __FILE__, __LINE__);         \
         abort();                            \
     }
 
 
 /**
-    solve_sqare solve square equation with every coefficients
-    @param  a    -   x^2 coefficient
-    @param  b    -  x^1 coefficient
-    @param  c    -  x^0 coefficient
-    @param x1    -  root
-    @param x2    -  root
+    solve_sqare solve square equation with coefficients
+    @param  a         -   x^2 coefficient
+    @param  b         -  x^1 coefficient
+    @param  c         -  x^0 coefficient
+    @param[out] x1    -  root
+    @param[out] x2    -  root
     @note ASSERT for checking the input and Solve_Square function data
 **/
 
@@ -52,9 +54,9 @@ int solve_sqare ( double a, double b, double c, double *x1, double *x2)
     double d = 0, x = 0;
 
 
-    ASSERT(x1 != NULL);
-    ASSERT(x2!=NULL);
-    ASSERT(x1 != x2);
+    ASSERT(x1 != NULL, " adress of the x1 is zero");
+    ASSERT(x2 != NULL, " adress of the x2 is zero");
+    ASSERT(x1 != x2, "adresses of x1 and x2 is the same");
 
 
 
@@ -93,16 +95,16 @@ int solve_sqare ( double a, double b, double c, double *x1, double *x2)
 }
 
 
-/**
-main
-    @return solves the equations with coefficients wich you input (returns 0)
-**/
+
+
+
+
  int main ()
 {
 
-	double a = 0,b = 0,c = 0;
+	double a = 0, b = 0, c = 0;
 	double x1 = 0, x2 = 0;
-	int n = 0,k = 0, i = 0;
+	int n = 0, k = 0, i = 0;
 
 
 	printf("insert how many equations you would have\n");
@@ -116,10 +118,22 @@ main
         n = solve_sqare(a, b, c, &x1, &x2);
 
 
-        if (n == 0)  printf("no solutions\n");
-        if (n == 1) printf("solution is %lg\n",x1);
-        if (n == 2) printf("solutions are %lg %lg\n",x1,x2);
-        if (n == -1) printf("there is infinite number of solutions\n");
+        if (n == 0)
+        {
+            printf("no solutions\n");
+        }
+        if (n == 1)
+        {
+            printf("solution is %lg\n",x1);
+        }
+        if (n == 2)
+        {
+            printf("solutions are %lg %lg\n",x1,x2);
+        }
+        if (n == -1)
+        {
+            printf("there is infinite number of solutions\n");\
+        }
     }
 
     return(0);
