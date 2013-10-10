@@ -8,7 +8,7 @@
  @version 1.0 (October 7, 2013)
  
  @note Ver. 1.01 (October 8, 2013)
-    - deleted a documentation for tha main function
+    - deleted a documentation of the main function
     - added an output with 6 numbers after a point
     - added a discription for tha Heap_S function
     - mistakes in the documentation was rewriten
@@ -22,10 +22,20 @@
     - added ASSERT for a output
     - added a comparison with EPS accurancy
  
+ @note Ver. 1.03 (October 9, 2013)
+    - added a DBL_EPSILON accurancy and an output with 
+      6 numbers after a point output
+    - Swap function fixed
+    - More grammatical mistakes rewrited
+    - Added an introduction
+    - Adviced to Ivanychev Sergey to stay away from my
+      programs
+ 
  ************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <float.h>
 
 #define ASSERT( cond, messege )           \
     if ( !( cond ) )                      \
@@ -37,7 +47,6 @@
     }
 
 int const Ar_Size = 100000; /**< The maximal size of arrays */
-double const EPS = 0.000001;
 
 /** **********************************************************************************
  
@@ -80,7 +89,7 @@ int Heap_S(int Parent, double * Array, int Num);
 
 **************************************************************************************/
 
-int Swap(int El_1, int El_2, double * Array, int Num);
+int Swap(int El_1, int El_2, double * Array);
 
 /** ***********************************************************************************
  
@@ -105,15 +114,19 @@ int main()
     int Num_Ar = 0;     /**< The number of e arrays for sorting */
     int Check = 0;      /**< A variable for ASSERT define */
     
+    printf("Program for sorting arrays of numbers using the Heap sort algorithm.\n"
+           "Author: Kirill Korolev\n"
+           "Date of creation: October 7, 2013\n\n");
+    
     printf("Please, enter the number of arrays wich you want to sort:\n");
     Check = scanf("%d", &Num_Ar);
     ASSERT(Check == 1, "An inappropriate type for Num_Ar.");
     
     for (j = 0; j < Num_Ar; j++)     /** Sorting each array **/
     {
-        double Array[Ar_Size] = {};  /**< The curent array for sorting */
+        double Array[Ar_Size] = {};  /**< The current array for sorting */
         int Num = 0;                 /**< The number of the elements in the array */
-        char Type = '0';             /**< A char variable for checking a tupe of sorting */
+        char Type = '0';             /**< A char variable for checking a type of sorting */
         
         printf("The array number %d:\n", j + 1);
         printf("Enter your array:\n");      /** Input the array without a exact number of elements */
@@ -176,21 +189,19 @@ int Heap_S(int Parent, double * Array, int Num)
     ASSERT(( (1 <= Unkn) && (Unkn <= Num) ), "Unkn is inappropriate for an Array index.");
     ASSERT(( (1 <= Parent) && (Parent <= Num) ), "Left is inappropriate for an Array index.");
     
-    if (Array[Left] - Array[Unkn] > EPS) Unkn = Left;
-    if (Array[Right] - Array[Unkn] > EPS) Unkn = Right;
+    if (Array[Left] - Array[Unkn] > DBL_EPSILON) Unkn = Left;
+    if (Array[Right] - Array[Unkn] > DBL_EPSILON) Unkn = Right;
     if (Unkn == Parent) return 0;       /** Escaping, when no changes in the ternary are needed */
     
-    Swap(Unkn, Parent, Array, Num);     /** Putting in the upper place the biggets element */
+    Swap(Unkn, Parent, Array);     /** Putting in the upper place the biggets element */
     Heap_S(Unkn, Array, Num);           /** Marshaling the heap in down elements */
     
     return 0;
 }
 
-int Swap(int El_1, int El_2, double * Array, int Num)
+int Swap(int El_1, int El_2, double * Array)
 {
     ASSERT(Array != NULL, "Array[0] has a NULL address.");
-    ASSERT(( (0 <= El_1) && (El_1 <= Num) ), "El_2 is unappropriate for an Array index.");
-    ASSERT(( (0 <= El_2) && (El_2 <= Num) ), "El_2 is unappropriate for an Array index.");
     
     double Temp = Array[El_1];          /**< An intermediate variable for changing places */
     Array[El_1] = Array[El_2];
@@ -212,7 +223,9 @@ int Heap(double * Array, int Num)
     
     for (i = 1; i < Num_Copy; i++) /** Sorting by taking the upper el. in the heap */
     {
-        Swap(1, Num, Array, Num);
+        ASSERT( ( (0 <= Num) && (Num <= Ar_Size) ), "Num is inappropriate for an Array index.");
+        ASSERT( (1 <= Num), "1 is inappropriate for an Array index.");
+        Swap(1, Num, Array);
         Num--;
         Heap_S(1, Array, Num);
     }
