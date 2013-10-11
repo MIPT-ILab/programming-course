@@ -1,10 +1,20 @@
 
 //{=================================================================================
+//!
+//!The solution of the quadratic equation
+//!
 //! @file    Square_Equation.c
 //! @date    2013-10-10 05:10
 //! @author  Anna Saenko <HannaSanoke@gmail.com>
 //!
-//! The solution of the quadratic equation
+//! @version    1.02
+//!             - added comparison with null for discriminant
+//!             - added  initialization of a, b, c
+//!             - added new comments
+//!             - corrected code style
+//!
+//! @note    Accuracy of calculations
+//!          The program guarantees up to 6 decimal places
 //!
 //! @par     Three coefficients of the quadratic equation are entered in program.
 //!          The program displays the number of its roots
@@ -22,22 +32,22 @@
     int main()
     {
       double x1 = 0, x2 = 0;
-      double a, b, c;
+      double a = 0, b = 0, c = 0;
 
       printf("# Enter coefficients\n");
-      scanf("%lf %lf %lf",&a,&b,&c);
+      scanf("%lf %lf %lf", &a, &b, &c);
 
-      int nRoots = SolveSquare(a,b,c,&x1,&x2);
+      int nRoots = SolveSquare( a, b, c, &x1, &x2 );
 
       printf("# Equation has %i roots:\n",nRoots);
 
       if(nRoots == 2)
         {
-           printf("%lf %lf\n",x1,x2);
+           printf("%lf %lf\n", x1, x2);
         }
       if(nRoots == 1)
         {
-           printf("%lf\n",x1);
+           printf("%lf\n", x1);
         }
       else
         {
@@ -71,30 +81,32 @@
       assert(("# Pointer to second root is NULL",x2!=NULL));
       assert(("# Pointers of first and second roots are coincident",x1!=x2));
 
-      double D = b*b - 4*a*c ;
+      double discriminant = b * b - 4  * a * c;
 
       const double eps = 0.000001;
 
       if(( fabs(a) < eps )&&( fabs(b) >= eps )&&( fabs(c) >= eps ))
         {
-          *x1 = -c/b;
+          *x1 = -c / b;
           return 1;
         }
 
       if(( fabs(a) < eps )&&( fabs(b) < eps )&&( fabs(c) < eps ))
-        {return -1;}
-
-      if( D > 0 )
         {
-          *x1 = ( -b + sqrt(D) )/(2*a);
-          *x2 = ( -b - sqrt(D) )/(2*a);
+          return -1;
+        }
+
+      if( discriminant >= eps )
+        {
+          *x1 = ( -b + sqrt(discriminant) )/(2 * a);
+          *x2 = ( -b - sqrt(discriminant) )/(2 * a);
           return 2;
         }
       else
         {
-         if( D == 0 )
+         if( fabs(discriminant) < eps )
          {
-           *x1 = -b/(2*a);
+           *x1 = -b / (2 * a);
            return 1;
          }
          else return 0;
