@@ -20,6 +20,8 @@
 //! -ASSERT may display an error message and the place where it is made
 //! -improved codestyle
 //!- Removed description to main
+//!@note v1.05
+//! -coments fixed
 //}===================================================================
 
 
@@ -36,7 +38,7 @@
         printf ("Error: %s \n file: %s, line: %d \n",#txt, __FILE__, __LINE__);         \
         abort();                            \
     }
-
+const double EPS=0.000001;
 
 /**
     solve_sqare solve square equation with coefficients
@@ -45,6 +47,7 @@
     @param  c         -  x^0 coefficient
     @param[out] x1    -  root
     @param[out] x2    -  root
+    @return           -  numer of solution and -1 if infinite numbers
     @note ASSERT for checking the input and Solve_Square function data
 **/
 
@@ -60,11 +63,11 @@ int solve_sqare ( double a, double b, double c, double *x1, double *x2)
 
 
 
-    if (fabs(a) <= DBL_EPSILON)
+    if (fabs(a) <= EPS)
     {
-        if (fabs (b) <= DBL_EPSILON)
+        if (fabs (b) <= EPS)
         {
-            if (fabs(c) <= DBL_EPSILON)
+            if (fabs(c) <= EPS)
             {
                 return(-1);
             }
@@ -77,11 +80,11 @@ int solve_sqare ( double a, double b, double c, double *x1, double *x2)
     d = b*b - 4*a*c;
 
 
-    if (d < -DBL_EPSILON)
+    if (d < -EPS)
     {
         return(0);
     }
-    if (fabs(d) <= DBL_EPSILON)
+    if (fabs(d) <= EPS)
     {
         x = -b/(2*a);
         *x1 = *x2 = x;
