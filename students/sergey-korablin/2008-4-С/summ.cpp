@@ -1,6 +1,6 @@
 //{=================================================================================
 //! @file    summ.cpp
-//! @date    2013-10-09 23:59
+//! @date    2013-11-09 21:00
 //! @author  Sergey Korablin <ogneej@gmail.com>
 //!
 //! Calculating sums on diagonals
@@ -14,6 +14,8 @@
 //}=================================================================================
 
 #include <stdio.h>
+#include <assert.h>
+#include <malloc.h>
 
 //{=================================================================================
 //! CalcSums - read input data, calculate sums and fill sums array.
@@ -41,7 +43,7 @@ int main () {
         InputIsCorrect = ( scanf ( "%d", &N ) == 1 );
     }
     while ( !InputIsCorrect );
-    int s[2*N - 1];
+    int *s = ( int* ) malloc ( ( 2*N - 1) * sizeof ( int ) );
     printf ( "# Please, enter %d elements of matrix (%d columns, %d strings)\n", N*N, N, N );
     CalcSums ( N, s );
     printf ( "# Summs:\n" );
@@ -50,11 +52,14 @@ int main () {
 }
 
 void CalcSums ( int N, int *s ) {   
+    assert ( s != NULL );
     int i = 0,
         j = 0,
         inp = 1;
     int sum = 0;
-    int m[N][N];
+    int **m=( int** ) malloc ( N * sizeof ( int* ) );
+    for ( i = 0; i < N; i++ )
+        m[i] = ( int* ) malloc ( N * sizeof ( int ) );
     for ( i = 0; i < N; i++ ) {
         for ( j = 0; j < N; j++ ) {
             scanf ( "%d", &inp );
@@ -81,6 +86,7 @@ void CalcSums ( int N, int *s ) {
 
 void PrintAnswer ( int N, int *s)
 {
+    assert ( s != NULL );
     int i;
     for ( i = 0; i < (2*N - 1); i++ ) {
             printf ( "%d ", s[i] );
