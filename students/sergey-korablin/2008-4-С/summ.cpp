@@ -44,6 +44,7 @@ int main () {
     }
     while ( !InputIsCorrect );
     int *s = ( int* ) malloc ( ( 2*N - 1) * sizeof ( int ) );
+    assert ( s != NULL );
     printf ( "# Please, enter %d elements of matrix (%d columns, %d strings)\n", N*N, N, N );
     CalcSums ( N, s );
     printf ( "# Summs:\n" );
@@ -57,9 +58,12 @@ void CalcSums ( int N, int *s ) {
         j = 0,
         inp = 1;
     int sum = 0;
-    int **m=( int** ) malloc ( N * sizeof ( int* ) );
-    for ( i = 0; i < N; i++ )
+    int **m = ( int** ) malloc ( N * sizeof ( int* ) );
+    assert (m != NULL);
+    for ( i = 0; i < N; i++ ) {
         m[i] = ( int* ) malloc ( N * sizeof ( int ) );
+        assert ( m[i] != NULL);
+    }
     for ( i = 0; i < N; i++ ) {
         for ( j = 0; j < N; j++ ) {
             scanf ( "%d", &inp );
