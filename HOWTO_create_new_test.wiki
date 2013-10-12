@@ -53,5 +53,5 @@ perl intest.pl --test main_container --o test:task0--users:u1@intest.com,u2@inte
   # Переименовать task0 в зараннее определённое имя задачи \<task\>
   # Изменить поле _name_ в \<task\>.json и \<task\>_container.json
   # Изменить/добавить/удалить подтесты *core_run_compare* в \<task\>_container.json в соответсвие с условиями задачи
-  # Добавить \<task\>/<\task\>_container и \<task\>/\<task>\ в tests.json
+  # Добавить \<task\>/\<task\>_container и \<task\>/\<task\> в tests.json
   # Объявить всем, всем, всем о создании нового теста с именем \<test\>,  и _просьбой_ класть исходники для этой задачи в \<path_of_user\>\<task\>/main.c
