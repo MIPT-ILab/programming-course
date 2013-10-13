@@ -12,6 +12,11 @@
 //!             - added  initialization of a, b, c
 //!             - added new comments
 //!             - corrected code style
+//! @version    1.03
+//!             - removed the line which explained that -1 roots the program
+//!               gets when roots are infinite
+//!             - changed precision of outputting roots
+//!               (up to the sixth decimal place)
 //!
 //! @note    Accuracy of calculations
 //!          The program guarantees up to 6 decimal places
@@ -43,21 +48,21 @@
 
       if(nRoots == 2)
         {
-           printf("%lf %lf\n", x1, x2);
+           printf("%.6lf %.6lf\n", x1, x2);
         }
       if(nRoots == 1)
         {
-           printf("%lf\n", x1);
+           printf("%.6lf\n", x1);
         }
       else
         {
           if(nRoots == 0)
             {
-              printf("# Equation has no roots \n");
+              printf("\n");
             }
           if(nRoots == -1)
             {
-              printf("# Equation has infinite roots \n");
+              printf("\n");
             }
         }
     }
