@@ -12,5 +12,12 @@
             "branch"  : "master",
             "path"    : "students/gvozdarev.sa",
             "mentors" : [ "gvozdarev.sa@gmail.com" ]
+    },
+    "ogneej@gmail.com" :
+    {
+            "name"    : "Sergey Korablin",
+            "branch"  : "master",
+            "path"    : "students/sergey-korablin",
+            "mentors" : [ "grek.penkin@gmail.com" ]
     }
 }
