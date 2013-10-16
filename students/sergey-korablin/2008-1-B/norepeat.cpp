@@ -1,6 +1,6 @@
 //{=================================================================================
 //! @file    norepeat.cpp
-//! @date    2013-10-09 21:15
+//! @date    2013-10-10 13:25
 //! @author  Sergey Korablin <ogneej@gmail.com>
 //!
 //! Deleting recurring numbers
@@ -14,6 +14,7 @@
 //}=================================================================================
 
 #include <stdio.h>
+#include <assert.h>
 
 //! Maximal value of number of numbers in input
 #define MAXNUMBER 1000
@@ -65,6 +66,8 @@ int main () {
 }
 
 int GetInput ( int N, bool *WasEntered, bool *WasRepeated ) {
+    assert ( NULL != WasEntered );
+    assert ( NULL != WasRepeated );
     int i = 0,
         inp = 1;
     int counter = 0;
@@ -86,6 +89,8 @@ int GetInput ( int N, bool *WasEntered, bool *WasRepeated ) {
 
 void PrintAnswer ( bool *WasEntered, bool *WasRepeated )
 {
+    assert ( NULL != WasEntered );
+    assert ( NULL != WasRepeated );
     int i;
     for ( i = 1; i <= MAXNUMBER + 1; i++ ) {
         if ( WasEntered [i] && !WasRepeated [i] )

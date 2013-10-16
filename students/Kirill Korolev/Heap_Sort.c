@@ -8,18 +8,34 @@
  @version 1.0 (October 7, 2013)
  
  @note Ver. 1.01 (October 8, 2013)
-    - deleted a documentation for tha main function
+    - deleted a documentation of the main function
     - added an output with 6 numbers after a point
     - added a discription for tha Heap_S function
     - mistakes in the documentation was rewriten
     - added a function Heap which uses Heap_S for sorting
     - added 'd' and 'i' as possible values for Type
     - a name od Move function changed to Swap
+    - added a messege to the ASSERT define
+ 
+ @note Ver. 1.02 (October 9, 2013)
+    - some documentation mistakes fixed
+    - added ASSERT for a output
+    - added a comparison with EPS accurancy
+ 
+ @note Ver. 1.03 (October 9, 2013)
+    - added a DBL_EPSILON accurancy and an output with 
+      6 numbers after a point output
+    - Swap function fixed
+    - More grammatical mistakes rewrited
+    - Added an introduction
+    - Adviced to Ivanychev Sergey to stay away from my
+      programs
  
  ************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <float.h>
 
 #define ASSERT( cond, messege )           \
     if ( !( cond ) )                      \
@@ -53,6 +69,9 @@ int const Ar_Size = 100000; /**< The maximal size of arrays */
          swapping. When this was made for each ternary, this array becomes
          a heap, and on the top of the heap there is the biggest (smallest) element.
  
+ @note - A comparison is made with accuracy in 6 numbers after a point (the EPS
+         const).
+ 
  *************************************************************************************/
 
 int Heap_S(int Parent, double * Array, int Num);
@@ -70,7 +89,7 @@ int Heap_S(int Parent, double * Array, int Num);
 
 **************************************************************************************/
 
-int Swap(int El_1, int El_2, double * Array, int Num);
+int Swap(int El_1, int El_2, double * Array);
 
 /** ***********************************************************************************
  
@@ -95,32 +114,36 @@ int main()
     int Num_Ar = 0;     /**< The number of e arrays for sorting */
     int Check = 0;      /**< A variable for ASSERT define */
     
+    printf("Program for sorting arrays of numbers using the Heap sort algorithm.\n"
+           "Author: Kirill Korolev\n"
+           "Date of creation: October 7, 2013\n\n");
+    
     printf("Please, enter the number of arrays wich you want to sort:\n");
     Check = scanf("%d", &Num_Ar);
-    ASSERT(Check == 1, "An unappropriate type for Num_Ar.");
+    ASSERT(Check == 1, "An inappropriate type for Num_Ar.");
     
     for (j = 0; j < Num_Ar; j++)     /** Sorting each array **/
     {
-        double Array[Ar_Size] = {};  /**< The curent array for sorting */
+        double Array[Ar_Size] = {};  /**< The current array for sorting */
         int Num = 0;                 /**< The number of the elements in the array */
-        char Type = '0';             /**< A char variable for checking a tupe of sorting */
+        char Type = '0';             /**< A char variable for checking a type of sorting */
         
         printf("The array number %d:\n", j + 1);
         printf("Enter your array:\n");      /** Input the array without a exact number of elements */
         do
         {
             Num++;
-            ASSERT(((0 <= Num) && (Num <= Ar_Size)), "Num is not appropriate for the size of Array.");
+            ASSERT(((0 <= Num) && (Num <= Ar_Size)), "Num is inappropriate for the size of Array.");
             Check = 0;
             Check = scanf("%lf", &Array[Num]);
-            ASSERT(Check == 1, "An unappropriate type for Array.");
+            ASSERT(Check == 1, "An inappropriate type for Array.");
         } while (getc(stdin) != '\n');
         
         printf("Enter the type of sorting: with decresing/increasing (D/I):\n");
         Check = 0;
         Check = scanf("%c", &Type);    /** Checking the type */
-        ASSERT((Check == 1), "An unappropriate type for Type.");
-        ASSERT(((Type == 'D')||(Type == 'd')||(Type == 'I')||(Type == 'i')), "An unappropriate value for Type.");
+        ASSERT((Check == 1), "An inappropriate type for Type.");
+        ASSERT(((Type == 'D')||(Type == 'd')||(Type == 'I')||(Type == 'i')), "An inappropriate value for Type.");
     
         Heap(Array, Num);
     
@@ -129,6 +152,7 @@ int main()
         {
             for (i = 1; i <= Num; i++)
             {
+                ASSERT(((1 <= i) && (i <= Num)), "i is inappropriate for an Array index.");
                 if (i == Num) printf("%.6lg", Array[i]);
                 else printf("%.6lg ", Array[i]);
             }
@@ -137,6 +161,7 @@ int main()
         {
             for (i = Num; i >= 1; i--)
             {
+                ASSERT(((1 <= i) && (i <= Num)), "i is inappropriate for an Array index.");
                 if (i == 0) printf("%.6lg", Array[i]);
                 else printf("%.6lg ", Array[i]);
             }
@@ -159,26 +184,24 @@ int Heap_S(int Parent, double * Array, int Num)
     
     int Unkn = Parent;                  /**< The number of the biggest el. in this ternary */
     
-    ASSERT(( (1 <= Left) && (Left <= Num) ), "Left is unappropriate for an Array index.");
-    ASSERT(( (1 <= Right) && (Right <= Num) ), "Right is unappropriate for an Array index.");
-    ASSERT(( (1 <= Unkn) && (Unkn <= Num) ), "Unkn is unappropriate for an Array index.");
-    ASSERT(( (1 <= Parent) && (Parent <= Num) ), "Left is unappropriate for an Array index.");
+    ASSERT(( (1 <= Left) && (Left <= Num) ), "Left is inappropriate for an Array index.");
+    ASSERT(( (1 <= Right) && (Right <= Num) ), "Right is inappropriate for an Array index.");
+    ASSERT(( (1 <= Unkn) && (Unkn <= Num) ), "Unkn is inappropriate for an Array index.");
+    ASSERT(( (1 <= Parent) && (Parent <= Num) ), "Left is inappropriate for an Array index.");
     
-    if (Array[Left] > Array[Unkn]) Unkn = Left;
-    if (Array[Right] > Array[Unkn]) Unkn = Right;
+    if (Array[Left] - Array[Unkn] > DBL_EPSILON) Unkn = Left;
+    if (Array[Right] - Array[Unkn] > DBL_EPSILON) Unkn = Right;
     if (Unkn == Parent) return 0;       /** Escaping, when no changes in the ternary are needed */
     
-    Swap(Unkn, Parent, Array, Num);     /** Putting in the upper place the biggets element */
+    Swap(Unkn, Parent, Array);     /** Putting in the upper place the biggets element */
     Heap_S(Unkn, Array, Num);           /** Marshaling the heap in down elements */
     
     return 0;
 }
 
-int Swap(int El_1, int El_2, double * Array, int Num)
+int Swap(int El_1, int El_2, double * Array)
 {
     ASSERT(Array != NULL, "Array[0] has a NULL address.");
-    ASSERT(( (0 <= El_1) && (El_1 <= Num) ), "El_2 is unappropriate for an Array index.");
-    ASSERT(( (0 <= El_2) && (El_2 <= Num) ), "El_2 is unappropriate for an Array index.");
     
     double Temp = Array[El_1];          /**< An intermediate variable for changing places */
     Array[El_1] = Array[El_2];
@@ -200,7 +223,9 @@ int Heap(double * Array, int Num)
     
     for (i = 1; i < Num_Copy; i++) /** Sorting by taking the upper el. in the heap */
     {
-        Swap(1, Num, Array, Num);
+        ASSERT( ( (0 <= Num) && (Num <= Ar_Size) ), "Num is inappropriate for an Array index.");
+        ASSERT( (1 <= Num), "1 is inappropriate for an Array index.");
+        Swap(1, Num, Array);
         Num--;
         Heap_S(1, Array, Num);
     }

@@ -23,6 +23,9 @@
      - deleted a documentation for the main function
      - added an output with 6 numbers after a point
      - added a messege to the ASSERT define
+ 
+ @note Ver. 1.04 (Ocltober 10, 2013)
+     - some documentation mistakes fixed
 
 ************************************************************/
 

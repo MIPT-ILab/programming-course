@@ -48,17 +48,17 @@
 
       if(nRoots == 2)
         {
-           printf("%.6lf %.6lf\n", x1, x2);
+           printf("%lf %lf\n", x1, x2);
         }
       if(nRoots == 1)
         {
-           printf("%.6lf\n", x1);
+           printf("%lf\n", x1);
         }
       else
         {
           if(nRoots == 0)
             {
-              printf("\n");
+              printf("# Equation has no roots \n");
             }
           if(nRoots == -1)
             {
