@@ -35,7 +35,7 @@
 #define ASSERT( cond, txt)                      \
     if ( !( cond ) )                        \
     {                                       \
-        printf ("Error: %s \n file: %s, line: %d \n",#txt, __FILE__, __LINE__);         \
+        printf ("Error: %s \n file: %s, line: %d \n", #txt, __FILE__, __LINE__);         \
         abort();                            \
     }
 const double EPS=0.000001;
