@@ -17,13 +17,17 @@
 //!               gets when roots are infinite
 //!             - changed precision of outputting roots
 //!               (up to the sixth decimal place)
-//!
+//! @version    1.04
+//!             - The line which informed the number of roots is -1
+//!               has been changed with the line which informs that the roots are infinite
+//!             - Added the case when equation has no roots
+//!             - Added more gaps
 //! @note    Accuracy of calculations
 //!          The program guarantees up to 6 decimal places
 //!
 //! @par     Three coefficients of the quadratic equation are entered in program.
 //!          The program displays the number of its roots
-//!          (-1 for infinite number of roots) and the roots.
+//!          and the roots.
 //}=================================================================================
 
 
@@ -44,27 +48,28 @@
 
       int nRoots = SolveSquare( a, b, c, &x1, &x2 );
 
-      printf("# Equation has %i roots:\n",nRoots);
-
-      if(nRoots == 2)
-        {
+        if (nRoots == 2)
+         {
+           printf("# Equation has %i roots:\n",nRoots);
            printf("%.6lf %.6lf\n", x1, x2);
-        }
-      if(nRoots == 1)
-        {
+         }
+        if (nRoots == 1)
+         {
+           printf("# Equation has %i roots:\n",nRoots);
            printf("%.6lf\n", x1);
-        }
+         }
       else
         {
-          if(nRoots == 0)
-            {
-              printf("\n");
-            }
-          if(nRoots == -1)
-            {
-              printf("\n");
-            }
+          if (nRoots == 0)
+            printf("# Equation has %i roots:\n",nRoots);
+          if (nRoots == -1)
+            printf("# Equation has infinite roots\n");
+          if (nRoots == 3)
+            printf("# Equation has no roots\n");
+
         }
+
+
     }
 
 //{=================================================================================
@@ -90,18 +95,20 @@
 
       const double eps = 0.000001;
 
-      if(( fabs(a) < eps )&&( fabs(b) >= eps )&&( fabs(c) >= eps ))
+      if (( fabs(a) < eps )&&( fabs(b) >= eps )&&( fabs(c) >= eps ))
         {
           *x1 = -c / b;
           return 1;
         }
 
-      if(( fabs(a) < eps )&&( fabs(b) < eps )&&( fabs(c) < eps ))
-        {
-          return -1;
-        }
+      if (( fabs(a) < eps )&&( fabs(b) < eps )&&( fabs(c) < eps ))
+         return -1;
 
-      if( discriminant >= eps )
+      if (( fabs(a) < eps )&&( fabs(b) < eps )&&( fabs(c) >= eps ))
+         return 3;
+
+
+      if ( discriminant >= eps )
         {
           *x1 = ( -b + sqrt(discriminant) )/(2 * a);
           *x2 = ( -b - sqrt(discriminant) )/(2 * a);
@@ -109,7 +116,7 @@
         }
       else
         {
-         if( fabs(discriminant) < eps )
+         if ( fabs(discriminant) < eps )
          {
            *x1 = -b / (2 * a);
            return 1;
