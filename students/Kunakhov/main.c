@@ -1,12 +1,19 @@
 
 
+
+
+
 //{===================================================================
+//!
+//!
 //!@file  main.c
 //!asks the number of quadratic equations and The factors
-//!displays the roots
+//!displays the roots with an accuracy of 6 decimal places
+//!
 //!@date 2013-10-08
 //!@author Kunakhov Ivan <Ivan.Kunakhov@frtk.ru>
 //!@version 1.03
+//!
 //!@note v1.01
 //!-added documentation
 //!-added added a multiple equations solving
@@ -14,12 +21,21 @@
 //!@note v1.02
 //!-added ASSERT define
 //!-added some coments
+//!
 //!@note v1.03
 //! -fixed ASSERT
+//!
 //!@note v1.04
 //! -ASSERT may display an error message and the place where it is made
 //! -improved codestyle
 //!- Removed description to main
+//!
+//!@note v1.05
+//! -coments fixed
+//!
+//!@note v1 .06
+//! -improved codestyle
+//! -added output with a certain accuracy
 //}===================================================================
 
 
@@ -33,10 +49,10 @@
 #define ASSERT( cond, txt)                      \
     if ( !( cond ) )                        \
     {                                       \
-        printf ("Error: %s \n file: %s, line: %d \n",#txt, __FILE__, __LINE__);         \
+        printf ("Error: %s \n file: %s, line: %d \n", #txt, __FILE__, __LINE__);         \
         abort();                            \
     }
-
+const double EPS = 0.000001;
 
 /**
     solve_sqare solve square equation with coefficients
@@ -45,6 +61,7 @@
     @param  c         -  x^0 coefficient
     @param[out] x1    -  root
     @param[out] x2    -  root
+    @return           -  numer of solution and -1 if infinite numbers
     @note ASSERT for checking the input and Solve_Square function data
 **/
 
@@ -60,37 +77,37 @@ int solve_sqare ( double a, double b, double c, double *x1, double *x2)
 
 
 
-    if (fabs(a) <= DBL_EPSILON)
+    if (fabs(a) <= EPS)
     {
-        if (fabs (b) <= DBL_EPSILON)
+        if (fabs (b) <= EPS)
         {
-            if (fabs(c) <= DBL_EPSILON)
+            if (fabs(c) <= EPS)
             {
                 return(-1);
             }
             return(0);
         }
-        *x1 = -c/b;
+        *x1 = -c / b;
         return(1);
     }
 
-    d = b*b - 4*a*c;
+    d = b * b - 4 * a * c;
 
 
-    if (d < -DBL_EPSILON)
+    if (d < -EPS)
     {
         return(0);
     }
-    if (fabs(d) <= DBL_EPSILON)
+    if (fabs(d) <= EPS)
     {
-        x = -b/(2*a);
+        x = -b /(2 * a);
         *x1 = *x2 = x;
         return(1);
     }
 
 
-    *x1 = (-b + sqrt(d))/(2*a);
-    *x2 = (-b - sqrt(d))/(2*a);
+    *x1 = (-b + sqrt(d)) / (2 * a);
+    *x2 = (-b - sqrt(d)) / (2 * a);
     return(2);
 }
 
@@ -124,11 +141,11 @@ int solve_sqare ( double a, double b, double c, double *x1, double *x2)
         }
         if (n == 1)
         {
-            printf("solution is %lg\n",x1);
+            printf("solution is %.6lg\n",x1);
         }
         if (n == 2)
         {
-            printf("solutions are %lg %lg\n",x1,x2);
+            printf("solutions are %.6lg %.6lg\n",x1,x2);
         }
         if (n == -1)
         {
