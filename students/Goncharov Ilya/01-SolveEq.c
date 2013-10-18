@@ -1,6 +1,6 @@
 //{=================================================================================
 //! @file    01-SolveEq.c
-//! @date    2013-10-12 11:03
+//! @date    2013-10-18 23:46
 //! @author  Ilya Goncharov <ilgonmic@gmail.ru>
 //!
 //! Solving square equation
@@ -18,7 +18,7 @@ int kolvoResheniy (double a, double b, double c, double* x1, double* x2);
 
 int main()
 {
-    double a, b, c, x1=0, x2=0;
+    double a = 0, b = 0, c = 0, x1 = 0, x2 = 0;
 
     printf("# Please, enter coefficients of square equation\n");
     scanf("%lg %lg %lg", &a, &b, &c);
@@ -66,7 +66,10 @@ int kolvoResheniy (double a, double b, double c, double* x1, double* x2)
 
         if ( ( D < EPSILON ) && ( D > -EPSILON))
         {
-            *x1 = -b/(2*a);
+            if ( b != 0)
+                *x1 = -b/(2*a);
+            else
+                *x1 = 0;
             return 1;
         }
         else if ( D > EPSILON )
@@ -85,8 +88,11 @@ int kolvoResheniy (double a, double b, double c, double* x1, double* x2)
     {
         if ( b != 0 )
         {
-            *x1 = -c/b;
-            return 0;
+            if( c != 0)
+                *x1 = -c/b;
+            else
+                *x1 = 0;
+            return 1;
         }
         else
         {
