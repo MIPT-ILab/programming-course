@@ -23,8 +23,6 @@
     - added a comparison with EPS accurancy
  
  @note Ver. 1.03 (October 9, 2013)
-    - added a DBL_EPSILON accurancy and an output with 
-      6 numbers after a point output
     - Swap function fixed
     - More grammatical mistakes rewrited
     - Added an introduction
@@ -35,8 +33,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <float.h>
 
+#define EPS  0.000001
 #define ASSERT( cond, messege )           \
     if ( !( cond ) )                      \
     {                                     \
@@ -189,8 +187,8 @@ int Heap_S(int Parent, double * Array, int Num)
     ASSERT(( (1 <= Unkn) && (Unkn <= Num) ), "Unkn is inappropriate for an Array index.");
     ASSERT(( (1 <= Parent) && (Parent <= Num) ), "Left is inappropriate for an Array index.");
     
-    if (Array[Left] - Array[Unkn] > DBL_EPSILON) Unkn = Left;
-    if (Array[Right] - Array[Unkn] > DBL_EPSILON) Unkn = Right;
+    if (Array[Left] - Array[Unkn] > EPS) Unkn = Left;
+    if (Array[Right] - Array[Unkn] > EPS) Unkn = Right;
     if (Unkn == Parent) return 0;       /** Escaping, when no changes in the ternary are needed */
     
     Swap(Unkn, Parent, Array);     /** Putting in the upper place the biggets element */
