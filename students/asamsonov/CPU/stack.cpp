@@ -4,10 +4,11 @@
 //! @mainpage
 //! @brief   Now it's Stack for CPU.
 //!
-//!          $Version: 1.51, Revision: 3 $
-//!          $Date: 2013-10-19 14:53 $
+//!          $Version: 1.52, Revision: 4 $
+//!          $Date: 2013-10-19 18:40 $
 //!
 //!          - CPU header added so we check it's define now.
+//!			 - improved Stack_dump for using in processor.cpp
 //!
 //! @todo	 or not todo
 //!
@@ -56,7 +57,7 @@
 	if ( !Stack_OK ( stack ) ) {                           \
 		Stack_dump ( stack );                              \
 		ASSERT ( !"stack is ok" );                         \
-	}
+	}	
 #else
     #define ASSERT( cond )
 	#define ASSERT_OK( stack )
@@ -100,7 +101,7 @@ int Stack_getsize( Stack *myStack );
 */
 //}-------------declarations----------------------------
 
-//{-------------StackStack------------------------------
+//{-------------stackstack------------------------------
 //! @brief   This function creates Stack 
 //!			 with Stack->maxsize = max_size.
 //!
@@ -109,7 +110,7 @@ int Stack_getsize( Stack *myStack );
 //! @return		pointer of the new Stack.	
 //!
 //! @see     Stack_OK(), Stack_delete()
-//}-------------StackStack-----------------------------
+//}-------------stackstack-----------------------------
 
 Stack* Stack_create( int max_size )
 {
@@ -122,13 +123,13 @@ Stack* Stack_create( int max_size )
 	return temp;
 }
 
-//{-------------StackStack------------------------------
+//{-------------stackstack------------------------------
 //! @brief   This function deletes Stack given.
 //!
 //! @param		myStack		Stack
 //!
 //! @see     Stack_OK, Stack_create()
-//}-------------StackStack-----------------------------
+//}-------------stackstack-----------------------------
 
 void Stack_delete( Stack *myStack )
 {
@@ -139,7 +140,7 @@ void Stack_delete( Stack *myStack )
 	myStack = NULL;
 }
 
-//{-------------StackStack------------------------------
+//{-------------stackstack------------------------------
 //! @brief   This function checks if Stack is ok.
 //!
 //! @param		myStack		Stack	
@@ -147,14 +148,14 @@ void Stack_delete( Stack *myStack )
 //! @return		!0 if Stack is ok. 0 if Stack is not.
 //!
 //! @see     Stack_dump(), Stack_push(), Stack_pop()
-//}-------------StackStack-----------------------------
+//}-------------stackstack-----------------------------
 
 int Stack_OK( const Stack *myStack )
 {
 	return (myStack && 0 <= myStack->size && myStack->size <= myStack->maxsize);
 }
 
-//{-------------StackStack------------------------------
+//{-------------stackstack------------------------------
 //! @brief   This function prints info about Stack.
 //!
 //! @param		myStack		Stack
@@ -169,7 +170,7 @@ int Stack_OK( const Stack *myStack )
 //!				- Every value from data of Stack;
 //!
 //! @see     Stack_OK()
-//}-------------StackStack-----------------------------
+//}-------------stackstack-----------------------------
 
 void Stack_dump( const Stack *myStack )
 {
@@ -181,10 +182,10 @@ void Stack_dump( const Stack *myStack )
 	int i = 0;
 	for (i = 0; i < myStack->size; i++)
 		printf ( "\t" "data[%d] = %d\n", i, myStack->data[i] );
-	printf ( "That's all.\n\n" );
+	printf ( "Stack: That's all.\n\n" );
 }
 
-//{-------------StackStack------------------------------
+//{-------------stackstack------------------------------
 //! @brief   This function adds new element in the end of Stack.
 //!
 //! @param		myStack		Stack
@@ -193,7 +194,7 @@ void Stack_dump( const Stack *myStack )
 //! @return		1 if you can add element, 0 if Stack is full.
 //!
 //! @see     Stack_OK(), Stack_pop()
-//}-------------StackStack-----------------------------
+//}-------------stackstack-----------------------------
 
 int Stack_push( Stack *myStack, int value )
 {
@@ -206,7 +207,7 @@ int Stack_push( Stack *myStack, int value )
 	return 1;
 }
 
-//{-------------StackStack------------------------------
+//{-------------stackstack------------------------------
 //! @brief   This function takes last element from Stack deleting it.
 //!
 //! @param		myStack		Stack
@@ -214,7 +215,7 @@ int Stack_push( Stack *myStack, int value )
 //! @return		Last element of this Stack.	
 //!
 //! @see     Stack_OK(), Stack_push()
-//}-------------StackStack-----------------------------
+//}-------------stackstack-----------------------------
 
 int Stack_pop( Stack *myStack )
 {
@@ -223,13 +224,13 @@ int Stack_pop( Stack *myStack )
 	return myStack->data[--myStack->size];
 }
 
-//{-------------StackStack------------------------------
+//{-------------stackstack------------------------------
 //! @brief   This function returns size of Stack given.
 //!
 //! @param		myStack		Stack
 //!
 //! @return		number of elements in this Stack.	
-//}-------------StackStack-----------------------------
+//}-------------stackstack-----------------------------
 
 int Stack_getsize( Stack *myStack )
 {

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #define CPUHEADER 1
 
@@ -55,9 +56,15 @@
 		Stack_dump ( stack );                              \
 		ASSERT ( !"stack is ok" );                         \
 	}
+	#define ASSERT_CPU( CPU )                              \
+	if ( !CPU_OK ( CPU ) ) {						       \
+		CPU_dump ( CPU );                                  \
+		ASSERT ( !"CPU is ok" );                           \
+	}
 #else
     #define ASSERT( cond )
 	#define ASSERT_OK( stack )
+	#define ASSERT_CPU( CPU )
 #endif
 
 //}-------------defines---------------------------------
@@ -74,6 +81,15 @@ struct Stack {
 	int size;
 	int maxsize;
 	int x;
+};
+
+//------------------------------------------------------
+
+typedef struct CPU CPU;
+
+struct CPU {
+	Stack *myStack;
+	int ax;
 };
 
 //}-------------strucutures-----------------------------
@@ -103,5 +119,19 @@ int id_command ( char *str_4 );
 int as_command( int command, int x, FILE* fi, FILE* fo );
 
 int assemble( void ); // see INPUT and OUTPUT in assembler.cpp.
+
+//==-------------processor.cpp--------------------------
+
+CPU* CPU_create( int Stack_size );
+
+void CPU_delete( CPU *myCPU );
+
+int CPU_OK( CPU *myCPU );
+
+int CPU_get_ax( CPU *myCPU );
+
+int CPU_do_command ( CPU *myCPU, int command, FILE* fi);
+
+int CPU_do_file( CPU *myCPU );
 
 //}-------------declarations----------------------------

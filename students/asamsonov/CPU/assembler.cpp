@@ -197,7 +197,7 @@ int as_command( int command, int x, FILE* fi, FILE* fo )
 //!			 interprete them and write in OUTPUT file
 //!
 //! @return		0 if it's ok, or num of line (starting with 1)
-//!				where is error if it' not ok.
+//!				where is error if it's not ok.
 //!				
 //! @see     id_command(), as_command()
 //}-------------Assembler-----------------------------
