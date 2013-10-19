@@ -1,0 +1,5 @@
+push 7
+push 7
+mul
+pop ax
+end

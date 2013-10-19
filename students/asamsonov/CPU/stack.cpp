@@ -4,8 +4,8 @@
 //! @mainpage
 //! @brief   Now it's Stack for CPU.
 //!
-//!          $Version: 1.50, Revision: 2 $
-//!          $Date: 2013-10-17 21:01 $
+//!          $Version: 1.51, Revision: 3 $
+//!          $Date: 2013-10-19 14:53 $
 //!
 //!          - CPU header added so we check it's define now.
 //!
