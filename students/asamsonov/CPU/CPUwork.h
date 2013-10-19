@@ -67,6 +67,9 @@
 	#define ASSERT_CPU( CPU )
 #endif
 
+#define  INPUT "input.txt"
+#define		MC    "mc.txt"
+
 //}-------------defines---------------------------------
 
 
@@ -118,7 +121,7 @@ int id_command ( char *str_4 );
 
 int as_command( int command, int x, FILE* fi, FILE* fo );
 
-int assemble( void ); // see INPUT and OUTPUT in assembler.cpp.
+int assemble( FILE *fi, FILE *fo ); // see INPUT and OUTPUT in assembler.cpp.
 
 //==-------------processor.cpp--------------------------
 

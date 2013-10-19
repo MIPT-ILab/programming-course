@@ -1,11 +1,7 @@
 //{-------------head----------------------------------
 //
 //! @file    processor.cpp
-//! @mainpage
 //! @brief   Now it's CPU for CPU.
-//!
-//!          $Version: 1.00, Revision: 1 $
-//!          $Date: 2013-10-19 18:40 $
 //!
 //! @todo	 write:
 //!			 - check of registers in CPU_do_command;
@@ -95,10 +91,10 @@ struct CPU {
 
 //}-------------assembler-defines-------------------------
 
+#define  MC  "mc.txt"
+
 //{-------------if-(-!header-)--------------------------
 #endif
-
-#define  INPUT  "mc.txt"
 
 //}-------------defines---------------------------------
 
@@ -279,7 +275,7 @@ int CPU_do_command ( CPU *myCPU, int command, FILE* fi)
 }
 
 //{-------------processor------------------------------
-//! @brief   This function executes assembled INPUT file.
+//! @brief   This function executes assembled MC file.
 //!
 //! @param		myCPU		CPU	
 //!
@@ -291,8 +287,8 @@ int CPU_do_command ( CPU *myCPU, int command, FILE* fi)
 
 int CPU_do_file( CPU *myCPU )
 {
+	FILE *fi = fopen ( MC, "r" );
 	int x = 1;
-	FILE *fi = fopen ( INPUT, "r" );
 	int ok = 1;
 	int scanned = 0;
 	int res = 0;
@@ -301,12 +297,10 @@ int CPU_do_file( CPU *myCPU )
 		x++;
 		ASSERT ( myCPU != NULL );
 		res = CPU_do_command ( myCPU, scanned, fi );
-		if ( res == -1 ) break;
+		if ( res == 1) break;
 		if ( res ) { x = 0; break; }
 	}
-
 	fclose ( fi );
-	CPU_delete ( myCPU );
 
 	return x;
 }

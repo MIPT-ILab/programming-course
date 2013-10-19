@@ -4,9 +4,6 @@
 //! @mainpage
 //! @brief   Now it's (!)Assembler(!) for CPU.
 //!
-//!          $Version: 1.00, Revision: 1 $
-//!          $Date: 2013-10-19 14:53 $
-//!
 //! @todo	 write:
 //!			 - R_defines in 0x.system;
 //!
@@ -23,7 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef _EJC //!< Macro for EJudge Client to output correctly.
+#ifdef _EJC //!< Macro for EJudge Client to MC correctly.
 	#ifdef OUT
 		#undef OUT
 	#endif
@@ -75,11 +72,11 @@
 #define COS   0xA
 //}-------------assembler-defines-------------------------
 
+#define  INPUT "input.txt"
+#define		MC    "mc.txt"
+
 //{-------------if-(-!header-)--------------------------
 #endif
-
-#define  INPUT "input.txt"
-#define OUTPUT    "mc.txt"
 
 //{-------------read-defines------------------------------
 
@@ -194,7 +191,7 @@ int as_command( int command, int x, FILE* fi, FILE* fo )
 
 //{-------------Assembler-------------------------------
 //! @brief   reads from INPUT file all commands, 
-//!			 interprete them and write in OUTPUT file
+//!			 interprete them and write in MC file
 //!
 //! @return		0 if it's ok, or num of line (starting with 1)
 //!				where is error if it's not ok.
@@ -202,11 +199,8 @@ int as_command( int command, int x, FILE* fi, FILE* fo )
 //! @see     id_command(), as_command()
 //}-------------Assembler-----------------------------
 
-int assemble( void )
+int assemble( FILE *fi, FILE *fo )
 {
-	FILE *fi = fopen (  INPUT, "r");
-	FILE *fo = fopen ( OUTPUT, "w");
-
 	int ok = 1;
 	char scanned[5] = {0};
 	unsigned int command = 0;
@@ -216,6 +210,7 @@ int assemble( void )
 		x ++;
 		ASSERT ( sizeof ( int ) >= 4 );
 		command = id_command ( scanned );
+		if (command == 0) return 0;
 
 		scanned[0] = '\0';
 		scanned[1] = '\0';
@@ -224,7 +219,5 @@ int assemble( void )
 
 		if ( as_command ( command, x, fi, fo ) ) return x;
 	}
-	fclose ( fi );
-	fclose ( fo );
 	return 0;
 }

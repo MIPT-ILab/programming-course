@@ -1,11 +1,7 @@
 //{-------------head----------------------------------
 //
 //! @file    stack.cpp
-//! @mainpage
 //! @brief   Now it's Stack for CPU.
-//!
-//!          $Version: 1.52, Revision: 4 $
-//!          $Date: 2013-10-19 18:40 $
 //!
 //!          - CPU header added so we check it's define now.
 //!			 - improved Stack_dump for using in processor.cpp
