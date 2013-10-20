@@ -1,6 +1,6 @@
 //{=================================================================================
 //! @file    main.c
-//! @date    15.10.2013
+//! @date    18.10.2013
 //! @author  Dmitry Stupakov <dmitry.stupakov@frtk.ru>
 //!
 //!          Sort array of integer
@@ -15,7 +15,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-int Compare(const double* arg1, const double* arg2);
+int Compare(const void* arg1, const void* arg2);
 
 int main()
 {
@@ -23,24 +23,25 @@ int main()
 	double *Data;
 
 	printf("#Author Dmitry Stupakov\n"                              
-		   "#Version 1.4\n"
-		   "#15.10.2013\n"
-		   "#Enter the number of array elements:\n");
+			"#Version 1.5\n"
+			"#18.10.2013\n"
+			"#Enter the number of array elements:\n");
 	proof = scanf("%i", &DataSize);
 	assert(proof == 1);
 
-	Data = (double*) calloc(DataSize, sizeof (double));
-	
+	Data = (double*) calloc(DataSize, sizeof (Data[0]));
+	assert(Data != NULL);
+
 	printf("#Enter elements:\n");                      
-    for (i = 0; i < DataSize; i++)
+	for (i = 0; i < DataSize; i++)
 	{
-	    proof = scanf("%lg", &Data[i]);
+		proof = scanf("%lg", &Data[i]);
 		assert(proof == 1);	
 	}
 
-    qsort(Data, DataSize, sizeof (double), Compare);   
+	qsort(Data, DataSize, sizeof (Data[0]), Compare);   
 
-    printf("#Sorted array:\n");
+	printf("#Sorted array:\n");
 	for(i = 0; i < DataSize; i++)
 		printf("%lg ", Data[i]);
 	printf("\n");
@@ -52,7 +53,7 @@ int main()
 }
 
 /** ********************************************************************************
- Compare - compare 2 numbers
+ Compare  -  compare 2 numbers
  
  @param      *arg1   first argument
  @param      *arg2   second argument
@@ -61,15 +62,16 @@ int main()
                  -1, if arg1<arg2
                  1,  if arg1>arg2
 ************************************************************************************/
-int Compare(const double* arg1, const double* arg2)                                 // int Compare(const void* arg1, const void* arg2)
-{																					// { 
-	if (*arg1 < *arg2)																//	   if (*(double*) arg1 < *(double*) arg2)  
-		return -1;																	//			return -1;
-	else																			// else
-		if (*arg1 > *arg2)															//	   if (*(double*) arg2 > *(double) arg2)
-			return 1;																//		    return 1;
-		else																		//     else
-			return 0;																//          return 0;
-}																					// }
-																					// Выдает варнинги : фомальный праметр 1 (2) отличается от объявления
-                                                                                    // Не могу понять почему так, поскольку на семинаре работало
+
+int Compare(const void* arg1, const void* arg2)  
+{
+	double* a = (double*) arg1;
+	double* b = (double*) arg2;
+	if (*a < *b)
+		return -1;
+	else
+		if (*a > *b)
+			return 1;
+		else
+			return 0;
+}
