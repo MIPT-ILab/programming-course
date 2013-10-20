@@ -15,7 +15,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-int Compare(const double* arg1, const double* arg2);
+int Compare(const void* arg1, const void* arg2);
 
 int main()
 {
@@ -62,19 +62,8 @@ int main()
                  -1, if arg1<arg2
                  1,  if arg1>arg2
 ************************************************************************************/
-int Compare(const double* arg1, const double* arg2) //
-{
-	if (*arg1 < *arg2)
-		return -1;
-	else
-		if (*arg1 > *arg2)
-			return 1;
-		else
-			return 0;
-}
 
-#if 0
-int Compare(const void* arg1, const void* arg2)    // Warnings C4028: formal parameter 1 (2) is different from declaring  
+int Compare(const void* arg1, const void* arg2)  
 {
 	double* a = (double*) arg1;
 	double* b = (double*) arg2;
@@ -86,4 +75,3 @@ int Compare(const void* arg1, const void* arg2)    // Warnings C4028: formal par
 		else
 			return 0;
 }
-#endif 
