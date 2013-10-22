@@ -1,12 +1,19 @@
 
 
+
+
+
 //{===================================================================
+//!
+//!
 //!@file  main.c
 //!asks the number of quadratic equations and The factors
-//!displays the roots
+//!displays the roots with an accuracy of 6 decimal places
+//!
 //!@date 2013-10-08
 //!@author Kunakhov Ivan <Ivan.Kunakhov@frtk.ru>
 //!@version 1.03
+//!
 //!@note v1.01
 //!-added documentation
 //!-added added a multiple equations solving
@@ -14,8 +21,21 @@
 //!@note v1.02
 //!-added ASSERT define
 //!-added some coments
+//!
 //!@note v1.03
 //! -fixed ASSERT
+//!
+//!@note v1.04
+//! -ASSERT may display an error message and the place where it is made
+//! -improved codestyle
+//!- Removed description to main
+//!
+//!@note v1.05
+//! -coments fixed
+//!
+//!@note v1 .06
+//! -improved codestyle
+//! -added output with a certain accuracy
 //}===================================================================
 
 
@@ -26,23 +46,22 @@
 #include <stdlib.h>
 
 
-#define ASSERT( cond )                      \
+#define ASSERT( cond, txt)                      \
     if ( !( cond ) )                        \
     {                                       \
-        printf ("Fatal error: %s, "         \
-        "file: %s, line: %d \n",            \
-        #cond, __FILE__, __LINE__);         \
+        printf ("Error: %s \n file: %s, line: %d \n", #txt, __FILE__, __LINE__);         \
         abort();                            \
     }
-
+const double EPS = 0.000001;
 
 /**
-    solve_sqare solve square equation with every coefficients
-    @param  a    -   x^2 coefficient
-    @param  b    -  x^1 coefficient
-    @param  c    -  x^0 coefficient
-    @param x1    -  root
-    @param x2    -  root
+    solve_sqare solve square equation with coefficients
+    @param  a         -   x^2 coefficient
+    @param  b         -  x^1 coefficient
+    @param  c         -  x^0 coefficient
+    @param[out] x1    -  root
+    @param[out] x2    -  root
+    @return           -  numer of solution and -1 if infinite numbers
     @note ASSERT for checking the input and Solve_Square function data
 **/
 
@@ -52,57 +71,57 @@ int solve_sqare ( double a, double b, double c, double *x1, double *x2)
     double d = 0, x = 0;
 
 
-    ASSERT(x1 != NULL);
-    ASSERT(x2!=NULL);
-    ASSERT(x1 != x2);
+    ASSERT(x1 != NULL, " adress of the x1 is zero");
+    ASSERT(x2 != NULL, " adress of the x2 is zero");
+    ASSERT(x1 != x2, "adresses of x1 and x2 is the same");
 
 
 
-    if (fabs(a) <= DBL_EPSILON)
+    if (fabs(a) <= EPS)
     {
-        if (fabs (b) <= DBL_EPSILON)
+        if (fabs (b) <= EPS)
         {
-            if (fabs(c) <= DBL_EPSILON)
+            if (fabs(c) <= EPS)
             {
                 return(-1);
             }
             return(0);
         }
-        *x1 = -c/b;
+        *x1 = -c / b;
         return(1);
     }
 
-    d = b*b - 4*a*c;
+    d = b * b - 4 * a * c;
 
 
-    if (d < -DBL_EPSILON)
+    if (d < -EPS)
     {
         return(0);
     }
-    if (fabs(d) <= DBL_EPSILON)
+    if (fabs(d) <= EPS)
     {
-        x = -b/(2*a);
+        x = -b /(2 * a);
         *x1 = *x2 = x;
         return(1);
     }
 
 
-    *x1 = (-b + sqrt(d))/(2*a);
-    *x2 = (-b - sqrt(d))/(2*a);
+    *x1 = (-b + sqrt(d)) / (2 * a);
+    *x2 = (-b - sqrt(d)) / (2 * a);
     return(2);
 }
 
 
-/**
-main
-    @return solves the equations with coefficients wich you input (returns 0)
-**/
+
+
+
+
  int main ()
 {
 
-	double a = 0,b = 0,c = 0;
+	double a = 0, b = 0, c = 0;
 	double x1 = 0, x2 = 0;
-	int n = 0,k = 0, i = 0;
+	int n = 0, k = 0, i = 0;
 
 
 	printf("insert how many equations you would have\n");
@@ -116,10 +135,22 @@ main
         n = solve_sqare(a, b, c, &x1, &x2);
 
 
-        if (n == 0)  printf("no solutions\n");
-        if (n == 1) printf("solution is %lg\n",x1);
-        if (n == 2) printf("solutions are %lg %lg\n",x1,x2);
-        if (n == -1) printf("there is infinite number of solutions\n");
+        if (n == 0)
+        {
+            printf("no solutions\n");
+        }
+        if (n == 1)
+        {
+            printf("solution is %.6lg\n",x1);
+        }
+        if (n == 2)
+        {
+            printf("solutions are %.6lg %.6lg\n",x1,x2);
+        }
+        if (n == -1)
+        {
+            printf("there is infinite number of solutions\n");\
+        }
     }
 
     return(0);
