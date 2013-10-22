@@ -2,7 +2,7 @@
 //! file    Sort.c
 //! date    2013-10-04 
 //! author  Roma Blinov <roman.blinov@frtk.ru>
-//! version 2.0
+//! version 2.1
 //! Sorting an array.
 //}=================================================================================
 
@@ -15,7 +15,7 @@ int main()
        printf("# file       sort.c\n"
               "# date       2013-10-18\n"
               "# autor      Roma Blinov <roman.blinov@frtk.ru>\n"
-              "# version    2.0\n");
+              "# version    2.1\n");
                
 
        int i=0, j=0, Data_Size = 0, Check = 0;      
@@ -26,7 +26,7 @@ int main()
        Check = scanf("%d", &Data_Size);
        assert(Check == 1);
        printf("# Elements:\n");
-       Data = (double*)calloc(Data_Size, sizeof(double));
+       Data = (double*)calloc(Data_Size, sizeof(Data[0]));
        
        for (i = 0; i < Data_Size; ++i)
            { 
@@ -51,6 +51,7 @@ int main()
                   
        for (i = 0; i < Data_Size; ++i) 
            printf("%lg " , Data[i]);  
+       printf("\n");
        free(Data);                
           
          
