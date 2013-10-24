@@ -1,8 +1,9 @@
 #include <stdio.h>
 
-//YES
-//I wrote all this code only for ONE FUCKING TASK
-//Happy reading
+//Sorry for code formatting
+//I'm now interested in correct work
+//But it works.. hm.. strange
+//I'll do refactoring later
 
 class Binary {
     bool *data;
