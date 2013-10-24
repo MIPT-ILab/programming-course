@@ -34,7 +34,7 @@ int const SIZE = 1000;
     @param[out] a - array with replaced elements
 ==================================================================**/
 
-int  exchange(int i,int j,double *a)
+void  exchange(int i,int j,double *a)
 {
     double b;
 
@@ -65,7 +65,7 @@ int  exchange(int i,int j,double *a)
     @param[out] a - the the array of numbers which need to be sorted
 
 ================================================================**/
-int heap (int i, int M, double * a)
+void heap (int i, int M, double * a)
 {
     int j = i ;
     int l = i*2,  r = i*2 + 1;  /** l-left offspring r-right offspring of the triple**/
