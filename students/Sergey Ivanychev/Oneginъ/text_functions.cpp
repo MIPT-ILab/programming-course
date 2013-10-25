@@ -50,6 +50,7 @@ void input_scan(FILE* stream, char* buffer, char** links);
 
 void input_analyse(FILE* stream, int* char_counter, int* str_counter)
 {
+	assert(stream);
 	int c = 0;
 	while ((c = fgetc(stream)) != EOF)
 	{
@@ -90,6 +91,7 @@ void input_analyse(FILE* stream, int* char_counter, int* str_counter)
 void input_scan(FILE* stream, char* buffer, char** links)
 
 {
+	assert(stream);
 	int c = 0;
 	bool string_begun = false;
 	while ((c = fgetc(stream)) != EOF)
@@ -179,6 +181,8 @@ void input_scan(FILE* stream, char* buffer, char** links)
 
 int get_text(FILE* stream, text * save_text)
 {
+	assert(stream);
+	assert(save_text);
 	register int c = 0;
 	if ((c = getc(stream)) == EOF) return -1;
 	ungetc(c, stream);
@@ -267,6 +271,8 @@ void string_heapsort(char** pointers, int size, int (*comp)(const char* first,co
 
 void swap(char** first, char** second)
 {
+	assert(first);
+	assert(second);
 	char* temp = *first;
 	*first = *second;
 	*second = temp;

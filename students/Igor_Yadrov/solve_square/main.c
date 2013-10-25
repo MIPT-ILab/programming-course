@@ -40,7 +40,7 @@ int main (int argc, char* argv[]) {
     int i=0, k=0;
     int boolean=1;
     char str[1]={'0'};
-
+    // Nice trick. :)
     for (i=1;i<=3;i++) {
             k=strcmp(argv[i], str);
             if ((atof(argv[i])==0)&&(k!=0))
@@ -72,10 +72,18 @@ int main (int argc, char* argv[]) {
 //}==============================================================================
 int solve(double a, double b, double c,
         double *x1, double *x2) {
+    // FIXME And what if x1 or x2 will be equal to 0? Or x1 will be equal to x2?
+    // Check this!
     double D;
     double m;
     int cases=SOLVER_OK;
-
+    // FIXME You can't compare doubles directly because of ceiling.
+    // For example,
+    // double x = 5.;
+    // printf("%f", x); // outputs 5.00000000000000000000000001
+    // printf("%f", x); // outputs 5.00000000000000000000000002
+    // x ==5.; sometimes will be true, sometimes false.
+    // Add some parameter 'tolerance' and macro to check doubles.
     if ((a==0)&&(b==0)&&(c==0))
         cases=SOLVER_INFINITY;
 
