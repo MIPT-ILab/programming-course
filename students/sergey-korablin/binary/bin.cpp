@@ -263,7 +263,7 @@ class Binary {
     }
 
     ~Binary() {
-        this->Delete();
+      //  this->Delete();
     }
 
     unsigned long GetLen() {
