@@ -1,6 +1,8 @@
 #include <math.h>
 #include <stdio.h>
 #include <assert.h>
+#define DOUBLE_EPSILON 1e-16
+
 int Solve_qv_equation(double a,double b,double c,double *x1,double *x2);
 int Solve_lin_equation(double b,double c,double *x);
 
@@ -9,12 +11,8 @@ int main()
 	double x1=0, x2=0, a=0, b=0, c=0;
 
 	printf("Vvedite kojefficienty kvadratnogo uravnenija(ax^2+bx+c=0) v tom zhe porjadke, chto i v uravnenii:\n");
-	scanf("%lg %lg %lg",&a,&b,&c);
-    // FIXME I think, that you should to add some checks over input
-    // [crady@cradylap Artyom_Tsanda]$ ./a.out
-    // Vvedite kojefficienty kvadratnogo uravnenija(ax^2+bx+c=0) v tom zhe porjadke, chto i v uravnenii:
-    // q
-    // kornej beskonechnoe mnozhestvo.
+	assert(scanf("%lg %lg %lg",&a,&b,&c)==3);
+
 	int nRoots=Solve_qv_equation(a,b,c,&x1,&x2);
 
 	if(nRoots==0)
@@ -47,26 +45,15 @@ int Solve_qv_equation(double a,double b,double c,double *x1,double *x2)
     assert(x1!=x2);
 
 	double d=0;
-// FIXME You can't compare doubles directly because of ceiling.
-// For example,
-// double x = 5.;
-// printf("%f", x); // outputs 5.00000000000000000000000001
-// printf("%f", x); // outputs 5.00000000000000000000000002
-// x ==5.; sometimes will be true, sometimes false.
-// Add some parameter 'tolerance' and macro to check doubles.
+
 	if(a==0)
         return Solve_lin_equation( b, c, x1);
 
 	d=pow(b,2)-4*a*c;
 
-	if(d==0){
+  	if(d<=DOUBLE_EPSILON){
 		*x2=((-1)*b)/(2*a);
 		*x1=*x2;
-        // FIXME It is not obvious, what is returned by the function.
-        // You can do following:
-        // #define SOLVER_OK -1
-        // #define SOLVER_ERR 0
-        // and so on. If you want, you can study 'enum' thing, it will be preferable solution here
 		return 1;
 	}
 	if(d>0){

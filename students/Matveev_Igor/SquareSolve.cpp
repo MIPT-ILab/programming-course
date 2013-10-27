@@ -75,6 +75,17 @@ int main()
       scanf("%lf", &b);
       printf("\nC = ");
       scanf("%lf", &c);
+      // FIXME [crady@cradylap Matveev_Igor]$ ./a.out 
+      //
+      // Hello! I can solve a square equation. Please, bring in A, B, C factors.
+      //
+      //       A * x^2 + B * x + C = 0
+      //
+      //       A = w
+      //
+      //       B = 
+      //       C = Well done: ANY number is a root of the square equation.
+      // You should to add some checks over user's input!
       x1 = (double*) calloc( 1, sizeof(double) );
       x2 = (double*) calloc( 1, sizeof(double) );
 
@@ -116,11 +127,22 @@ int main()
 int SolveLine(double b, double c, double *x1)
 {
       ASSERT(x1 != NULL);
+      // FIXME This can be simplified.
+      // if (ZERO(B) && ZERO(C)) printf ("Any number...");
+      // if (ZERO(C)) printf("No roots...");
+      // solve equation...
+      // return result;
       if (ZERO(b))
       {
             if (ZERO(c))
             {
                   printf("Well done: ANY number is a root of the square equation.");
+                  // FIXME It is not obvious what function returns.
+                  // You can do this in the following way:
+                  // #define SOLVER_ERR -1
+                  // #define SOLVER_OK 0
+                  // and so on. You can study 'enum' thing, it will be preferable
+                  // solution here.
                   return 1;
             }
             printf("THERE ISN'T any root of this equation!");
@@ -149,6 +171,7 @@ int SolveSquare(double a, double b, double c, double *x1, double *x2)
 {
       ASSERT(x1 != x2);
       ASSERT(x1 != NULL);
+      // FIXME And if x2 is equal 0?
       double D = b * b - 4 * a * c;
       if (BELOW_ZERO(D))
       {

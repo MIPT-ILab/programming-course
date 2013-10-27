@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1382649593 source:c:\users\пользователь\desktop\ilab\mipt-ilab-course\students\solomennikov\postfix\main.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+

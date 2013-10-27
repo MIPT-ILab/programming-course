@@ -24,6 +24,9 @@
 							 - Structure of code enchantments
 							 - New code separator. It's nice
 
+		@par				Changelog V 1.01.1
+							- verifications added
+
 		@par				Program requires file input.txt, where the buffer text is located. It creates for it a special memory area.
 
 							MEMORY AREA  == [Pointers to string begins, which are sorted in string ascending order][Strings of text]
