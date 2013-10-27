@@ -140,10 +140,10 @@ int warriorscanf(double *a, double *b, double *c)
 //{==================================================================================
 //! main_output
 //!
-//! @param      a   equation a-coefficient
-//! @param      b   equation a-coefficient
-//! @param      c   equation a-coefficient
-//! @param      arg
+//! @param      a    equation a-coefficient
+//! @param      b    equation a-coefficient
+//! @param      c    equation a-coefficient
+//! @param      arg  argument to print all roots or only real roots
 //!
 //! @message    roots of the equation ("xi = root"), \
 or "Infinitely large number of roots", or "No roots", or "No real roots"
