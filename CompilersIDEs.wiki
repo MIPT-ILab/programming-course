@@ -97,6 +97,16 @@ Minimalist GNU for Windows. Минимальное окружение для з�
 
 [http://software.intel.com/sites/default/files/landing_page/large_product_images/IntelC%2B%2BCompiler-240x210.png]
 
+==Open64==
+
+Открытый компилятор для Linux.
+
+Скачать компилятор и документацию: http://www.open64.net/download/open64-4x-releases.html
+
+Компания AMD предоставляет данный компилятор в качестве основного инструмента для разработки для архитектуры AMD64: http://developer.amd.com/tools-and-sdks/cpu-development/x86-open64-compiler-suite/
+
+[http://www.open64.net/fileadmin/templates/open64v2/images/open64-logo.png]
+
 ==Clang==
 
 Активно развиваемый компилятор на основе LLVM.
