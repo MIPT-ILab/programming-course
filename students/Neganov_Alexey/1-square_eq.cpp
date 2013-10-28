@@ -44,17 +44,22 @@ double trueroot(double x)
 //}=================================================================================
 int LinearSolve (double b, double c, double *x1)
    {
+   // FIXME And if x1==0? Check this with assertion!
       if(IS_ZERO(b))
          {
          if(IS_ZERO(c))
             return KN_INFINITE_ROOTS;
          else
+         // FIXME Why zero here, but KN_INFINITE_ROOTS above? I would make both of
+         // them some const int;
             return 0;
          }
 
       else
          {
          *x1 = trueroot(-c/b);
+         // FIXME Why zero here, but KN_INFINITE_ROOTS above? I would make both of
+         // them some const int;
          return 1;
          }
     }
@@ -73,6 +78,8 @@ int LinearSolve (double b, double c, double *x1)
 //}=================================================================================n
 int SquareSolve(double a, double b, double c, double *r, double *s)
       {
+      // FIXME And what if r or s will be equal zero? Or *r == *s?
+      // Check this with assertion!
       double d = b*b - 4*a*c;
       *r = -b/(2*a);
       if(IS_NEGATIVE(d))
