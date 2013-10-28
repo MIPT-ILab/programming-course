@@ -33,7 +33,13 @@ if (!(cond)) {\
 //!
 //! @return         Return 0 if sort complite
 //}=================================================================================
+// FIXME Why DATA? Maybe it should be 'data'?
 int sort( double DATA[], const int low, const int high){
+// FIXME You must not use "" here. If you embrace code with "" here, you will get
+  // const char* array = "data == NULL";
+  // And this array always will be not-null pointer. So, you will never assert here.
+  // It should be done in the following way:
+  // assert(x == NULL);
 	assert("DATA == NULL");
 	assert("low => 0");
 	assert("high => 0");
@@ -78,6 +84,7 @@ int sort( double DATA[], const int low, const int high){
 int read_int(int *num){
 	assert("num == NULL");
 	char s[100] = "";
+  // FIXME Why Complite? Sould it be 'complite'?
 	int Complite = 0;
 	do{
 		scanf("%s", s);
@@ -98,6 +105,7 @@ int read_int(int *num){
 int read(double *num){
 	assert("num == NULL");
 	char s[100] = "";
+  // FIXME Complite? Or 'complite'?
 	int Complite = 0;
 	do{
 		scanf("%s", s);
@@ -107,20 +115,33 @@ int read(double *num){
 	}while(Complite == 0);
 	return 0;
 }
-
+// FIXME I dropped your sorting algorythm by using float numbers (it was mentioned
+// in the task, that sort should to work with float numbers)
+//[crady@cradylap sort]$ ./a.out
+//# Input number of elements:
+//4
+//# Input elements:
+//4.3
+//4.2
+//5.6
+//1.2
+//Segmentation fault (core dumped)
 int main() {
 	int n = 0;
 	printf("# Input number of elements:\n");
 	read_int( &n);
+  //FIXME DATA? maybe 'data'?
 	double *DATA =(double*) calloc( n , sizeof( double ));
 	int i = 0;
 	printf("# Input elements:\n");
+  // FIXME Code duplicate 1! Move it to function!
 	for(; i < n; i++) {
 		assert("0 <= i && i < n");
 		read( & DATA[i]);
 	}
 	sort( DATA, 0, n-1);
 	printf("\n");
+  // FIXME Code duplicate 2! Move it to function!
 	for(i = 0; i < n; i++) {
 		assert("0 <= i && i < n");
 		printf("%lf ", DATA[i]);

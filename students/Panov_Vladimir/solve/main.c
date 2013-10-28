@@ -31,7 +31,7 @@ if (!(cond)) {\
 #define TWO_SOLUTION 2
 #define MANY_SOLUTIONS 3
 #define NO_SOLUTION -1
-
+// FIXME Not the error, but 'ZERO' :)
 #define IS_ZIRO(x) (-DBL_EPSILON < x && x < DBL_EPSILON)
 #define IS_BELOW_ZIRO(x) (x < -DBL_EPSILON)
 
@@ -47,6 +47,11 @@ if (!(cond)) {\
 //! @note           Calculation precision is considered to be DBL_EPSILON.
 //}=================================================================================
 int LineSolve( const double b, const double c, double* x) {
+  // FIXME You must not use "" here. If you embrace code with "" here, you will get
+  // const char* array = "x == NULL";
+  // And this array always will be not-null pointer. So, you will never assert here.
+  // It should be done in the following way:
+  // assert(x == NULL);
 	assert("x == NULL");
 	if( ! IS_ZIRO(b)) {
 		*x = -c / b;
@@ -143,6 +148,9 @@ int main(int argc, char* argv[]) {
 		Solutions = LineSolve( b, c, &x1);
 	else
 		Solutions = SquareSolve( a, b, c, &x1, &x2);
+  // FIXME Not an error. If SquareSolve returns -1, you can check this and print something
+  // like "There is no solutions at all". When I receive message "Number of solutions: -1"
+  // it is not clear, what it means.
 	printf("\n# Solution number:\n %d \n", Solutions);
 	switch( Solutions ){
 		case ONE_SOLUTION:
