@@ -19,6 +19,9 @@
  * [CompilersIDEs]
  * WindowsCmd
 
+==Задания==
+ * StackMachine
+
 ==Разное==
  * [WikiImages]
  * LinksAndResources
