@@ -1,5 +1,5 @@
 //{=================================================================================
-//! @file    Postfix.cpp
+//! @file    Stack.cpp
 //! @date    2013-10-25 23:10
 //! @author  Solomennikov Semen, 999solom.s.v.999@gmail.com
 //!
@@ -105,7 +105,8 @@ double pop(stack_t *stack)
 
 unsigned int fact(unsigned int p);
 int power(int a, unsigned int n);
-int resh(int q,int w);
+int resh(int w, int q);
+
 
 int main()
 {
@@ -118,15 +119,15 @@ int main()
         double x = 0;
         switch(c)
         {
-            case ' '  :                                                break;
-            case '\n' :                                                break;
-            case '+'  : push(s, pop(s) + pop(s) );                     break;
-            case '-'  : push(s,-(pop(s) - pop(s)) );                   break;
-            case '*'  : push(s, pop(s) * pop(s) );                     break;
-            case '/'  : push(s, (1/pop(s)) * pop(s) );                 break;
-            case '!'  : push(s, fact(pop(s)) );                        break;
-            case '^'  : push(s, power(pop(s),pop(s)) );                break;
-            case '%'  : push(s, resh((int)pop(s),(int)pop(s)) );       break;
+            case ' '  :                                            break;
+            case '\n' :                                            break;
+            case '+'  : push(s, pop(s) + pop(s) );                 break;
+            case '-'  : push(s,-(pop(s) - pop(s)) );               break;
+            case '*'  : push(s, pop(s) * pop(s) );                 break;
+            case '/'  : push(s, (1/pop(s)) * pop(s) );             break;
+            case '!'  : push(s, fact(pop(s)) );                    break;
+            case '^'  : push(s, power(pop(s),pop(s)) );            break;
+            case '%'  : push(s, resh( (int)pop(s), (int)pop(s)) ); break;
             default:
                 {
                     ungetc( c, stdin );
@@ -143,7 +144,7 @@ int main()
                 }
         }
     }
-    printf("Answer is:%lg\n\n\n",pop(s));
+    printf("Answer is:%lg\n\n",pop(s));
     dump_stack(s);
     dest_stack(s);
 
@@ -178,7 +179,7 @@ unsigned int fact(unsigned int p)
     return c;
 }
 
-int resh(int q,int w)
+int resh(int w, int q)
 {
-    return (q % w);
+    return (w % q);
 }

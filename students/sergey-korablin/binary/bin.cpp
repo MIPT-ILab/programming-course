@@ -1,40 +1,62 @@
 #include <stdio.h>
-
-//Sorry for code formatting
-//I'm now interested in correct work
-//But it works.. hm.. strange
-//I'll do refactoring later
+#include <assert.h>
 
 class Binary {
     bool *data;
     unsigned long len;
     //data[0] - младший бит (порядок обратный)
 
-    long subEqualDiff (const Binary a, const Binary b) {
+    long subEqualDiff ( const Binary a,
+                        const Binary b ) {
+        /*
+        Проверить, заполнены ли нулями старшие разряды
+        более длинного числа (число старших разрядов - 
+        разность длин более длинного и короткого чисел)
+        Если нули, вернуть 0
+        Если не нули в длинном a, вернуть 1
+        Если не нули в длинном b, вернуть -1
+        ***
+        Более понятно:
+        Приложить два числа младшими разрядами
+        Проверить выступающий слева "хвост"
+        Если он заполнен нулями, вернуть 0
+        Если нет, вернуть 1 (если длинное a)
+        или -1 (если длинное b)
+        */
         unsigned long i;
-        if ((a.len) > (b.len)) {
+        if ((a.len) > (b.len)) { // a длиннее b
             for (i=a.len-1; i>=b.len; i--)
+            /*
+
+            */
                     if (a.data[i]!=0)
                         return 1;
-            return 0;
+            return 0; 
         }
         else
             return (-1) * subEqualDiff (b, a);
     }
 
-    unsigned long subMinLen (const Binary a, const Binary b) {
-        if (a.len < b.len)
-            return a.len;
-        return b.len;
+    unsigned long subMinLen ( const Binary a,
+                              const Binary b ) {
+        //Вернуть длину меньшего из чисел
+        return (a.len < b.len) ? a.len : b.len;
     }
 
-    unsigned long subMaxLen (const Binary a, const Binary b) {
-        if (a.len > b.len)
-            return a.len;
-        return b.len;
+    unsigned long subMaxLen ( const Binary a,
+                              const Binary b ) {
+        //Вернуть длину большего из чисел
+        return (a.len > b.len) ? a.len : b.len;
     }
 
-    int Expand (long diff) {
+    int Expand (const long diff) {
+        /*
+        Изменение длины бинарного числа
+        Если больше нуля - то добавить место со стороны
+        старшего разряда
+        Если меньше нуля - убрать diff старших разрядов
+        При расширении занять место нулями
+        */
         if (diff==0)
             return 0;
         if ((this->len + diff) < 0)
@@ -43,22 +65,33 @@ class Binary {
             this->Delete();
             return 0;
         }
+        unsigned long to_backup=this->len;
+        if (diff < 0)
+            to_backup += diff;
         this->len += diff;
-        bool *tmp;
-        tmp = new bool[this->len];
+        bool *tmp = new bool[to_backup];
         unsigned long i=0;
-        for (i=0; i<this->len; i++) {
+        for (i=0; i < to_backup; i++) {
             tmp[i]=this->data[i];
         }
         delete []this->data;
         this->data=new bool [this->len];
-        for (i=0; i<this->len; i++) {
+        for (i=0; i<to_backup; i++) {
             this->data[i]=tmp[i];
+        }
+        for (i=to_backup; i < this->len; i++) {
+            this->data[i]=0;
         }
         return 0;
     }
 
-    bool subSum (const bool a, const bool b, bool &reg) {
+    bool subSum ( const bool a,
+                  const bool b,
+                  bool &reg) {
+        /*
+        Выполнить сложение a и b по модулю 2
+        В качестве регистра использовать reg
+        */
         if (a!=b) { //1+0 or 0+1
             if (reg==0) {
                 return 1;
@@ -91,8 +124,14 @@ class Binary {
         }
     }
 
-    bool subDif (const bool a, const bool b, bool &reg) {
-        if (a==0 && b==0)
+    bool subDif ( const bool a, 
+                  const bool b, 
+                  bool &reg) {
+        /*
+        Выполнить вычитание a-b по модулю 2
+        Занятый разряд поместить в reg
+        */
+        if (a==0 && b==0)  // 0 - 0
             if (reg==0)
                 return 0;
             else {
@@ -100,7 +139,7 @@ class Binary {
                 return 1;
             }
         else
-        if (a==1 && b==0)
+        if (a==1 && b==0) // 1 - 0
             if (reg==0)
                 return 1;
             else {
@@ -108,14 +147,14 @@ class Binary {
                 return 0;
             }
         else
-        if (a==1 && b==1)
+        if (a==1 && b==1) //1 - 1
             if (reg==0)
                 return 0;
             else {
                 reg=1;
                 return 1;
             }
-        else
+        else              // 0 - 1
         if (reg==0) {
             reg=1;
             return 1;
@@ -124,7 +163,15 @@ class Binary {
             return 0;
     }
 
-    void subCopyLostItems ( Binary const &a,  Binary const &b, Binary &sum, bool &reg) {
+    void subCopyLostItems ( Binary const &a,  
+                            Binary const &b, 
+                            Binary &sum, 
+                            bool &reg) {
+    /*
+    Перенести "хвост" старших разрядов более длинного числа
+    в итоговое число sum. Учитывать значение регистра,
+    переданное после суммирования основной части
+    */
         if ((a.len) >= (b.len)) {
             unsigned long i=b.len;
             while (i < a.len) {
@@ -132,9 +179,9 @@ class Binary {
                 i++;
             }
             if (reg==1) {
-                sum.Expand(1);
+                sum.Expand(1); //если не влезло, расширить
             }
-            while (i < sum.len) {
+            if (i < sum.len) {                  //TODO check IF[WHILE]
                 sum.data[i]=subSum(0, 0, reg);
                 i++;
             }
@@ -144,7 +191,16 @@ class Binary {
         }
     }
 
-    void subDifLostItems ( Binary const &a,  Binary const &b, Binary &dif, bool &reg) {
+    int subDifLostItems ( Binary const &a,
+                           Binary const &b,
+                           Binary &dif,
+                            bool &reg ) {
+    /*
+    Перенести "хвост" старших разрядов более длинного числа
+    в итоговое число dif. Учитывать значение регистра
+    (занятый разряд), переданное после вычитания основной части
+    Если в результате число отрицательное, вернуть -1
+    */
         if ((a.len) >= (b.len)) {
             unsigned long i=b.len;
             while (i < a.len) {
@@ -155,6 +211,9 @@ class Binary {
                 dif.data[i]=subDif(0, 0, reg);
                 i++;
             }
+            if (reg==1)
+                return 1;
+            return 0;
         }
         else {
             subDifLostItems (b, a, dif, reg);
@@ -162,6 +221,7 @@ class Binary {
     }
 
     unsigned long myPow (const unsigned long x, const unsigned long n) {
+    //Возведение x в степень n
         if (n==0)
             return 1;
         if (n==1)
@@ -180,6 +240,7 @@ class Binary {
         unsigned long l=in_l;
 //        if (l < 8)
 //            l = 8;
+//        Это попытка оптимизации по памяти
         this->data = new bool[l];
         this->len = l;
         unsigned long i;
@@ -202,7 +263,7 @@ class Binary {
     }
 
     ~Binary() {
-        //this->Delete();
+      //  this->Delete();
     }
 
     unsigned long GetLen() {
@@ -234,6 +295,8 @@ class Binary {
             i++;
         }
         subCopyLostItems(*this,rv,*sum,registr);
+        //расширение при необходимости выполняется строкой выше
+//        delete []this->data;
         *this=*sum;
         return *this;
     }
@@ -250,13 +313,20 @@ class Binary {
             dif->data[i]=subDif(this->data[i],rv.data[i],registr);
             i++;
         }
-        subDifLostItems(*this,rv,*dif,registr);
-        Optimise (*dif);
+        assert (subDifLostItems(*this,rv,*dif,registr)==0);
+        Optimise (*dif); //убрать нули в высших разрядах
+//        this->Delete();
         *this=*dif;
         return *this;
     }
 
     int Equal (const Binary a, const Binary b) {
+    /*
+    Проверить равенство a и b
+    Если a>b, вернуть 1
+    Если a<b, вернуть -1
+    Если a==b, вернуть 0
+    */
         unsigned long i=0;
         int res=subEqualDiff (a, b);
         if (res!=0)
@@ -273,6 +343,7 @@ class Binary {
     }
 
     void Optimise (Binary &x) {
+    //Убирает нулевые старшие разряды
         if (x.len==1) {
             return;
         }
@@ -286,7 +357,7 @@ class Binary {
     }
 
     void Print () {
-
+    //Выводит число, если оно существует
         if (this->len==0)
             return;
         unsigned long i=(this->len)-1;
@@ -298,6 +369,7 @@ class Binary {
     }
 
     void Increment () {
+        //Увеличивает значение на 1
         unsigned long i = 0;
         if (this->data[i]==0) {
             this->data[i]=1; return;
@@ -320,6 +392,7 @@ class Binary {
     }
     
     void Decrement () {
+        //Уменьшает значение на 1
         unsigned long i = 0;
         if (this->data[i]==1) {
             this->data[i]=0; return;
@@ -339,14 +412,21 @@ class Binary {
     }
 
     void ConvertToBinary (const unsigned long x) {
+        //Переводит положительное число x в двоичный вид
+        //Заменяет текущее значение переменной
         unsigned long i=0;
         unsigned long t=x;
+        if (x==0) {
+            this->Delete();
+            this->Init(1);
+            return;
+        }
         while (t>0) {
             t=t/2;
             i++;
         }
         this->Delete();
-        this->Init(i+1);
+        this->Init(i);
         t=x;
         i=0;
         while (t>0) {
@@ -357,6 +437,7 @@ class Binary {
     }
 
     unsigned long ConvertToDecimal () {
+        //Возвращает десятичное значение числа
         unsigned long ans=0;
         unsigned long i=0;
         for (i=0; i<this->len; i++) {
@@ -365,11 +446,14 @@ class Binary {
         return ans;
     }
     friend Binary & And ( Binary const &, Binary const & );
+    //Побитовое И
+
     friend Binary & Or ( Binary const &, Binary const & );
+    //Побитовое ИЛИ
 };
 
     Binary & And ( Binary const &lv, Binary const &rv ) {
-        unsigned long minL=(lv.len>rv.len)?lv.len:rv.len;
+        unsigned long minL=(lv.len<rv.len)?lv.len:rv.len;
         Binary *bAnd=new Binary;
         bAnd->Init (minL);
         unsigned long i = 0;
@@ -406,56 +490,28 @@ class Binary {
     }
 
 int main () {
-
-/*
-    int m[8], o[4]; //char is better, but it makes type warnings
-    scanf ("%d.%d.%d.%d",&m[0],&m[1],&m[2],&m[3]);
-    scanf ("%d.%d.%d.%d",&m[4],&m[5],&m[6],&m[7]);
-    Binary M[8], O[4];
-    int i=0;
-    for (i=0; i<8; i++) {
-        M[i].ConvertToBinary(m[i]);
-    }
-    for (i=0; i<3; i++) {
-        O[i]=And(M[i],M[i+4]);
-        o[i]=O[i].ConvertToDecimal();
-    }
-    printf("%d.%d.%d.%d\n", m[4]==255?o[0]:255,
-                            m[5]==255?o[1]:255,
-                            m[6]==255?o[2]:255,
-                            m[7]==255?o[3]:255);
-
-*/
-
     Binary x,y,z;
-    unsigned long a=0,b=0;
-//    scanf("%ld %ld",&a, &b);
+    unsigned long a=1,b=3;
+    //scanf("%lu %lu",&a, &b);
     x.ConvertToBinary(a);
     y.ConvertToBinary(b);
-    unsigned long i;
-    for (i=0;i<1000000000;i++) {
-        x.Increment();
-        z=And(x,y);
-        if (z.ConvertToDecimal()!=0)
-            printf("PWND z.ConvertToDecimal()=%d; i=%d\n",z.ConvertToDecimal(),i);
-    }
-    printf("FIN\n");
-    
-    scanf("%ld %ld",&a, &b);
-    x.ConvertToBinary(a);
-    y.ConvertToBinary(b);
-        
-//    x.Print();
-//    y.Print();
+    printf("x in bin: ");    
+    x.Print();
+    printf("y in bin: ");
+    y.Print();
     z=And(x,y);
+    printf("x and y in bin: ");
     z.Print();
-/*    z=Or(x,y);
+    z=Or(x,y);
+    printf("x or y in bin: ");
     z.Print();
     z.Delete();
     z.Init(1);
+    printf("x + y in bin: ");
     z=x+y;
     z.Print();
-*/
-
+    x.Delete();
+    z.Delete();
+    y.Delete();
     return 0;
 }
