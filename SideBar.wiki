@@ -21,6 +21,7 @@
 
 ==Задания==
  * StackMachine
+ * StackMachineWithJumps
 
 ==Разное==
  * [WikiImages]
