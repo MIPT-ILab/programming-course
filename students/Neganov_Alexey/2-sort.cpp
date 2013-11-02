@@ -170,7 +170,7 @@ int int_warriorscanf(int *value)
 //{========================================================================================================
 //! polite_action - function, that give message to user, if he do incorrect input
 //!
-//! @return     OK or ERROR
+//! @return     OK
 //}========================================================================================================
 int polite_action()
    {
