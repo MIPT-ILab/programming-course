@@ -43,6 +43,7 @@ int main()
 
 void sort_data(float *data,unsigned int n)
 {
+    // FIXME Why not to use your ASSERT macro with messages?
     assert(n>0);
     assert(data!=NULL);
 
@@ -54,6 +55,7 @@ void sort_data(float *data,unsigned int n)
         for(l=k+1;l<n;l++)
             if((*(data+k)-*(data+l))>DOUBLE_EPSILON)
             {
+            // FIXME Not an error, but it can be moved to separate function void swap(pointer1, pointer2);
                     temp=*(data+l);
                     *(data+l)=*(data+k);
                     *(data+k)=temp;
