@@ -1,6 +1,6 @@
 //{=================================================================================
 //! @file    sort.c
-//! @date    2013-10-27 16:00
+//! @date    2013-11-3 13:00
 //! @author  Panov Vladimir <volodka.1995@gmail.com>
 //!
 //! Сортировка динамического массива елементов double
@@ -20,51 +20,52 @@ if (!(cond)) {\
     }
 
 #define DBL_EPSILON 0.00000000001
-#define IS_BELOW_ZIRO(x) (x < -DBL_EPSILON)
-#define IS_AFTER_ZIRO(x) (x >  DBL_EPSILON)
+#define IS_BELOW_ZIRO(x) (x <  DBL_EPSILON)
+#define IS_AFTER_ZIRO(x) (x > -DBL_EPSILON)
+
 
 
 //{=================================================================================
 //! sort - sort elements.
 //!
-//! @param[OUT] DATA[]	dinamic array of double
+//! @param[OUT] array[]	dinamic array of double
 //! @param      low		minimal number of sort elements
 //! @param		high   	maximal number of sort elements
 //!
 //! @return         Return 0 if sort complite
 //}=================================================================================
-int sort( double DATA[], const int low, const int high){
-	assert("DATA == NULL");
-	assert("low => 0");
-	assert("high => 0");
-	assert("low < high");
+int sort( double array[], const int low, const int high){
+	assert(array != NULL);
+	assert(low >= 0);
+	assert(high >= 0);
+	assert(low <= high);
 	int i = low;
 	int j = high;
 	float w = 0;
-	float m = DATA[(i + j) / 2];
+	float m = array[(i + j) / 2];
 	do{
-		while( IS_BELOW_ZIRO(DATA[i]-m) ) {
+		while( array[i] < m && i < high) {
+			assert(low <= i && i < high);
 			i++;
-			assert("0 <= i && i < n");
 		}
-		while( IS_AFTER_ZIRO(DATA[j]-m) ) {
+		while( array[j] > m && j > low) {
+			assert(low < j && j <= high);
 			j--;
-			assert("0 <= j && j < n");
 		}
 		if(i <= j) {
-			assert("0 < i && i < n-1");
-			assert("0 <j && j < n");
-			w = DATA[i];
-			DATA[i] = DATA[j];
-			DATA[j] = w;
+			assert(low <= i && i <= high);
+			assert(low <=j && j <= high);
+			w = array[i];
+			array[i] = array[j];
+			array[j] = w;
 			i++;
 			j--;
 		}
 	} while (i < j);
 	if(low < j)
-		sort(DATA , low, j );
+		sort(array , low, j );
 	if(i   < high)
-		sort(DATA , i  , high);
+		sort(array , i  , high);
 	return 0;
 }
 
@@ -76,7 +77,7 @@ int sort( double DATA[], const int low, const int high){
 //! @note           Read strings while it isn't int.
 //}=================================================================================
 int read_int(int *num){
-	assert("num == NULL");
+	assert(num != NULL);
 	char s[100] = "";
 	int Complite = 0;
 	do{
@@ -96,7 +97,7 @@ int read_int(int *num){
 //! @note           Read strings while it isn't double.
 //}=================================================================================
 int read(double *num){
-	assert("num == NULL");
+	assert(num != NULL);
 	char s[100] = "";
 	int Complite = 0;
 	do{
@@ -104,7 +105,43 @@ int read(double *num){
 		Complite = sscanf(s, "%lf", num);
 		if(Complite == 0)
 			printf("\n#Input ERROR. Enter number!!!\n");
-	}while(Complite == 0);
+	}while(Complite == 0 || *num < 1);
+	return 0;
+}
+
+//{=================================================================================
+//! inputData - Read elements of array.
+//!
+//! @param[out]    *array	Array to read
+//! @param			n		Number of elements
+//!
+//! @note           Read elements or array.
+//}=================================================================================
+int inputData(double *array, const int n) {
+	assert(array != 0);
+	printf("#Input elements:");
+	int i;
+	for(i = 0; i < n; i++){
+		read(array+i);
+	}
+	return 0;
+}
+
+//{=================================================================================
+//! outputDATA - Print elements of array.
+//!
+//! @param	   *array	Array to print
+//! @param	   	n		Number of elements
+//!
+//! @note           Print elements of array.
+//}=================================================================================
+int outputData(const double *array, const int n) {
+	assert(array != NULL);
+	int i;
+	for(i = 0; i < n; i++) {
+		assert(0 <= i && i < n);
+		printf("%lf ", *(array+i));
+	}
 	return 0;
 }
 
@@ -112,19 +149,11 @@ int main() {
 	int n = 0;
 	printf("# Input number of elements:\n");
 	read_int( &n);
-	double *DATA =(double*) calloc( n , sizeof( double ));
-	int i = 0;
-	printf("# Input elements:\n");
-	for(; i < n; i++) {
-		assert("0 <= i && i < n");
-		read( & DATA[i]);
-	}
+	double *DATA = (double *) calloc( n , sizeof( double ));
+	inputData(DATA, n);
 	sort( DATA, 0, n-1);
 	printf("\n");
-	for(i = 0; i < n; i++) {
-		assert("0 <= i && i < n");
-		printf("%lf ", DATA[i]);
-	}
+	outputData(DATA, n);
 	free(DATA);
 	return 0;
 }
