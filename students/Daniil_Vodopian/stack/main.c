@@ -2,6 +2,8 @@
 #include <string.h>
 #include <assert.h>
 
+//the line used to not exist
+
 #include "stackLib.h"
 //#include <stackLib.h>
 
@@ -21,5 +23,7 @@ int main (int argc, char *arg[])
 	
 	Stack_distruct(&st);
 	return 0;
+   
+   //it is a new comment
 }
 
