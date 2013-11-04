@@ -1,0 +1,87 @@
+:0       //Solve square equation. 1 - infinity results, 2 - no one results, 3 - one result, 4 - two results. 
+push 1   //input coef. A
+push 0   //input coef. B
+push 0   //input coef. C
+pop cx
+pop bx
+pop ax
+push 0
+push ax
+jnb :1
+push 0   //Solve linear equation
+push bx
+jnb :2
+push 0   //Solve constant equation
+push cx
+jnb :3
+push 1   //C = 0. Infinity results.
+out
+halt
+:3       //mimimi.
+push 2   //C != 0. No one result.
+out
+halt
+:2
+push 3   //A = 0. B != 0. One result.
+out
+push bx
+push -1
+push cx
+mul
+div
+out
+:1
+push bx  //A != 0. Solve square equation
+push bx
+mul
+push -4
+push ax
+mul
+push cx
+mul
+add
+pop dx
+push dx
+push 0
+je :4
+push 0  //D >= 0.
+push dx
+jb :5
+push dx  //D != 0. Trere are 2 results
+sqrt     //Calculate 1 result
+push -1
+push bx
+mul
+add
+push 2  
+push ax 
+mul
+div
+push dx  //Calculate 2 result
+sqrt
+push -1
+push bx
+mul
+add
+push 2 
+push ax
+mul
+div
+out
+:5
+push 3
+out     //D = 0. Trere is 1 result
+push -1 //Calculate result
+push bx
+mul
+push 2
+push ax
+mul
+div
+out
+halt
+:4
+push 2
+out 
+halt
+end
