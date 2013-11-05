@@ -14,6 +14,7 @@
 #define EPSILON 10e-6
 #define IS_BELOW(x1, x2) x1-x2<EPSILON
 #define IS_ABOVE(x1, x2) x1-x2>EPSILON
+// FIXME May be make 'datatype' 'double*'? Something like 'dtatype_ptr'
 typedef double datatype;
 const int OK = 1;
 const int ERROR = 0;
@@ -32,6 +33,7 @@ int data_copy(const datatype *data, datatype *buffer, const int copy_number, con
    assert(data && buffer);
    for(int i=0; i<copy_number; i++)
       {
+      // FIXME Is it necessary?
       assert(0 <= i && i < copy_number);
       buffer[i] = data[position+i];
       }
@@ -49,6 +51,11 @@ int data_copy(const datatype *data, datatype *buffer, const int copy_number, con
 //}========================================================================================================
 int cmp_double(const double a, const double b)
     {
+    // FIXME It will be more clear, if you define return values.
+    // return GT
+    // return LT
+    // return EQ
+    // or something like that
     if( IS_ABOVE(a,b) )
        return 1;
     else if ( IS_BELOW(a,b) )
