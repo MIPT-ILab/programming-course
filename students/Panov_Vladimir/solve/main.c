@@ -78,6 +78,7 @@ int LineSolve( const double b, const double c, double* x) {
 int SquareSolve( const double a, const double b, const double c, double* x1, double* x2) {
 	assert(x1 != NULL);
 	assert(x2 != NULL);
+  // FIXME And what if x1 == x2?
 	double D = b * b - 4 * a * c;
 	if( IS_BELOW_ZERO(D)) {
 		return NO_SOLUTION;
