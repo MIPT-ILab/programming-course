@@ -76,6 +76,30 @@ int sort( double array[], const int low, const int high){
 //!
 //! @note           Read strings while it isn't int.
 //}=================================================================================
+// FIXME
+//[crady@cradylap sort]$ ./a.out
+//# Input number of elements:
+//5.5
+// Why it can work with real number of elements?
+//#Input elements:1
+//2
+//3
+//4
+//5
+//
+//1.000000 2.000000 3.000000 4.000000 5.000000 
+//
+// [crady@cradylap sort]$ ./a.out
+// # Input number of elements:
+// 5
+// #Input elements:-4
+// 2
+// 3.4
+// 100500
+// 1
+//
+// Why it stack on this case?
+
 int read_int(int *num){
 	assert(num != NULL);
 	char s[100] = "";
