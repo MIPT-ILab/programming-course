@@ -11,12 +11,16 @@
 //}=================================================================================
 #include <stdio.h>
 #include <math.h>
+#include <assert.h>
 //#include <float.h>
 #define DBL_EPSILON 10e-6
 #define IS_ZERO(x) fabs(x)<DBL_EPSILON
 #define IS_NEGATIVE(x) x<-DBL_EPSILON
 //! Value, that is retunted in the case of infinitely large number of solutions
 const int KN_INFINITE_ROOTS = -1;
+const int KN_NO_ROOTS = 0;
+const int KN_ONE_ROOT = 1;
+const int KN_TWO_ROOTS = 2;
 const int OK = 1;
 const int ERROR = 0;
 //{=================================================================================
@@ -44,23 +48,18 @@ double trueroot(double x)
 //}=================================================================================
 int LinearSolve (double b, double c, double *x1)
    {
-   // FIXME And if x1==0? Check this with assertion!
+      assert(x1);
       if(IS_ZERO(b))
          {
          if(IS_ZERO(c))
             return KN_INFINITE_ROOTS;
-         else
-         // FIXME Why zero here, but KN_INFINITE_ROOTS above? I would make both of
-         // them some const int;
-            return 0;
+         else return KN_NO_ROOTS;
          }
 
       else
          {
          *x1 = trueroot(-c/b);
-         // FIXME Why zero here, but KN_INFINITE_ROOTS above? I would make both of
-         // them some const int;
-         return 1;
+         return KN_ONE_ROOT;
          }
     }
 //{=================================================================================
@@ -78,24 +77,23 @@ int LinearSolve (double b, double c, double *x1)
 //}=================================================================================n
 int SquareSolve(double a, double b, double c, double *r, double *s)
       {
-      // FIXME And what if r or s will be equal zero? Or *r == *s?
-      // Check this with assertion!
+      assert(r && s);
       double d = b*b - 4*a*c;
       *r = -b/(2*a);
       if(IS_NEGATIVE(d))
          {
          *s = sqrt(-d)/(2*a);
-         return 0;
+         return KN_NO_ROOTS;
          }
 
       else
          {
          if(IS_ZERO(d))
-            return 1;
+            return KN_ONE_ROOT;
          else
             {
             *s = sqrt(d)/(2*a);
-            return 2;
+            return KN_TWO_ROOTS;
             }
          }
       }
@@ -165,8 +163,8 @@ int main_output (double a, double b, double c, int arg)
       switch( LinearSolve(b,c,&r) )
          {
          case KN_INFINITE_ROOTS: printf("Infinitely large number of roots"); break;
-         case 0: printf("No roots"); break;
-         case 1: printf("x=%lg", r); break;
+         case KN_NO_ROOTS: printf("No roots"); break;
+         case KN_ONE_ROOT: printf("x=%lg", r); break;
          }
       }
 
@@ -175,7 +173,7 @@ int main_output (double a, double b, double c, int arg)
       double s=0;
       switch( SquareSolve(a,b,c,&r,&s) )
          {
-         case 0:
+         case KN_NO_ROOTS:
             if (arg>1)
                printf("No real roots");
             else
@@ -184,8 +182,8 @@ int main_output (double a, double b, double c, int arg)
                complexprintf(r,-s);
                }
             break;
-         case 1: printf("x=%lg", trueroot(r)); break;
-         case 2: printf("x1=%lg, x2=%lg", trueroot(r+s), trueroot(r-s)); break;
+         case KN_ONE_ROOT: printf("x=%lg", trueroot(r)); break;
+         case KN_TWO_ROOTS: printf("x1=%lg, x2=%lg", trueroot(r+s), trueroot(r-s)); break;
          }
       }
    printf("\n");

@@ -1,0 +1,35 @@
+push 5   //Input 'value'
+pop ax
+push 0
+pop bx   //Inicialization of result
+push 0
+pop cx   //Inicialization of result
+call :1
+push bx
+out
+halt
+:1       //Calculate factorial of 'value';
+push ax
+push 0
+jb :2
+push -1
+push ax
+add
+pop ax
+call :1  //Calculate factorial of 'value - 1' 
+push bx
+push cx
+mul
+pop bx
+push 1
+push cx
+add
+pop cx
+ret
+:2       //value = 0
+push 1
+pop bx
+push 1
+pop cx
+ret
+end 
