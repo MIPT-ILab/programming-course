@@ -23,7 +23,7 @@
 //{-------------declarations----------------------------
 /* 
 
-Stack *Stack_create (int size);
+Stack *Stack_new (int size);
 
 void Stack_delete (Stack *myStack);
 
@@ -171,7 +171,9 @@ double Stack_pop (Stack *myStack)
 {
 	ASSERT_OK (myStack);
 	ASSERT (myStack->size != 0);
-	return myStack->data[--myStack->size];
+	double ret = myStack->data[--myStack->size];
+	ASSERT_OK (myStack);
+	return ret;
 }
 
 //{-------------stackstack------------------------------

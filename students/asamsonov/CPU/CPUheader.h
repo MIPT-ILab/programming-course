@@ -29,7 +29,7 @@
 #ifdef CPUVERSION
 	#undef CPUVERSION
 #endif
-#define CPUVERSION 4
+#define CPUVERSION 401
 
 //{-------------assembler-defines-------------------------
 
@@ -62,6 +62,16 @@
 #define JA    0x13
 #define JF    0x14
 #define MOV   0x15
+#define IN	  0x16
+#define DUMP  0x17
+#define FUNC  0x18
+#define CALL  0x19
+#define RET   0x1A
+#define HLT   0x1B
+#define OR    0x1C
+#define AND   0x1D
+#define NOT   0x1F
+#define XOR   0x1E
 
 //{-------------read-defines------------------------------
 
@@ -89,6 +99,16 @@
 #define R_JA    0x6A610000
 #define R_JF    0x6A660000
 #define R_MOV   0x6D6F7600
+#define R_IN	0x696E0000
+#define R_DUMP	0x64756D70
+#define R_FUNC	0x66756E63
+#define R_CALL	0x63616C6C
+#define R_RET	0x72657400
+#define R_HLT	0x686C7400
+#define R_OR    0x6F720000
+#define R_AND   0x616E6400
+#define R_NOT   0x6E6F7400
+#define R_XOR   0x786F7200
 
 //}-------------read-defines------------------------------
 
@@ -171,6 +191,7 @@ typedef struct CPU CPU;
 
 struct CPU {
 	Stack *CPU_Stack;
+	Stack *CPU_fcall;
 	double ax;
 	double bx;
 	double cx;
@@ -219,9 +240,15 @@ int id_command (char *str_4);
 
 int asm_reg (char reg[]);
 
-int as_command (int command, int x, FILE* fi, FILE* fo);
+void asm_mark (char mark[], int pos, int mkdata[]);
 
-int assemble (FILE *fi, FILE *fo); // see INPUT and OUTPUT in assembler.cpp.
+int asm_set_marks (int *x, FILE* fi, int mkdata[]);
+
+int asm_len_command (int command, int *x, FILE *fi, int mkdata[]);
+
+int asm_command (int command, int x, FILE* fi, FILE* fo);
+
+int asm_run (FILE *fi, FILE *fo); // see INPUT and OUTPUT in assembler.cpp.
 
 /* _______________________________________________________________________________________
    |																					 |

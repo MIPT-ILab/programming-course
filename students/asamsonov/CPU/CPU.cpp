@@ -3,7 +3,9 @@
 //! @file    CPU.cpp
 //! @brief   CPU is done. It needs some improvements though.
 //!
-//}-------------head--------------------------------
+//}-------------head----------------------------------
+
+//{-------------defines-------------------------------
 
 #include "CPUheader.h"
 
@@ -17,6 +19,8 @@
 #endif
 	#define INFO  if (logs != NULL) fprintf
 
+//}-------------defines-------------------------------
+
 /* _______________________________________________________________________________________
    |																					 |
    |  Separator			Separator		  Separator 		Separator		  Separator  |
@@ -26,27 +30,29 @@
 */
 
 /*
-CPU* CPU_create(int Stack_size);
 
-void CPU_delete(CPU *myCPU);
+CPU* CPU_new (int Stack_size);
 
-int CPU_OK(const CPU *myCPU);
+void CPU_delete (CPU *myCPU);
 
-void CPU_dump(const CPU *myCPU);
+int CPU_OK (const CPU *myCPU);
 
-double CPU_get_reg(const CPU *myCPU, const int reg);
+void CPU_dump (const CPU *myCPU);
 
-void CPU_set_reg(CPU *myCPU, const int reg, double value);
+double CPU_get_reg (const CPU *myCPU, const int regnum);
 
-Stack* CPU_get_Stack(const CPU *myCPU);
+void CPU_set_reg (CPU *myCPU, const int regnum, double value);
 
-double CPU_push(CPU *myCPU, double value);
+Stack* CPU_get_Stack (const CPU *myCPU);
 
-CPU* CPU_pop(CPU *myCPU);
+int CPU_push (CPU *myCPU, double value);
 
-int CPU_run (FILE* fi, CPU* myCPU);
+double CPU_pop (CPU *myCPU);
 
-int CPU_do(const int *const data, CPU* myCPU, int cur);
+int CPU_run (const double *const data, CPU *myCPU, FILE *fo);
+
+int CPU_do (const double *const data, CPU *myCPU, int *index, FILE *fo, FILE *logs);
+
 */
 
 /* _______________________________________________________________________________________
@@ -70,11 +76,15 @@ int CPU_do(const int *const data, CPU* myCPU, int cur);
 CPU* CPU_new(int Stack_size)
 {
 	CPU *temp = (CPU *)malloc (sizeof (*temp));
+
 	temp->CPU_Stack = Stack_new (Stack_size);
+	temp->CPU_fcall = Stack_new (Stack_size);
+
 	temp->ax = 0;
 	temp->bx = 0;
 	temp->cx = 0;
 	temp->dx = 0;
+
 	return temp;
 }
 
@@ -89,11 +99,15 @@ CPU* CPU_new(int Stack_size)
 void CPU_delete(CPU* myCPU)
 {
 	if (!myCPU) return;
+
 	Stack_delete (myCPU->CPU_Stack);
+	Stack_delete (myCPU->CPU_fcall);
+
 	myCPU->ax = BAD;
 	myCPU->bx = BAD;
 	myCPU->cx = BAD;
 	myCPU->dx = BAD;
+
 	free (myCPU);
 	myCPU = NULL;
 }
@@ -110,7 +124,7 @@ void CPU_delete(CPU* myCPU)
 
 int CPU_OK(const CPU* myCPU)
 {
-	return (myCPU && Stack_OK (myCPU->CPU_Stack));
+	return (myCPU && Stack_OK (myCPU->CPU_Stack) && Stack_OK (myCPU->CPU_fcall));
 }
 
 //{-------------CPU------------------------------------
@@ -124,6 +138,7 @@ int CPU_OK(const CPU* myCPU)
 //!				- If CPU is ok or not;
 //!				- CPU regs;
 //!				- CPU_Stack dump;
+//!				- CPU_fcall dump;
 //!
 //! @see     CPU_OK()
 //}-------------CPU-------------------------------------
@@ -133,13 +148,15 @@ void CPU_dump(const CPU* myCPU)
 	int ok = CPU_OK (myCPU);
 	printf ("Hello @, I'm CPU. %.8X. // %s\n", myCPU, ok? "ok" : "I'M NOT OK!!!!1!!!1!!1! NOT OK!!!!$@#!!1!");
 
-	printf ("\t" "ax = %d\n", myCPU->ax);
-	printf ("\t" "bx = %d\n", myCPU->bx);
-	printf ("\t" "cx = %d\n", myCPU->cx);
-	printf ("\t" "dx = %d\n", myCPU->dx);
+	printf ("\t" "ax = %lg\n", myCPU->ax);
+	printf ("\t" "bx = %lg\n", myCPU->bx);
+	printf ("\t" "cx = %lg\n", myCPU->cx);
+	printf ("\t" "dx = %lg\n", myCPU->dx);
 
 	printf ("\t" "I have got a Stack: \n");
 	Stack_dump (myCPU->CPU_Stack);
+	printf ("\t" "I have got a function calls Stack: \n");
+	Stack_dump (myCPU->CPU_fcall);
 	printf ("CPU: That's all.\n\n");
 }
 
@@ -222,6 +239,17 @@ int CPU_push(CPU *myCPU, double value)
 	return 1;
 }
 
+int CPU_fcall_push(CPU *myCPU, double value)
+{
+	ASSERT_CPU (myCPU);
+	if (myCPU->CPU_fcall->size >= myCPU->CPU_fcall->maxsize)
+		return 0;
+	myCPU->CPU_fcall->data[myCPU->CPU_fcall->size++] = value;
+
+	ASSERT_CPU (myCPU);
+	return 1;
+}
+
 //{-------------CPU------------------------------------
 //! @brief   This function takes last element from CPU Stack deleting it.
 //!
@@ -237,7 +265,19 @@ double CPU_pop(CPU *myCPU)
 	ASSERT_CPU (myCPU);
 	ASSERT_OK (myCPU->CPU_Stack);
 	ASSERT (myCPU->CPU_Stack->size != 0);
-	return myCPU->CPU_Stack->data[--myCPU->CPU_Stack->size];
+	double ret = myCPU->CPU_Stack->data[--myCPU->CPU_Stack->size];
+	ASSERT_CPU (myCPU);
+	return ret;
+}
+
+double CPU_fcall_pop(CPU *myCPU)
+{
+	ASSERT_CPU (myCPU);
+	ASSERT_OK (myCPU->CPU_fcall);
+	ASSERT (myCPU->CPU_fcall->size != 0);
+	double ret = myCPU->CPU_fcall->data[--myCPU->CPU_fcall->size];
+	ASSERT_CPU (myCPU);
+	return ret;
 }
 
 //{-------------CPU------------------------------------
@@ -257,6 +297,7 @@ int CPU_run (const double *const data, CPU* myCPU, FILE *fo)
 {
 	ASSERT (myCPU);
 	ASSERT (data);
+	ASSERT (fo);
 
 	FILE *logs = fopen (STDERR, "w");
 	int cur = 0;
@@ -273,18 +314,18 @@ int CPU_run (const double *const data, CPU* myCPU, FILE *fo)
 }
 
 #define DO_SMTH(command, code)  case command : { code; *cur += 1; return 1; }
-#define DO_ARG(command, code1, code2, strcom, fail)  \
-	case command : { \
-		if (IS_EQUAL(data[*cur + 1], NUM)) {\
-			code1; \
-			return 1; \
-		}\
-		if (IS_EQUAL(data[*cur + 1], REG)) {\
-			code2; \
-			return 1; \
-		}\
-		INFO (logs, "# %d, %s: %s.\n", *cur, strcom, fail);\
-		return 0;\
+#define DO_ARG(command, code1, code2, strcom, fail)         \
+	case command : {                                        \
+		if (IS_EQUAL(data[*cur + 1], NUM)) {                \
+			code1;                                          \
+			return 1;                                       \
+		}                                                   \
+		if (IS_EQUAL(data[*cur + 1], REG)) {                \
+			code2;                                          \
+			return 1;                                       \
+		}                                                   \
+		INFO (logs, "# %d, %s: %s.\n", *cur, strcom, fail); \
+		return 0;                                           \
 	}
 #define DO_JUMP(command, cond)  case command : { if (cond) { *cur = (int)data[*cur + 1]; return 1; } *cur += 2; return 1; }
 
@@ -310,12 +351,14 @@ int CPU_do(const double *const data, CPU* myCPU, int *cur, FILE *fo, FILE *logs)
 	ASSERT (data);
 	int command = (int)data[*cur]; 
 
+	CENSORED ("# CPU: %d, %.8X\n", *cur, command);
+
 	switch (command) {
 		
-		DO_ARG (PUSH, { CPU_push (myCPU, data[*cur + 2]);	*cur += 3; }, 
+		DO_ARG  (PUSH, { CPU_push (myCPU, data[*cur + 2]);	*cur += 3; }, 
 				{ CPU_push (myCPU, CPU_get_reg (myCPU, (int)data[*cur + 2])); *cur += 3; },
 				"push", "args interrupt");
-		DO_ARG (POP, { fprintf (fo, "%lg ", CPU_pop (myCPU)); *cur += 2; }, 
+		DO_ARG  ( POP, { fprintf (fo, "%lg ", CPU_pop (myCPU)); *cur += 2; }, 
 				{ CPU_set_reg (myCPU, (int)data[*cur + 2], CPU_pop (myCPU)); *cur+= 3; },
 				"pop", "args interrupt");
 		DO_SMTH ( END, return -1;);
@@ -328,14 +371,14 @@ int CPU_do(const double *const data, CPU* myCPU, int *cur, FILE *fo, FILE *logs)
 
 		DO_SMTH ( DIV, double extra = CPU_pop (myCPU); 
 					   if (IS_EQUAL (extra, 0)) {
-						   INFO (logs, "# %d, div: division by zero interrupt.\n, *cur");
+						   INFO (logs, "# %d, div: division by zero interrupt.\n", *cur);
 						   return 0;
 					   }
 					   CPU_push (myCPU, CPU_pop (myCPU) / extra););
 
 		DO_SMTH (SQRT, double extra = CPU_pop (myCPU);
 					   if (extra < 0) {
-						   INFO (logs, "# %d, sqrt: negative number interrupt.\n, *cur");
+						   INFO (logs, "# %d, sqrt: negative number interrupt.\n", *cur);
 						   return 0;
 					   }
 					   CPU_push (myCPU, sqrt (extra)););
@@ -350,11 +393,11 @@ int CPU_do(const double *const data, CPU* myCPU, int *cur, FILE *fo, FILE *logs)
 		DO_SMTH ( DUB, double extra = CPU_pop (myCPU); 
 					   CPU_push (myCPU, extra);
 					   CPU_push (myCPU, extra));
-		DO_ARG ( OUT, { double extra = CPU_pop (myCPU); fprintf (fo, "%lg" "\t" "%lg\n", CPU_pop (myCPU), extra);  *cur += 2; }, 
-				{ double extra = CPU_pop (myCPU); fprintf (fo, "%lg\n", CPU_get_reg (myCPU, (int)data[*cur + 2])); *cur += 3; },
+		DO_ARG  ( OUT, { double extra = CPU_pop (myCPU); fprintf (fo, "%lg" "\t" "%lg\n", CPU_pop (myCPU), extra);  *cur += 2; }, 
+				{ fprintf (fo, "%lg\n", CPU_get_reg (myCPU, (int)data[*cur + 2])); *cur += 3; },
 				  "out", "args interrupt");
-		DO_ARG ( MOV, { CPU_set_reg (myCPU, (int)data[*cur + 2], data[*cur + 3]); *cur += 4; }, 
-				{ CPU_set_reg (myCPU, (int)data[*cur + 2], CPU_get_reg (myCPU, (int)data[*cur + 3])); *cur += 4; },
+		DO_ARG  ( MOV, { CPU_set_reg (myCPU, (int)data[*cur + 3], data[*cur + 2]); *cur += 4; }, 
+				{ CPU_set_reg (myCPU, (int)data[*cur + 3], CPU_get_reg (myCPU, (int)data[*cur + 2])); *cur += 4; },
 				  "mov", "args interrupt");
 		DO_JUMP ( JMP, 1);
 		DO_JUMP ( JBE, CPU_pop (myCPU) >= CPU_pop (myCPU));
@@ -364,6 +407,20 @@ int CPU_do(const double *const data, CPU* myCPU, int *cur, FILE *fo, FILE *logs)
 		DO_JUMP (  JA, CPU_pop (myCPU) <  CPU_pop (myCPU));
 		DO_JUMP (  JE, IS_EQUAL (CPU_pop (myCPU), CPU_pop (myCPU)));
 		DO_JUMP (  JF, FRIDAY);
+
+		DO_ARG  (  IN, { double extra = BAD; scanf ("%lg", &extra); CPU_push (myCPU, extra); *cur += 2; },
+				{ double extra = BAD; scanf ("%lg", &extra); CPU_set_reg (myCPU, (int)data[*cur + 2], extra); *cur += 3; },
+				 "in", "args interrupt");
+
+		DO_SMTH (DUMP, CPU_dump(myCPU); );
+		case CALL : { CPU_fcall_push (myCPU, *cur + 2); *cur = (int)data[*cur + 1]; return 1; }
+		case RET : { *cur = (int)CPU_fcall_pop (myCPU); return 1; }
+		DO_SMTH ( HLT, abort(););
+		DO_SMTH (  OR, CPU_push (myCPU, !IS_EQUAL (CPU_pop (myCPU), 0) | !IS_EQUAL (CPU_pop (myCPU), 0)););
+		DO_SMTH ( AND, CPU_push (myCPU, !IS_EQUAL (CPU_pop (myCPU), 0) & !IS_EQUAL (CPU_pop (myCPU), 0)););
+		DO_SMTH ( NOT, CPU_push (myCPU,  IS_EQUAL (CPU_pop (myCPU), 0)););
+		DO_SMTH ( XOR, CPU_push (myCPU, !IS_EQUAL (CPU_pop (myCPU), 0) ^ !IS_EQUAL (CPU_pop (myCPU), 0)););
+
 		default : INFO (logs, "# %d, default: undefined command interrupt\n",*cur); return 0;
 	}
 
