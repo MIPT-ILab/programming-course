@@ -90,7 +90,6 @@ int main()
       ASSERT((scanf("%lf", &b)) != 0);
       printf("\nC = ");
       ASSERT((scanf("%lf", &c)) != 0);
-      //--// You should to add some checks over user's input!
       x1 = (double*) calloc( 1, sizeof(double) );
       x2 = (double*) calloc( 1, sizeof(double) );
 
@@ -214,3 +213,4 @@ int Output(int numrt, double* x1, double* x2)
 
 
                   // and so on. You can study 'enum' thing, it will be preferable
+                  // You should to add some checks over user's input!
