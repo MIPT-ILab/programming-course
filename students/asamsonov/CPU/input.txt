@@ -1,5 +1,18 @@
+push -10
+pop ax
+:1
+push +10
+push ax
+jbe :9
+push ax
 push ax
 push ax
 mul
+out
+push 0.1
+push ax
+add
 pop ax
+jmp :1
+:9
 end
