@@ -3,99 +3,50 @@
 //! @file    stack.cpp
 //! @brief   Now it's Stack for CPU.
 //!
-//!          - CPU header added so we check it's define now.
-//!			 - improved Stack_dump for using in processor.cpp
-//!
-//! @todo	 or not todo
-//!
 //}-------------head---------------------------------
 
-#include "CPUwork.h"
+#include "CPUheader.h"
 
-//{-------------defines---------------------------------
-
-#if ( !defined ( CPUHEADER ) )
-//{-------------if-(-!header-)--------------------------
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#ifdef _EJC //!< Macro for EJudge Client to output correctly.
-	#ifdef OUT
-		#undef OUT
-	#endif
-    #define OUT printf
-    #define EJC_OUT if (0) printf
-#else
-	#ifdef OUT
-		#undef OUT
-	#endif
-    #define OUT if (0) printf
-    #define EJC_OUT printf
+#ifndef CPUHEADER 
+	fprintf (stderr, "CPUwork.h is not existing.\n");
+	abort ();
 #endif
 
-//{-------------debugging------------------------------
-
-#define DEBUG
-
-//}-------------debugging------------------------------
-
-#ifdef DEBUG
-    #define ASSERT( cond )                                 \
-    if (!(cond)) {                                         \
-        fprintf (stderr, "# Assertion fail : %s. "         \
-                 "File %s, line %d\n",                     \
-                 #cond, __FILE__, __LINE__, __FUNCTION__); \
-        abort();                                           \
-    }
-	#define ASSERT_OK( stack )                             \
-	if ( !Stack_OK ( stack ) ) {                           \
-		Stack_dump ( stack );                              \
-		ASSERT ( !"stack is ok" );                         \
-	}	
-#else
-    #define ASSERT( cond )
-	#define ASSERT_OK( stack )
-#endif
-
-//{-------------strucutures-----------------------------
-
-typedef struct Stack Stack;
-
-struct Stack {
-	int *data;							/* type = int */
-	int size;
-	int maxsize;
-	int x;
-};
-
-//}-------------strucutures----------------------------
-
-//{-------------if-(-!header-)--------------------------
-#endif
-
-//}-------------defines---------------------------------
+/* _______________________________________________________________________________________
+   |																					 |
+   |  Separator			Separator		  Separator 		Separator		  Separator  |
+   | 		   Separator		 Separator		   Separator		 Separator 			 |
+   |  Separator			Separator		  Separator 		Separator		  Separator  |
+   |_____________________________________________________________________________________|
+*/
 
 //{-------------declarations----------------------------
 /* 
 
-Stack *Stack_create( int size );
+Stack *Stack_create (int size);
 
-void Stack_delete( Stack *myStack );
+void Stack_delete (Stack *myStack);
 
-int Stack_OK( const Stack *myStack );
+int Stack_OK (const Stack *myStack);
 
-void Stack_dump( const Stack *myStack );
+void Stack_dump (const Stack *myStack);
 
-int Stack_push( Stack *myStack, int value );
+int Stack_push (Stack *myStack, double value);
 
-int Stack_pop( Stack *myStack );
+double Stack_pop (Stack *myStack);
 
-int Stack_getsize( Stack *myStack );
+int Stack_getsize (Stack *myStack);
 
 */
 //}-------------declarations----------------------------
+
+/* _______________________________________________________________________________________
+   |																					 |
+   |  Separator			Separator		  Separator 		Separator		  Separator  |
+   | 		   Separator		 Separator		   Separator		 Separator 			 |
+   |  Separator			Separator		  Separator 		Separator		  Separator  |
+   |_____________________________________________________________________________________|
+*/
 
 //{-------------stackstack------------------------------
 //! @brief   This function creates Stack 
@@ -108,14 +59,16 @@ int Stack_getsize( Stack *myStack );
 //! @see     Stack_OK(), Stack_delete()
 //}-------------stackstack-----------------------------
 
-Stack* Stack_create( int max_size )
+Stack* Stack_new (int max_size)
 {
-	if ( max_size <= 0 ) 
+	if (max_size <= 0) 
 		return NULL;
-	Stack *temp = (Stack *)malloc ( sizeof (*temp) );
-	temp->data = (int *)calloc ( max_size, sizeof (*temp->data) );
+	Stack *temp = (Stack *)malloc (sizeof (*temp));
+	temp->data = (double *)calloc (max_size, sizeof (*temp->data));
 	temp->size = 0;
 	temp->maxsize = max_size;
+	
+	ASSERT_OK (temp);
 	return temp;
 }
 
@@ -127,12 +80,12 @@ Stack* Stack_create( int max_size )
 //! @see     Stack_OK, Stack_create()
 //}-------------stackstack-----------------------------
 
-void Stack_delete( Stack *myStack )
+void Stack_delete (Stack *myStack)
 {
-	free ( myStack->data );
+	free (myStack->data);
 	myStack->data = NULL;
 	myStack->size = -1;
-	free ( myStack );
+	free (myStack);
 	myStack = NULL;
 }
 
@@ -146,7 +99,7 @@ void Stack_delete( Stack *myStack )
 //! @see     Stack_dump(), Stack_push(), Stack_pop()
 //}-------------stackstack-----------------------------
 
-int Stack_OK( const Stack *myStack )
+int Stack_OK (const Stack *myStack)
 {
 	return (myStack && 0 <= myStack->size && myStack->size <= myStack->maxsize);
 }
@@ -162,23 +115,24 @@ int Stack_OK( const Stack *myStack )
 //!				- If Stack is ok or not;
 //!				- Size of the Stack;
 //!				- Maxsize of the Stack;
-//!				- Number of appeals to the Stack
 //!				- Every value from data of Stack;
+//!				- '*' sign for usable values of data;
 //!
 //! @see     Stack_OK()
 //}-------------stackstack-----------------------------
 
-void Stack_dump( const Stack *myStack )
+void Stack_dump (const Stack *myStack)
 {
-	int ok = Stack_OK ( myStack );
-	printf ( "Hello @, I'm Stack. %.8X. // %s\n", myStack, ok? "ok" : "I'M NOT OK!!!!1!!!1!!1! NOT OK!!!!$@#!!1!" );
-	printf ( "\t" "size = %d\n", myStack->size );
-	printf ( "\t" "maxsize = %d\n", myStack->maxsize );
-	printf ( "\t" "x = %d\n", myStack->x );
+	int ok = Stack_OK (myStack);
+	printf ("Hello @, I'm Stack. %.8X. // %s\n", myStack, ok? "ok" : "I'M NOT OK!!!!1!!!1!!1! NOT OK!!!!$@#!!1!");
+	printf ("\t" "size = %d\n", myStack->size);
+	printf ("\t" "maxsize = %d\n", myStack->maxsize);
 	int i = 0;
 	for (i = 0; i < myStack->size; i++)
-		printf ( "\t" "data[%d] = %d\n", i, myStack->data[i] );
-	printf ( "Stack: That's all.\n\n" );
+		printf ("\t" "data[%d] = %.3lg *\n", i, myStack->data[i]);
+	for (i = myStack->size; i < myStack->maxsize; i++)
+		printf ("\t" "data[%d] = %.3lg\n", i, myStack->data[i]);
+	printf ("Stack: That's all.\n\n");
 }
 
 //{-------------stackstack------------------------------
@@ -192,14 +146,14 @@ void Stack_dump( const Stack *myStack )
 //! @see     Stack_OK(), Stack_pop()
 //}-------------stackstack-----------------------------
 
-int Stack_push( Stack *myStack, int value )
+int Stack_push (Stack *myStack, double value)
 {
-	ASSERT_OK ( myStack );
-	if (myStack->size == myStack->maxsize)
+	ASSERT_OK (myStack);
+	if (myStack->size >= myStack->maxsize)
 		return 0;
 	myStack->data[myStack->size++] = value;
 
-	ASSERT_OK ( myStack );
+	ASSERT_OK (myStack);
 	return 1;
 }
 
@@ -213,10 +167,10 @@ int Stack_push( Stack *myStack, int value )
 //! @see     Stack_OK(), Stack_push()
 //}-------------stackstack-----------------------------
 
-int Stack_pop( Stack *myStack )
+double Stack_pop (Stack *myStack)
 {
-	ASSERT_OK ( myStack );
-	ASSERT ( myStack->size != 0 );
+	ASSERT_OK (myStack);
+	ASSERT (myStack->size != 0);
 	return myStack->data[--myStack->size];
 }
 
@@ -228,7 +182,8 @@ int Stack_pop( Stack *myStack )
 //! @return		number of elements in this Stack.	
 //}-------------stackstack-----------------------------
 
-int Stack_getsize( Stack *myStack )
+int Stack_getsize (Stack *myStack)
 {
+	ASSERT_OK  (myStack);
 	return myStack->size;
 }
