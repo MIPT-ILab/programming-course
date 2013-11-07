@@ -1,32 +1,45 @@
 //{-------------head----------------------------------
 //
 //! @file    main.cpp
+//! @brief	 This is main file, which works with functions from header.
+//!
 //! @mainpage
-//! @brief   This is CPU of 4th generation.
-//!			 It works using jumps but still it's BETA version
-//!			 Where you should write adress of jump by yourself.
+//! @brief   This is CPU of 4.01th generation.
+//!			 It works using jumps and it's awesome!
+//!			 ASM funcs will be soon.
 //!
-//!          $Version: 1.00, Revision: 1 $
-//!          $Date: 2013-11-05 23:37 $
+//!          $Version: 1.01, Revision: 2 $
+//!          $Date: 2013-11-06 10:55 $
 //!
+//!	@brief	 V1.00 changes:
 //!          - Now here are some great changes:
-//!			 -- 4 registers now;
-//!			 -- many jumps and if-jumps;
-//!			 -- PUSH without reg is now correct;
-//!			 -- DUB is here. And MOV and OUT;
-//!			 -- CPU: @index was changed to @cur as it's shorter and easier to understand (A. is it? Oo); 
-//!			 -- ASM: Now it ignores marks (like :1). Ignoring is temporary though;
-//!			 -- ASM: There is also a function now that identifies regnum when gets reg;
-//!			 -- EJC -> OUT was changed to INFO and soon it will work without EJC and connect to logs;
-//!			 -- STACK: Added '*' signs in Stack_dump;
-//!			 -- HEADER: Added CPUVERSION define;
-//!			 -- HEADER: Now it's checking in all files if header is connected or not;
-//!			 -- CS: There are some separators now. I don't know if it's ok or I need more of them;
+//!			  - 4 registers now;
+//!			  - many jumps and if-jumps;
+//!			  - PUSH without reg is now correct;
+//!			  - DUB is here. And MOV and OUT;
+//!			  - CPU: index was changed to cur as it's shorter and easier to understand (A. is it? Oo); 
+//!			  - ASM: Now it ignores marks (like :1). Ignoring is temporary though;
+//!			  - ASM: There is also a function now that identifies regnum when gets reg;
+//!			  - EJC -> OUT was changed to INFO and soon it will work without EJC and connect to logs;
+//!			  - STACK: Added '*' signs in Stack_dump;
+//!			  - HEADER: Added CPUVERSION define;
+//!			  - HEADER: Now it's checking in all files if header is connected or not;
+//!			  - CS: There are some separators now. I don't know if it's ok or I need more of them;
 //!			 - insert 38 and 6 insted of ? and ?. 
 //!
+//! @brief	 V1.01 changes:
+//!			 - ASM is now working correctly with marks, so you don't need to do more work with your hands;
+//!			 - INFO is now working with logs and old OUT define name was changed to CENSORED and is being used in debug mode only;
+//!			 - CPUVERSION shows little changes in versions (like V1.00 -> V1.01);
+//!			 - even more ASSERTs now.
+//!
 //! @todo	 write:
-//!			 - Assembler doing marks itself;
 //!			 - Friday jump;
+//!			 - Optimisation of ASM using extra data;
+//!			 - func-s in MachineCode;
+//!			 - Do some task from homework;
+//!			 - Nerding MATHAN;
+//!			 - Smell of burned resistor;
 //!
 //}-------------head---------------------------------
 
@@ -52,8 +65,8 @@ int main ()
 	FILE *fo = fopen (MC, "w");
 
 	CPU *myCPU = CPU_new (10);
-	int x = assemble (fi, fo);
-	if (x) { printf ("ERROR ASM: line # %d\n", x); return 1; }
+	int x = asm_run (fi, fo);
+	if (x) { printf ("# ASM INTERRUPT: line # %d\n", x); return 1; }
 
 	fclose (fi);
 	fclose (fo);
@@ -65,9 +78,11 @@ int main ()
 	double command = 0;
 	int nCommands = 0;
 	double *data = NULL;
-	printf ("# hello?\n");
 
+	/*
+	CENSORED ("# All files closed. Do your best.\n");
 	getchar();
+	*/
 
 	//calculating number of commands.
 	for (nCommands = 0; fscanf (fi, "%lf", &command) == 1; nCommands++)
@@ -91,7 +106,7 @@ int main ()
 	data[i] = INT_MIN;
 	
 	x = CPU_run (data, myCPU, fo);
-	if (!x) { CENSORED  ("ERROR CPU!\n"); return 1; }
+	if (!x) { CENSORED  ("# CPU INTERRUPT: stored in %s\n", STDERR); return 1; }
 	
 	CPU_delete (myCPU);
 	fclose (fi);
