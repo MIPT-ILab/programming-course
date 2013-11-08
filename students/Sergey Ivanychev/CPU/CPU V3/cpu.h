@@ -200,11 +200,13 @@ cpu* cpu_construct(int stack_size);
 
 void cpu_destruct(cpu* my_cpu);
 
-int cpu_check(cpu* my_cpu);
+int cpu_check(cpu* my_cpu, FILE* strerr);
 
 int cpu_push(cpu* my_cpu, int push_arg, ...);
 
 int cpu_pop(cpu* my_cpu, int pop_arg, double* return_value);
+
+int cpu_in(cpu* my_cpu, int in_arg);
 
 int cpu_add(cpu* my_cpu);
 

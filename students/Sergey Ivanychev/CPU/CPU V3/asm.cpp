@@ -59,6 +59,7 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts)
 	char out_word[MAXLINE] = {};
 	char mov_word1 [MAXLINE] = {};
 	char mov_word2 [MAXLINE] = {};
+	char in_word [MAXLINE] = {};
 	double mov_value = 0;
 	int mov_arg1 = 0;
 	int mov_arg2 = 0;
@@ -162,6 +163,7 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts)
 			CHECK_COMMAND(word, FUNC)
 			CHECK_COMMAND(word, CALL)
 			CHECK_COMMAND(word, RET)
+			CHECK_COMMAND(word, IN)
 			CMD_NONE;
 
 
@@ -204,6 +206,22 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts)
 				CHECK_CUR_CODE_;
 				codes[cur_code++] = 0;
 			}
+			break;
+		case CMD_IN:
+
+			cond = fscanf(strin, "%s", in_word);
+			INJURED_IF(cond == 0, "\nUnexpected end after IN\n");
+
+			_strlwr(pop_word);
+			reg =			CONVERT_REG_(in_word, ax)
+							CONVERT_REG_(in_word, bx)
+							CONVERT_REG_(in_word, cx)
+							CONVERT_REG_(in_word, dx)
+							CONVERT_REG_(in_word, st)
+							STR_NON;
+			INJURED_IF((reg == STR_NON), "\nBad argument after IN\n");
+			CHECK_CUR_CODE_;
+			codes[cur_code++] = reg;
 			break;
 
 		case CMD_POP:
@@ -297,20 +315,6 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts)
 			
 			break;
 		
-		/*
-		CASE_COMMAND(CMD_SWAP);
-		CASE_COMMAND(CMD_DUB);
-		CASE_COMMAND(CMD_ADD);
-		CASE_COMMAND(CMD_SUB);
-		CASE_COMMAND(CMD_MUL);
-		CASE_COMMAND(CMD_DIV);
-		CASE_COMMAND(CMD_SIN);
-		CASE_COMMAND(CMD_COS);
-		CASE_COMMAND(CMD_TAN);
-		CASE_COMMAND(CMD_SQRT);
-		CASE_COMMAND(CMD_POW);
-		CASE_COMMAND(CMD_DUMP);
-		*/
 		case CMD_JMP:
 		case CMD_JBE:
 		case CMD_JB:

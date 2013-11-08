@@ -32,6 +32,7 @@ enum commands
 	CMD_FUNC = 1029,
 	CMD_CALL = 1030,
 	CMD_RET = 1031,
+	CMD_IN = 1032,
 	//BRING JUMP IF NOT MONDAY: TODO
 };
 //jmp, jbe, jb, jae, ja, je, jne
@@ -76,6 +77,7 @@ enum cpu_errors
 	CPU_MOV_BAD_TOKEN = 1122,
 	LOAD_ERROR_UNEXPECTED_END_OF_FILE = 1123,
 	CPU_POINTER_OUT_OF_RANGE = 1124,
+	CPU_IN_BAD_TOKEN = 1125,
 };
 
 enum draw_conditions
@@ -114,7 +116,7 @@ enum stack_errors
 
 const double EPSILON = 0.00000000001;
 
-const int CPU_STACK_SIZE = 10;
+const int CPU_STACK_SIZE = 1000;
 
 const int POISON = 666;
 

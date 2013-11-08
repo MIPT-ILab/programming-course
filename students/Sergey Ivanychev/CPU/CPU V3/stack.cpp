@@ -213,6 +213,9 @@ int stack_empty(stack* user_stack)
 int stack_ok(stack* user_stack)
 {
 	if (!(user_stack)) return ERR_NULL;
+	if ((user_stack -> maxsize < user_stack -> size) || (user_stack -> size < 0))
+		stack_dump(stdout, user_stack);
+
 	return ((user_stack -> maxsize < user_stack -> size) || (user_stack -> size < 0) ? ERR_WRONG_SZ : OK);
 }
 

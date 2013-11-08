@@ -228,10 +228,10 @@ int cpu_mov(cpu* my_cpu, int mov_arg, int mov_arg2, ...);
 
 /**
 		cpu_out							function prints values of stack, registers or any character from the ascii
-		@param[out]			fi			input stream
 		@param[out]			fo			output stream
 		@param[out]			strerr		error stream
 		@param[out]			my_cpu		the pointer of cpu
+		@param				out_arg		the source (some of registers or stack)
 
 		@par							Syntax of out is very easy. There are four registers in cpu at the moment (1.1 Beta 2)
 										out ax   -   printing the value of ax register
@@ -412,6 +412,19 @@ int cpu_load(cpu* my_cpu, FILE* strbin);
 
 int cpu_core(FILE* strout, FILE* strerr, cpu* my_cpu, double* value, int (*error_catcher) (FILE* strerr, cpu* my_cpu, int error_code));
 
+/**
+		cpu_in							function scans for value from the standard stream (console)
+
+		@param[out]		my_cpu			pointer of cpu
+		@param			in_arg			the constant of destination register or stack
+
+		@return							CPU_IN_BAD_TOKEN - if the constant is broken
+										CPU_BROKEN_START		if the CPU is bad at the beginning
+										CPU_BROKEN_FINISH		if the CPU is bad at the end
+										CPU_OK if it's fine
+**/
+
+int cpu_in(cpu* my_cpu, int in_arg);
 
 
 
@@ -635,6 +648,41 @@ int cpu_pop(cpu* my_cpu, int pop_arg, double* return_value)
 //  /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ 
 // |______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|
 
+#define REG_POP_(reg)															\
+	STR_##reg:																	\
+	cpu_mov(my_cpu, STR_##reg, STR_value, in_value);							\
+		if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_FINISH;		\
+		return CPU_OK;
+
+int cpu_in(cpu* my_cpu, int in_arg)
+{
+	if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_START;
+	double in_value = 0;
+	fprintf(stdout, "%d>", in_arg);
+	fscanf(stdin, "%lg", &in_value);
+	
+	switch (in_arg)
+	{
+		case REG_POP_(ax);
+		case REG_POP_(bx);
+		case REG_POP_(cx);
+		case REG_POP_(dx);
+		case REG_POP_(sys_reg);
+	case STR_st:
+		cpu_push(my_cpu, STR_value, in_value);
+		if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_FINISH;		
+		return CPU_OK;
+	default:
+		return CPU_IN_BAD_TOKEN;
+	}
+
+}
+
+
+//    /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\  
+//   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \ 
+//  /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ 
+// |______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|
 
 #define REG_OUT_(name)															\
 	STR_##name:																	\
@@ -1092,7 +1140,7 @@ int cpu_catch_error(FILE* stream, cpu* my_cpu, int condition)
 			
 			break;
 		case CPU_MOV_BAD_TOKEN:
-			fprintf(stream, "\nCPU_MOV: There's bad token argument)\n");
+			fprintf(stream, "\nCPU_MOV: There's bad token argument\n");
 			return CPU_ERROR_CATCHER_BAD;
 			break;
 		case LOAD_ERROR_UNEXPECTED_END_OF_FILE:
@@ -1100,6 +1148,9 @@ int cpu_catch_error(FILE* stream, cpu* my_cpu, int condition)
 			return CPU_ERROR_CATCHER_BAD;
 		case CPU_POINTER_OUT_OF_RANGE:
 			fprintf(stream, "\nArgumented pointer is out of range\n");
+			return CPU_ERROR_CATCHER_BAD;
+		case CPU_IN_BAD_TOKEN:
+			fprintf(stream, "\nCPU_IN: There's bad token argument\n");
 			return CPU_ERROR_CATCHER_BAD;
 		default:
 			fprintf(stream, "\n!!!ERROR: INVALID ERROR SIGNATURE!!!\n");
@@ -1240,7 +1291,7 @@ int cpu_core(FILE* strout, FILE* strerr, cpu* my_cpu, double* value, int (*error
 	double mov_value = 0;
 	int mov_arg1 = 0;
 	int mov_arg2 = 0;
-
+	int in_arg = 0;
 	int push_arg1 = 0;
 	double push_arg2 = 0;
 	int pop_arg = 0;
@@ -1299,6 +1350,13 @@ int cpu_core(FILE* strout, FILE* strerr, cpu* my_cpu, double* value, int (*error
 			break;
 		case CMD_FUNC:
 			while (cmd != CMD_RET) cmd = (int)(my_cpu -> memory[my_cpu -> cur++]);
+			break;
+		case CMD_IN:
+			VERIFY_CUR;
+			in_arg = (int) my_cpu -> memory[my_cpu -> cur++];;
+
+			cond = (*error_catcher)(strerr, my_cpu, cpu_in(my_cpu, in_arg));
+			if (cond == CPU_ERROR_CATCHER_BAD) return EXE_BAD;
 			break;
 
 		CASE_COMMAND(CMD_SWAP,	swap(my_cpu));

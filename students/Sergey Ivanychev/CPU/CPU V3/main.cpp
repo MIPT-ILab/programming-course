@@ -84,6 +84,11 @@
 						-- CPU has been enchanced
 						--- Added functions calling stack, which allows ret and call to work
 						-- Lots of other fixes and improvements
+
+	@par				Changelog V1.2 Beta 2
+						-- Function CPU_IN() and instruction IN added, now you're allowed to print your own values
+						-- STACK_OK() fixed: now, if there's error, it prints the dump in stdout
+						-- Some documentation fixed
 						
 						
 **/
