@@ -1,13 +1,13 @@
 #ifndef Struck_Stup_h_
 #define Struck_Stup_h_
 
-//const int MAX_SIZE = 100;     max number of stack elements
+#define MAX_SIZE 100
 
 struct Stack_Arr
 {
 	int *head;
-	double elem[100];          //MAX_SIZE only in C++     
-}
+	int elem[MAX_SIZE];              
+};
 
 /** ********************************************************************************
  Push        add elem to stack
@@ -16,15 +16,17 @@ struct Stack_Arr
  @param      val     item to add
  
  @return     0,      if OK
+             "Stack is full" if stack i full
+			 assert, if it has bugs  
 ************************************************************************************/
-int Push (struct Stack_Arr *st, double val);
+int Push (struct Stack_Arr *st, int val);
 
 /** ********************************************************************************
  pop  -      Extract the last element from the stack
  
  @param      *st     stack
  
- @return     0,      if OK
+ @return     head stack element
 ************************************************************************************/
 int Pop (struct Stack_Arr *st);
 
@@ -33,18 +35,18 @@ int Pop (struct Stack_Arr *st);
  
  @param      *st     stack
  
- @return     errors 
+ @return     nothing 
 ************************************************************************************/
-int Assert_OK (struct Stack_Arr *st);
+void Assert_OK (struct Stack_Arr *st);
 
 /** ********************************************************************************
  Dump        show stack content
  
  @param      *st     stack
  
- @return     stack content    
+ @return     nothing   
 ************************************************************************************/
-int Dump (struct Stack_Arr *st);
+void Dump (struct Stack_Arr *st);
 
 /** ********************************************************************************
  Size        return size of the stack
@@ -54,5 +56,8 @@ int Dump (struct Stack_Arr *st);
  @return     size of the stack
 ************************************************************************************/
 int Size (struct Stack_Arr *st);
+
+
+
 
 #endif //Struck_Stup_h_

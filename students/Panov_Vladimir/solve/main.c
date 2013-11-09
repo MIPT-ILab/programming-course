@@ -1,6 +1,6 @@
 //{=================================================================================
 //! @file    solve.c
-//! @date    2013-10-27 15:00
+//! @date    2013-11-3 13:00
 //! @author  Panov Vladimir <volodka.1995@gmail.com>
 //!
 //! Решение квадратного уравнения с честным разбором частных случаев.
@@ -32,8 +32,8 @@ if (!(cond)) {\
 #define MANY_SOLUTIONS 3
 #define NO_SOLUTION -1
 
-#define IS_ZIRO(x) (-DBL_EPSILON < x && x < DBL_EPSILON)
-#define IS_BELOW_ZIRO(x) (x < -DBL_EPSILON)
+#define IS_ZERO(x) (-DBL_EPSILON < x && x < DBL_EPSILON)
+#define IS_BELOW_ZERO(x) (x < -DBL_EPSILON)
 
 //{=================================================================================
 //! LineSolve - solve a linear equation specified by its coefficients.
@@ -47,13 +47,13 @@ if (!(cond)) {\
 //! @note           Calculation precision is considered to be DBL_EPSILON.
 //}=================================================================================
 int LineSolve( const double b, const double c, double* x) {
-	assert("x == NULL");
-	if( ! IS_ZIRO(b)) {
+	assert(x != NULL);
+	if( ! IS_ZERO(b)) {
 		*x = -c / b;
 		return ONE_SOLUTION;
 	}
 	else{
-		if(! IS_ZIRO(c)) {
+		if(! IS_ZERO(c)) {
 			return NO_SOLUTION;
 		}
 		else {
@@ -76,14 +76,15 @@ int LineSolve( const double b, const double c, double* x) {
 //! @note           Calculation precision is considered to be DBL_EPSILON.
 //}=================================================================================
 int SquareSolve( const double a, const double b, const double c, double* x1, double* x2) {
-	assert("x1 == NULL");
-	assert("x2 == NULL");
+	assert(x1 != NULL);
+	assert(x2 != NULL);
+  // FIXME And what if x1 == x2?
 	double D = b * b - 4 * a * c;
-	if( IS_BELOW_ZIRO(D)) {
+	if( IS_BELOW_ZERO(D)) {
 		return NO_SOLUTION;
 	}
 	else {
-		if( IS_ZIRO(D) ) {
+		if( IS_ZERO(D) ) {
 			*x1 = -b / (2 * a);
 			return ONE_SOLUTION;
 		}
@@ -103,7 +104,7 @@ int SquareSolve( const double a, const double b, const double c, double* x1, dou
 //! @note           Read strings while it isn't double.
 //}=================================================================================
 int read(double *num){
-	assert("num == NULL");
+	assert(num != NULL);
 	char s[100] = "";
 	int Complite = 0;
 	do{
@@ -139,11 +140,14 @@ int main(int argc, char* argv[]) {
 		read( &b);
 		read( &c);
 	}
-	if( IS_ZIRO(a) )
+	if( IS_ZERO(a) )
 		Solutions = LineSolve( b, c, &x1);
 	else
 		Solutions = SquareSolve( a, b, c, &x1, &x2);
-	printf("\n# Solution number:\n %d \n", Solutions);
+	if(Solutions == NO_SOLUTION)
+		printf("\n#There is no solutions at all\n %d \n", NO_SOLUTION);
+	else
+		printf("\n# Solution number:\n %d \n", Solutions);
 	switch( Solutions ){
 		case ONE_SOLUTION:
 			printf("# Value:\n %lf\n", x1);

@@ -1,69 +1,61 @@
-struct Stack_Arr
+void Assert_OK (struct Stack_Arr *st)
 {
-	int *head;
-	double elem[100];
+    assert(st->head != NULL);
+	assert(st->elem != NULL);
+	assert((0 <= *st->head) && (*st->head <= MAX_SIZE));
 }
 
-int Assert_OK(struct Stack_Arr *st)
+int stack_push (struct Stack_Arr *st, int val)
 {
-	int err = 0, i = 0;
-	if (0<= st->head < 100)
-		err = 1;
-	if (st->elem == 0)
-		err = 2;
-	if (st->head == 0)
-		err = 3;
-	return *err;
-}
+    Assert_OK(st);
 
-int Push(struct Stack_Arr *st, double val)
-{
-	int proof = Assert_OK(st);
-	if (proof == 0)
-	{
-		st->elem[*st->head];
-		proof = Assert_OK(st);
-		return proof;
-	}
+    if (*(st->head) == MAX_SIZE)
+		printf("#Stack is full\n");
 	else
-		return proof;
+	{
+		st->elem[*(st->head)] = val;
+		st->head++;
+
+		Assert_OK(st);
+
+		return 0;
+	}
 }
 
-int Pop(struct Stack_Arr *st)
+int stack_pop (struct Stack_Arr *st)
 {
-	int proof = Assert_OK(st);
-	if (proof == 0)
+	int val = 0;
+    Assert_OK(st);
+
+    if (st->head == 0)
+		printf("#No elements in stack");
+	else
 	{
+		val = st->elem[*st->head];
 		st->head--;
-	proof = Assert_OK(st);
-	return proof;
+
+		Assert_OK(st);
+
+		return val;
 	}
-	else
-		return proof;
 }
 
-int Dump(struct Stack_Arr *st)
+void Dump (struct Stack_Arr *st)
 {
 	int i = 0;
-	int proof = Assert_OK(st);
-		if (proof == 0)
-		{
-			printf("#Stack content:\n");
-			for (i = 0; i < *st->head; i++)
-				printf("%lg ", st->elem[i]);
-			printf("/n#StackSize:/n%i", st->head);
-			proof = Assert_OK(st);
-		}
-		else
-		return proof;
+    Assert_OK(st);
 
+	printf("#Stack size: %i\n"
+			"#Stack content:\n", st->head);
+    for(i = 0; i < st->head; i++)
+		printf ("%\n", st->elem[i]);
+    
+	Assert_OK(st);
 }
 
-int Size(struct Stack_Arr *st)
+int Size (struct Stack_Arr *st)
 {
-	int proof = Assert_OK(st);
-	if (proof  == 0)
-		return *st->head;
-	else
-		return proof;
+	Assert_OK(st);
+
+	return *st->head;
 }
