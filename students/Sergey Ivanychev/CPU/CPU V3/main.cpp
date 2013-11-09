@@ -89,6 +89,13 @@
 						-- Function CPU_IN() and instruction IN added, now you're allowed to print your own values
 						-- STACK_OK() fixed: now, if there's error, it prints the dump in stdout
 						-- Some documentation fixed
+						-- Some fixes across the whole code
+
+						Changelog V1.2 RC
+						-Security update
+						-- Added fscanf_s() and fopen_s() support
+						-- Added a lot of extra verifications
+						
 						
 						
 **/
@@ -104,11 +111,32 @@
 	fclose(stream);											\
 	stream = fopen(file, param);
 
-int main(int argc, char* argv[])
+#define CHECK_PTR_HEALTH(ptr, msg, ret)						\
+if (ptr == NULL)											\
+{															\
+	fprintf_s(strerr, msg);									\
+	fclose(strerr);											\
+	return ret;												\
+}
+
+#undef VERIFY
+
+#define VERIFY(cond, msg, ret, addition_close)				\
+if (!(cond))												\
+{															\
+	fprintf_s(strerr, msg);									\
+	fclose(strerr);											\
+	addition_close;											\
+	return ret;												\
+}
+int main()
 {
-	FILE* strerr = fopen("exe_log.txt", "w");
+	FILE* strerr = NULL;
+	fopen_s(&strerr, "exe_log.txt", "w");
+	assert(strerr != NULL);
 	cpu* my_cpu = cpu_construct(CPU_STACK_SIZE);
 	
+	CHECK_PTR_HEALTH(my_cpu, "\nStack hasn't been constructed\n", 0);
 	int ret = asm_main();
 	
 	if (ret != ASM_OK)
@@ -117,16 +145,29 @@ int main(int argc, char* argv[])
 		fclose(strerr);
 		return 0;
 	}
-	FILE* strbin = fopen("executable.ivz", "rb");
-	FILE* strout = fopen ("output.txt", "w");
+	FILE* strbin = NULL;
+	fopen_s(&strbin, "executable.ivz", "rb");
+	CHECK_PTR_HEALTH(strbin, "\nBinary file openning error\n", 0);
+	
+	FILE* strout = NULL;
+	fopen_s(&strout, "output.txt", "w");
+	CHECK_PTR_HEALTH(strout, "\nBinary file openning error\n", 0);
 	
 
-	cpu_load(my_cpu, strbin);
+	ret = cpu_load(my_cpu, strbin);
+	if (ret != CPU_OK) 
+	{
+		fprintf(strerr, "\nCPU memory hasn't been loaded\n");
+		goto break_p; 
+	}
+
 	double value = 0;
 	ret = cpu_core(strout,strerr, my_cpu, &value, cpu_catch_error);
 
 	if (ret == EXE_BAD)	fprintf(strout, "\n There were execution errors\n");
 
+
+	break_p:;
 	cpu_destruct(my_cpu);
 	fclose(strbin);
 	fclose(strout);

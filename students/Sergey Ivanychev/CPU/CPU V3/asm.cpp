@@ -49,7 +49,6 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts)
 	const char MAXLINE = 50;
 	char word[MAXLINE] = {};
 	int c = 0;
-	double out = 0;
 	int cond = 0;
 	int reg = 0;
 	int is_value = 0;
@@ -63,9 +62,7 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts)
 	double mov_value = 0;
 	int mov_arg1 = 0;
 	int mov_arg2 = 0;
-	int cur_mark = 0;
 	char jump_mark[MAXLINE] = {};
-	int jump_pointer = 0;
 	int i = 0;
 
 	bool healthy = true;
@@ -73,7 +70,7 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts)
 
 	while (healthy)
 	{
-		cond = fscanf(strin,"%s", &word);
+		cond = fscanf_s(strin, "%s", word, _countof(word));
 		
 		INJURED_IF((cond <= 0), "\nUnexpected end of input\n");
 		
@@ -81,7 +78,7 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts)
 		{
 			CHECK_CUR_CODE_;
 			codes[cur_code++] = CMD_FUNC;
-			cond = fscanf(strin,"%s", &word);
+			cond = fscanf_s(strin,"%s", word, _countof(word));
 			INJURED_IF((cond <= 0), "\nUnexpected end of input\n");
 			if (word[0] != ':') 
 			{
@@ -179,7 +176,7 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts)
 		switch (c)
 		{
 		case CMD_PUSH:
-			cond = fscanf(strin, "%s", push_word);
+			cond = fscanf_s(strin, "%s", push_word, _countof(push_word));
 			INJURED_IF(cond == 0, "\nUnexpected end after PUSH\n");
 
 			push_value = 0;
@@ -209,7 +206,7 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts)
 			break;
 		case CMD_IN:
 
-			cond = fscanf(strin, "%s", in_word);
+			cond = fscanf_s(strin, "%s", in_word, _countof(in_word));
 			INJURED_IF(cond == 0, "\nUnexpected end after IN\n");
 
 			_strlwr(pop_word);
@@ -226,7 +223,7 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts)
 
 		case CMD_POP:
 			
-			cond = fscanf(strin, "%s", pop_word);
+			cond = fscanf_s(strin, "%s", pop_word, _countof(pop_word));
 			INJURED_IF(cond == 0, "\nUnexpected end after POP\n");
 
 			_strlwr(pop_word);
@@ -243,7 +240,7 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts)
 
 		case CMD_OUT:
 			
-			cond = fscanf(strin, "%s", out_word);
+			cond = fscanf_s(strin, "%s", out_word, _countof(out_word));
 			INJURED_IF(cond == 0, "\nUnexpected end after OUT\n");
 
 			_strlwr(out_word);
@@ -258,7 +255,7 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts)
 			if (reg == STR_ch) 
 			{
 				int out_char = -1;
-				cond = fscanf(strin, "%d", &out_char);
+				cond = fscanf_s(strin, "%d", &out_char);
 				INJURED_IF(cond == 0, "\nBad argument after OUT CH\n");
 				CHECK_CUR_CODE_;
 				codes[cur_code++] = reg;
@@ -277,11 +274,11 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts)
 		case CMD_MOV:
 			
 
-			cond = fscanf(strin, "%s", mov_word1);
+			cond = fscanf_s(strin, "%s", mov_word1, _countof(mov_word1));
 			INJURED_IF((cond == 0), "\nUnexpected end after MOV, can't find first argument\n");
 
 			
-			cond = fscanf(strin, "%s", mov_word2);
+			cond = fscanf_s(strin, "%s", mov_word2, _countof(mov_word2));
 			
 			INJURED_IF((cond == 0), "\nUnexpected end after MOV, can't find second argument\n");
 
@@ -324,7 +321,7 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts)
 		case CMD_JNE:
 		case CMD_CALL:
 
-			cond = fscanf(strin, "%s", jump_mark);																		
+			cond = fscanf_s(strin, "%s", jump_mark, _countof(jump_mark));																		
 			
 			INJURED_IF((cond <= 0), "\nUnexpected end of input\n");														
 			INJURED_IF((jump_mark[0] != ':'), "\nWrong format of mark\n");
