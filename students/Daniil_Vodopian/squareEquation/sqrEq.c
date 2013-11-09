@@ -140,7 +140,7 @@ int main(){
 
 //----------------------------------------------------------------------
 SolveSquareReturn_t solveSquare (float a, float b, float c, float* x1, float* x2){
-	if(!x1 || !x2) 			 return Error;
+	if(!x1 || !x2)				return Error;
 	//a*(x^2) + b*x + c = 0		//general form of the equation
 	float d = b*b - 4*a*c;		//discriminant of this equation (if it is a SQUARE one)
 	
