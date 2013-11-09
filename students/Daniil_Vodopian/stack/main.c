@@ -2,8 +2,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include "stackLib.h"
-//#include <stackLib.h>
+#include <stackLib.h>
 
 int main (int argc, char *arg[])
 {

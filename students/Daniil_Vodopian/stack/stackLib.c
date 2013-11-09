@@ -2,16 +2,14 @@
 #include <string.h>
 #include <assert.h>
 
-#include "stackLib.h"
-//#include <stackLib.h>
+#include <stackLib.h>
 
-//#define repeat(x) for(int cnt_rpt = 0; cnt_rpt < x; cnt_rpt++)
-//#define repeatI(x) for(int I = 0; I < x; I++)
-int I;
-#define repeatI(x) for(I = 0; I < x; I++)
+#define repeat(x)	for(int cnt_rpt = 0; cnt_rpt < x; cnt_rpt++)
+#define repeatI(x)	for(int I = 0; I < x; I++)
 #define print(expr) printf(#expr " = %d\n", expr);
 
-//------------------------
+//----------------------------------------------------------------------
+
 void Stack_constract(Stack_t *st){
 	*( (int*) &(st -> maxSize) ) = MaxSizeStackT;
 	if(st -> count < 0) assert(!"dead stack");

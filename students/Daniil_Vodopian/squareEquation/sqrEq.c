@@ -2,18 +2,18 @@
  @file		sqrEq.c
  @date		2013-10-27 15:08
  @author	Daniil Vodopian <dgvodopyan@gmail.com>
- @version	1.02
+ @version	1.03
 
  Solving a square equation with minding all cases.
 
  @par		Task:
 			input: 3 coefficients of a square equation
 			ouput: number of its roots (-1 in infinity) 
-					* and the roots themselves (if exist)
+				* and the roots themselves (if exist)
 			
- @return 	0: NoErr		no errors occurred
-			1: UnknownErr	an unknown exception happened
-			2: InputErr		incorrect input
+ @retval 	0(NoErr)		no errors occurred
+ @retval	1(UnknownErr)	an unknown exception happened
+ @retval	2(InputErr)		incorrect input
 			
  @note		The precision of output is the second digit after the decimal point
 			
@@ -21,61 +21,80 @@
 			It will close by itself after an incorrect input.
 			If you want to stop using the program, enter empty line when asked.
 ***********************************************************************/
-typedef enum {NoErr = 0, UnknownErr = 1, InputErr = 2} MainReturn_t;
+typedef enum {
+	NoErr = 0,			///< No errors occurred
+	UnknownErr = 1,		///< An unknown exception happened
+	InputErr = 2		///< Incorrect input
+} MainReturn_t;
 //----------------------------------------------------------------------
 #include <stdio.h>
 #include <math.h>
 #include <float.h>
 //#include <stdlib.h>
 //----------------------------------------------------------------------
-#define DEBUG//DEBAG-key
+//#define UNDEBUG//DEBAG-key
 //----------------------------------------------------------------------
-#ifdef DEBUG
-#define ASSERT(cond) \
-	if (!(cond)) {\
-		printf("ERROR: %s, file: %s, line: %d\n", #cond, __FILE__, __LINE__);\
-		abort();\
+#ifndef UNDEBUG
+#define ASSERT(cond)								\
+	if (!(cond)) {									\
+	printf("ERROR: %s, file: %s, line: %d\n",		\
+		#cond, __FILE__, __LINE__);					\
+	abort();										\
 	}
 #else
 #define ASSERT(cond)
-#endif //DEBUG
+#endif 							///<DEBUG
 //----------------------------------------------------------------------
-#define printErr(str)\
-	printf("#ERROR: %s", str) //print error massage
+#define printErr(str)								\
+	printf("#ERROR: %s", str) 	///<prints an error massage
 //----------------------------------------------------------------------	
-#define printInvit \
-	printf(">> ")		//print an invitation for input
+#define printInvit									\
+	printf(">> ")				///<prints an invitation for input
 //----------------------------------------------------------------------
+/***********************************************************************
+ @enum SolveSquareReturn_t
+ 
+ Contains all posiible return values for solveSquare
+***********************************************************************/
+typedef enum {
+	InfRoots = 	-1,		///< Infinitive number of roots
+	NoRoots = 	 0,		///< No roots exist
+	OneRoot = 	 1,		///< One root
+	TwoRoots = 	 2,		///< Two roots
+	Error = 	13		///< Any error
+} SolveSquareReturn_t;
+
 /** ********************************************************************
  solveSquare -  solve a square equation specified by its coefficients
 				* in the form a*(x^2) + b*x + c = 0
  
- @param      a	Equation a-coefficient
- @param      b	Equation b-coefficient
- @param      c	Equation c-coefficient
+ @param[in]  a	Equation a-coefficient
+ @param[in]  b	Equation b-coefficient
+ @param[in]  c	Equation c-coefficient
  @param[out] x1	1st root of equation, if exist (if not, value will be unchanged)
  @param[out] x2	2nd root of equation, if exist (if not, value will be unchanged)
  
- @return	-1: InfRoots	Infinitive number of roots
-			 0: NoRoots		No roots exist
-			 1: OneRoot		One root
-			 2: TwoRoots	Two roots
-			13: Error		Any error
+ @return	Number of roots or zero if none, -1 if infinite number of roots
  
- @note			Calculation precision is considered to be FLT_EPSILON.
+ @retval	-1(InfRoots)	Infinitive number of roots
+ @retval	 0(NoRoots)		No roots exist
+ @retval	 1(OneRoot)		One root
+ @retval	 2(TwoRoots)	Two roots
+ @retval	13(Error)		Any error(check x1 and x2 for NULL)
+ 
+ @note		Calculation precision is considered to be FLT_EPSILON.
 ***********************************************************************/
-typedef enum {InfRoots = -1, NoRoots = 0, OneRoot = 1, TwoRoots = 2, Error = 13} SolveSquareReturn_t;
 SolveSquareReturn_t solveSquare (float a, float b, float c, float* x1, float* x2);
 //----------------------------------------------------------------------
 /** ********************************************************************
  printEquation - print a square equation specified by its coefficients
 					* in the form a*(x^2) + b*x + c = 0
 
- @param		a	Equation a-coefficient
- @param		b	Equation b-coefficient
- @param		c	Equation c-coefficient
+ @param[in]  a	Equation a-coefficient
+ @param[in]  b	Equation b-coefficient
+ @param[in]  c	Equation c-coefficient
 
- @note		it prints the only line without '\n' symbols
+ @note		it prints the only line without '\\n' symbols
 ***********************************************************************/
 void printEquation (float a, float b, float c);
 //----------------------------------------------------------------------
@@ -121,13 +140,14 @@ int main(){
 
 //----------------------------------------------------------------------
 SolveSquareReturn_t solveSquare (float a, float b, float c, float* x1, float* x2){
+	if(!x1 || !x2) 				return Error;
 	//a*(x^2) + b*x + c = 0		//general form of the equation
 	float d = b*b - 4*a*c;		//discriminant of this equation (if it is a SQUARE one)
 	
 	if 		(!a && !b && !c)	return InfRoots;	//0 = 0
 	else if (!a && !b &&  c)	return NoRoots;		//0 = c
 	else if (!a){ 
-		*x1 = -c / b;						//b*x = -c
+		*x1 = -c / b;								//b*x = -c
 		return  OneRoot;
 	}
 	else if (d < 0)				return  NoRoots;
