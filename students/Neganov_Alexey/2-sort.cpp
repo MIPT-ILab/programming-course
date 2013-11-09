@@ -14,10 +14,16 @@
 #define EPSILON 10e-6
 #define IS_BELOW(x1, x2) x1-x2<EPSILON
 #define IS_ABOVE(x1, x2) x1-x2>EPSILON
-// FIXME May be make 'datatype' 'double*'? Something like 'dtatype_ptr'
-typedef double datatype;
+typedef double* datatype_ptr;
 const int OK = 1;
 const int ERROR = 0;
+//it's important in comparing, that the current element must be rigth or left in the sequence.
+//Need in special compare function comes into existence, because it makes possibility to sort up, down,\
+and in any way by changing only small compare function.
+//For this reason, the following defines are named so.
+const int RIGHT = 1;
+const int LEFT = -1;
+const int THE_SAME = 0;
 //{========================================================================================================
 //! data_copy - copy some number of elements of the array, starting from a certain position, to the buffer.
 //!
@@ -28,15 +34,11 @@ const int ERROR = 0;
 //!
 //! @return        OK
 //}========================================================================================================
-int data_copy(const datatype *data, datatype *buffer, const int copy_number, const int position)
+int data_copy(const datatype_ptr data, datatype_ptr buffer, const int copy_number, const int position)
    {
    assert(data && buffer);
    for(int i=0; i<copy_number; i++)
-      {
-      // FIXME Is it necessary?
-      assert(0 <= i && i < copy_number);
       buffer[i] = data[position+i];
-      }
    return OK;
    }
 //{========================================================================================================
@@ -49,18 +51,13 @@ int data_copy(const datatype *data, datatype *buffer, const int copy_number, con
 //!
 //! @note       Calculation precision is considered to be EPSILON.
 //}========================================================================================================
-int cmp_double(const double a, const double b)
+int cmp_double(double *a, double *b)
     {
-    // FIXME It will be more clear, if you define return values.
-    // return GT
-    // return LT
-    // return EQ
-    // or something like that
-    if( IS_ABOVE(a,b) )
-       return 1;
-    else if ( IS_BELOW(a,b) )
-       return -1;
-    else return 0;
+    if( IS_ABOVE(*a,*b) )
+       return RIGHT;
+    else if ( IS_BELOW(*a,*b) )
+       return LEFT;
+    else return THE_SAME;
     }
 //{========================================================================================================
 //! data_ord_merge - merge two arrays in the order of elements, which is set in special compare function
@@ -75,8 +72,8 @@ int cmp_double(const double a, const double b)
 //!
 //! @return        OK
 //}========================================================================================================
-int data_ord_merge(datatype *receiver, const datatype *source1, const datatype *source2,\
-const int number, const int number1, const int number2, int (*cmp)(const datatype, const datatype))
+int data_ord_merge(datatype_ptr receiver, const datatype_ptr source1, const datatype_ptr source2,\
+const int number, const int number1, const int number2, int (*cmp)(const datatype_ptr, const datatype_ptr))
     {
     assert(receiver && source1 && source2);
     assert(number >= number1 + number2);
@@ -86,7 +83,7 @@ const int number, const int number1, const int number2, int (*cmp)(const datatyp
        {
        if(i1<number1 && i2<number2)
           {
-          if( cmp(source1[i1], source2[i2]) <= 0 )
+          if( cmp(&source1[i1], &source2[i2]) != RIGHT )
              {
              receiver[i] = source1[i1];
              i1++;
@@ -119,20 +116,20 @@ const int number, const int number1, const int number2, int (*cmp)(const datatyp
 //!
 //! @return        OK
 //}========================================================================================================
-int mergesort(datatype *data, const int number, int (*cmp)(const datatype, const datatype))
+int mergesort(datatype_ptr data, const int number, int (*cmp)(const datatype_ptr, const datatype_ptr))
    {
     assert(data);
     assert(cmp);
     if( number > 1 )
        {
        const int num1 = number/2;
-       datatype *data1 = (datatype*)calloc(num1, sizeof(*data1));
+       datatype_ptr data1 = (datatype_ptr)calloc(num1, sizeof(*data1));
        assert(data1);
        data_copy(data, data1, num1, 0);
        mergesort(data1, num1, cmp);
 
        const int num2 = (number%2 == 0)? num1: num1+1;
-       datatype *data2 = (datatype*)calloc(num2, sizeof(*data2));
+       datatype_ptr data2 = (datatype_ptr)calloc(num2, sizeof(*data2));
        assert(data2);
        data_copy(data, data2, num2, num1);
        mergesort(data2, num2, cmp);
@@ -196,7 +193,7 @@ int main()
       polite_action();
       return 0;
       }
-   datatype *data = (datatype*)calloc(number, sizeof(datatype));
+   datatype_ptr data = (datatype_ptr)calloc(number, sizeof(*data));
    assert(data);
    printf("#Enter your data\n");
    for(int i=0; i<number; i++)
