@@ -1,3 +1,17 @@
+//{=================================================================================
+//! @file    Postfix.cpp
+//! @date    2013-10-25 23:10
+//! @author  Solomennikov Semen, 999solom.s.v.999@gmail.com
+//!
+//! Calculating expression in Reverse Polish Notation
+//!
+//! @par     Condition of the task:
+//!          We enter expression in Reverse Polish Notation. Program should print
+//!          solution of it.
+//!
+//! @warning Math!
+//}=================================================================================
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -21,15 +35,16 @@ int stack_ok(const stack_t *stack)
 //Print nessesary fakts about the program and the stack.
 stack_t* dump_stack(const stack_t *stack)
 {
-    int o=0;
+    int i=0;
 
+    printf("Options of the stack and the programm:\n");
     printf("%s\n%s\n%s\n",__TIME__,__DATE__,__FILE__);
     printf("last = %i\n",stack -> last);
     printf("data_size = %i\n",stack -> data_size);
 
-    for (o = 0 ; o < stack -> data_size ; o++)
+    for (i = 0 ; i < stack -> data_size ; i++)
     {
-        printf("data[%i] = %lg\n", o,stack -> data[o]);
+        printf("data[%i] = %lg\n", i,stack -> data[i]);
     }
     return 0;
 }
@@ -90,7 +105,7 @@ double pop(stack_t *stack)
 
 unsigned int fact(unsigned int p);
 int power(int a, unsigned int n);
-
+int resh(int q,int w);
 
 int main()
 {
@@ -103,15 +118,15 @@ int main()
         double x = 0;
         switch(c)
         {
-            case ' '  :                                     break;
-            case '\n' :                                     break;
-            case '+'  : push(s, pop(s) + pop(s) );          break;
-            case '-'  : push(s,-pop(s) + pop(s) );          break;
-            case '*'  : push(s, pop(s) * pop(s) );          break;
-            case '/'  : push(s, pop(s) / pop(s) );          break;
-            case '!'  : push(s, fact(pop(s)) );             break;
-            case '^'  : push(s, power(pop(s),pop(s)) );     break;
-            case '%'  : push(s, (int)pop(s) % (int)pop(s) );break;
+            case ' '  :                                                break;
+            case '\n' :                                                break;
+            case '+'  : push(s, pop(s) + pop(s) );                     break;
+            case '-'  : push(s,-(pop(s) - pop(s)) );                   break;
+            case '*'  : push(s, pop(s) * pop(s) );                     break;
+            case '/'  : push(s, (1/pop(s)) * pop(s) );                 break;
+            case '!'  : push(s, fact(pop(s)) );                        break;
+            case '^'  : push(s, power(pop(s),pop(s)) );                break;
+            case '%'  : push(s, resh((int)pop(s),(int)pop(s)) );       break;
             default:
                 {
                     ungetc( c, stdin );
@@ -128,7 +143,7 @@ int main()
                 }
         }
     }
-    printf("%lg\n",pop(s));
+    printf("Answer is:%lg\n\n\n",pop(s));
     dump_stack(s);
     dest_stack(s);
 
@@ -161,4 +176,9 @@ unsigned int fact(unsigned int p)
     }
 
     return c;
+}
+
+int resh(int q,int w)
+{
+    return (q % w);
 }

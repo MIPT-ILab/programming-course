@@ -1,0 +1,25 @@
+in ax 
+mov 1 bx
+mov 1 cx
+mov 1 dx
+:0
+push ax
+push dx
+jbe :9 
+push cx
+push cx
+push bx
+add
+pop cx
+pop bx
+push dx
+push 1
+add
+pop dx
+jmp :0
+:9
+out ax
+out cx
+end
+
+
