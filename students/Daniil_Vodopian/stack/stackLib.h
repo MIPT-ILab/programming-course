@@ -6,42 +6,26 @@
 
  A short library for work with a Stack_t
 ***********************************************************************/
-
-#ifndef STACK_LIB_H //STACK_LIB_H
-#define STACK_LIB_H
+#ifndef _STACK_LIB_H_ //_STACK_LIB_H_
+#define _STACK_LIB_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif 				//C++ compatibility
 //----------------------------------------------------------------------
-#define printErr(mess)\
-	printf("!#ERROR: %s :: file: %s; line: %d\n", mess, __FILE__, __LINE__) //print error massage
+#include <errOutput.h>
 	
 #ifndef UNDEBUG 	//UNDEBUG
-#define assert(cond, mess) 					\
-	if (!(cond)) {							\
-		printErr(#mess ":: (" #cond ")");	\
-		abort();							\
-	}
-	
-#define ASSERT(cond)\
-	assert(cond, "-?-")
 
-#define stack_Assert(st) 			\
-	if(!Stack_OK(st)){ 				\
-	Stack_Dump(st); 				\
-	printErr("broken stack" #st);	\
-	abort();						\
-}
+#define Stack_Assert(this_) 				\
+	struct_Assert(Stack, this_)
 
-#define STACK_ASSERT\
-	stack_Assert(this_)
+#define STACK_ASSERT						\
+	Stack_Assert(this_)
 
 #else 				//UNDEBUG
 
-#define assert(cond, mess)
-#define ASSERT(cond)
-#define stack_Assert(st)
+#define Stack_Assert(this_)
 #define STACK_ASSERT
 
 #endif 				//UNDEBUG
@@ -68,17 +52,17 @@ typedef struct Stack_t{
 } Stack_t;
 
 //------------------------
-void Stack_constract(Stack_t *st);
+void 	Stack_constract(Stack_t *this_);
 Stack_t* Stack();
-void Stack_distruct(Stack_t *st);
-int Stack_OK(const Stack_t *st);
-void Stack_Dump(const Stack_t *st);//elmStack_t = int
+void 	Stack_distruct(Stack_t *this_);
+int 	Stack_OK(const Stack_t *this_);
+void 	Stack_Dump(const Stack_t *this_);//elmStack_t = int
 
-void push(Stack_t *st, elmStack_t x);
-elmStack_t pop(Stack_t *st);
+void 	Stack_push(Stack_t *this_, elmStack_t elm);
+elmStack_t Stack_pop(Stack_t *this_);
 //----------------------------------------------------------------------
 #ifdef __cplusplus
 }
 #endif 				//C++ compatibility (end)
 
-#endif 				//STACK_LIB_H
+#endif 				//_STACK_LIB_H_
