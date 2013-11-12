@@ -51,6 +51,8 @@ int data_copy(const datatype_ptr data, datatype_ptr buffer, const int copy_numbe
 //!
 //! @note       Calculation precision is considered to be EPSILON.
 //}========================================================================================================
+// FIXME Why you pass this numbers by reference?
+// May be you can use const reference or pass them by value?
 int cmp_double(double *a, double *b)
     {
     if( IS_ABOVE(*a,*b) )
@@ -183,7 +185,15 @@ int polite_action()
    }
 
 
-
+// FIXME Check this
+// [crady@cradylap Neganov_Alexey]$ ./a.out 
+// #Enter the number of elements
+// 3.3
+// #Enter your data
+// 1
+// 2
+// 0.3 1 2 
+// 
 int main()
    {
    int number=0;
