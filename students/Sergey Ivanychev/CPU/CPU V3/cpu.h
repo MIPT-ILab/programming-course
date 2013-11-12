@@ -9,6 +9,7 @@
 #include <math.h>
 #include <float.h>
 #include "string.h"
+#include <assert.h>
 //#include "command_codes.h"
 
 

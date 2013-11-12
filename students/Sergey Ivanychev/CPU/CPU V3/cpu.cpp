@@ -444,7 +444,6 @@ cpu* cpu_construct(int stack_size)
 	VERIFY(out_cpu -> cpu_stack);
 	VERIFY(out_cpu -> func_stack);
 	for (int i = 0; i < MAXCODES; ++i) out_cpu -> memory[i] = 0;
-	int cur = 0;
 	return out_cpu;
 }
 
@@ -574,7 +573,6 @@ int cpu_check(cpu* my_cpu)
 int cpu_push(cpu* my_cpu, int push_arg, ...)
 {
 	if (stack_full(my_cpu -> cpu_stack) != 0) return CPU_ERROR_STACK_FULL; 
-	double input_number = 0;
 	
 	switch(push_arg)
 	{
@@ -659,7 +657,8 @@ int cpu_in(cpu* my_cpu, int in_arg)
 	if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_START;
 	double in_value = 0;
 	fprintf(stdout, "%d>", in_arg);
-	fscanf(stdin, "%lg", &in_value);
+	int ret = fscanf_s(stdin, "%lg", &in_value);
+	if (ret == 0) return CPU_IN_READING_FAILURE;
 	
 	switch (in_arg)
 	{
@@ -753,7 +752,6 @@ int cpu_dub(cpu* my_cpu)
 	if (stack_empty(my_cpu -> cpu_stack))  return CPU_NOT_ENOUGH_ARGS;
 
 	double value = 0;
-	int ret = 0;
 	
 	cpu_pop(my_cpu, STR_out, &value);
 	
@@ -1152,6 +1150,9 @@ int cpu_catch_error(FILE* stream, cpu* my_cpu, int condition)
 		case CPU_IN_BAD_TOKEN:
 			fprintf(stream, "\nCPU_IN: There's bad token argument\n");
 			return CPU_ERROR_CATCHER_BAD;
+		case CPU_IN_READING_FAILURE:
+			fprintf(stream, "\nCPU_IN: Reading error\n");
+			return CPU_ERROR_CATCHER_BAD;
 		default:
 			fprintf(stream, "\n!!!ERROR: INVALID ERROR SIGNATURE!!!\n");
 			return CPU_ERROR_CATCHER_BAD;
@@ -1231,7 +1232,7 @@ int cpu_load(cpu* my_cpu, FILE* strbin)
 	int com_count = 0;
 	while (true)
 	{
-		ret = fscanf(strbin, "%lg", &inp);
+		ret = fscanf_s(strbin, "%lg", &inp);
 		if (ret <= 0) return LOAD_ERROR_UNEXPECTED_END_OF_FILE;
 		my_cpu -> memory[com_count++] = inp;
 		if (inp == CMD_END) 
@@ -1279,24 +1280,17 @@ int cpu_core(FILE* strout, FILE* strerr, cpu* my_cpu, double* value, int (*error
 	VERIFY(strout != NULL);
 	VERIFY(strerr != NULL);
 
-	const char MAXLINE = 50;
-	int cmd = 0;
-
-	double out = 0;
-	int cond = 0;
-	int reg = 0;
-	int is_value = 0;
-	double push_value = 0;
-
-	double mov_value = 0;
-	int mov_arg1 = 0;
-	int mov_arg2 = 0;
-	int in_arg = 0;
-	int push_arg1 = 0;
-	double push_arg2 = 0;
-	int pop_arg = 0;
-	int out_arg = 0;
-	int out_char = 0;
+	int		cmd = 0;
+	int		cond = 0;
+	double	mov_value = 0;
+	int		mov_arg1 = 0;
+	int		mov_arg2 = 0;
+	int		in_arg = 0;
+	int		push_arg1 = 0;
+	double	push_arg2 = 0;
+	int		pop_arg = 0;
+	int		out_arg = 0;
+	int		out_char = 0;
 
 	int jump_ptr = 0;
 	while (true)
@@ -1349,7 +1343,11 @@ int cpu_core(FILE* strout, FILE* strerr, cpu* my_cpu, double* value, int (*error
 			if (cond == CPU_ERROR_CATCHER_BAD) return EXE_BAD;
 			break;
 		case CMD_FUNC:
-			while (cmd != CMD_RET) cmd = (int)(my_cpu -> memory[my_cpu -> cur++]);
+			while (cmd != CMD_RET) 
+				{
+					VERIFY_CUR;
+					cmd = (int)(my_cpu -> memory[my_cpu -> cur++]);
+				}
 			break;
 		case CMD_IN:
 			VERIFY_CUR;
@@ -1371,16 +1369,16 @@ int cpu_core(FILE* strout, FILE* strerr, cpu* my_cpu, double* value, int (*error
 		CASE_COMMAND(CMD_SQRT,	sqrt(my_cpu));
 		CASE_COMMAND(CMD_POW,	pow(my_cpu));
 		CASE_COMMAND(CMD_DUMP,	dump(strerr, my_cpu));
-		CASE_COMMAND(CMD_RET, ret(my_cpu));
+		CASE_COMMAND(CMD_RET,	ret(my_cpu));
 
-		CASE_JUMP(CMD_JBE,	jbe(my_cpu, jump_ptr)); 
-		CASE_JUMP(CMD_JB,	jb(my_cpu, jump_ptr)); 
-		CASE_JUMP(CMD_JAE,	jae(my_cpu, jump_ptr)); 
-		CASE_JUMP(CMD_JA,	ja(my_cpu, jump_ptr)); 
-		CASE_JUMP(CMD_JE,	je(my_cpu, jump_ptr)); 
-		CASE_JUMP(CMD_JNE,	jne(my_cpu, jump_ptr)); 
-		CASE_JUMP(CMD_JMP,	jmp(my_cpu, jump_ptr));
-		CASE_JUMP(CMD_CALL, call(my_cpu, jump_ptr));
+		CASE_JUMP(CMD_JBE,		jbe(my_cpu, jump_ptr)); 
+		CASE_JUMP(CMD_JB,		jb(my_cpu, jump_ptr)); 
+		CASE_JUMP(CMD_JAE,		jae(my_cpu, jump_ptr)); 
+		CASE_JUMP(CMD_JA,		ja(my_cpu, jump_ptr)); 
+		CASE_JUMP(CMD_JE,		je(my_cpu, jump_ptr)); 
+		CASE_JUMP(CMD_JNE,		jne(my_cpu, jump_ptr)); 
+		CASE_JUMP(CMD_JMP,		jmp(my_cpu, jump_ptr));
+		CASE_JUMP(CMD_CALL,		call(my_cpu, jump_ptr));
 		
 
 

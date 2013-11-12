@@ -11,12 +11,32 @@ const int LENGTH_MARKS = 20;
 										executable.ivz is kind of the same file, but the data has been saved in binary format
 			@return						0
 **/
+
+#define CHECK_PTR_HEALTH(ptr, msg, ret)						\
+if (ptr == NULL)											\
+{															\
+	fprintf_s(strerr, msg);									\
+	fclose(strerr);											\
+	return ret;												\
+}
+
 int asm_main()
 {
-	FILE* strin  = fopen("code.txt", "r");
-	FILE* strout_bin = fopen("executable.ivz", "wb");
-	FILE* strout_txt = fopen("executable.txt", "w");
-	FILE* strerr = fopen("asm_log.txt", "w");
+	FILE* strerr = NULL;
+	fopen_s(&strerr, "asm_log.txt", "w");
+	VERIFY(strerr != NULL);
+	
+	FILE* strin = NULL;
+	fopen_s(&strin, "code.txt", "r");
+	CHECK_PTR_HEALTH(strin, "\nCode.txt opening error\n", ASM_FAIL);
+	
+	FILE* strout_bin = NULL;
+	fopen_s(&strout_bin, "executable.ivz", "wb");
+	CHECK_PTR_HEALTH(strout_bin, "\nexecutable.ivz opening error\n", ASM_FAIL);
+	
+	FILE* strout_txt = NULL;
+	fopen_s(&strout_txt, "executable.txt", "w");
+	CHECK_PTR_HEALTH(strout_txt, "\nexecutable.ivz openning error\n", ASM_FAIL);
 
 	pointer pts[NUM_OF_POINTERS] = {};
 	for (int i = 0; i < NUM_OF_POINTERS; ++i)
@@ -29,15 +49,17 @@ int asm_main()
 
 	if (code == NULL) 
 	{
-		fprintf(strerr, "\nAssemble failed\n");
+		fprintf_s(strerr, "\nAssemble failed\n");
 
 		fclose(strin);
 		fclose(strout_txt);
 		fclose(strout_bin);
 		
-		strout_bin = fopen("executable.ivz", "wb");
-		strout_txt = fopen("executable.txt", "w");
-
+		fopen_s(&strout_bin, "executable.ivz", "wb");
+		CHECK_PTR_HEALTH(strout_bin, "\nexecutable.ivz opening error\n", ASM_FAIL);
+		fopen_s(&strout_txt, "executable.txt", "w");
+		CHECK_PTR_HEALTH(strout_txt, "\nexecutable.ivz openning error\n", ASM_FAIL);
+		
 		fclose(strout_txt);
 		fclose(strout_bin);
 
@@ -47,19 +69,20 @@ int asm_main()
 	}
 	
 	fclose(strin);
-	strin = fopen("code.txt", "r");
+	
+	fopen_s(&strin, "code.txt", "r");
+	CHECK_PTR_HEALTH(strin, "\nCode.txt opening error\n", ASM_FAIL);
 
 	code = assemble(strin, strerr, pts);
-
-	
+	CHECK_PTR_HEALTH(code, "\nAssemblation failed!\n", ASM_FAIL);
 	
 	int i = 0;
 	while (code[i++] != CMD_END) fprintf(strout_bin, "%lg ", code[i - 1]);
-	fprintf(strout_bin, "%lg ", code[i - 1]);
+	fprintf_s(strout_bin, "%lg ", code[i - 1]);
 	
 	i = 0;
 	while (code[i++] != CMD_END) fprintf(strout_txt, "%lg\n", code[i - 1]);
-	fprintf(strout_txt, "%lg\n", code[i - 1]);
+	fprintf_s(strout_txt, "%lg\n", code[i - 1]);
 	
 	fclose(strin);
 	fclose(strout_txt);
@@ -67,6 +90,6 @@ int asm_main()
 	fclose(strerr);
 	
 	free(code);
-
+	code = NULL;
 	return ASM_OK;
 }
