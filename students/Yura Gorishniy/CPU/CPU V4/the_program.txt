@@ -1,0 +1,13 @@
+jmp :1
+
+func :2
+dup
+mul
+ret
+
+:1
+in ax
+push ax
+call :2
+out st
+end
