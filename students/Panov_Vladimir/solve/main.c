@@ -1,6 +1,6 @@
 //{=================================================================================
 //! @file    solve.c
-//! @date    2013-11-3 13:00
+//! @date    2013-11-16 19:03
 //! @author  Panov Vladimir <volodka.1995@gmail.com>
 //!
 //! Решение квадратного уравнения с честным разбором частных случаев.
@@ -26,7 +26,7 @@ if (!(cond)) {\
 #define assert(cond)
 #endif //DEBUG
 
-#define DBL_EPSILON 0.0000000001
+#define DBL_EPSILON 1e-8
 #define ONE_SOLUTION 1
 #define TWO_SOLUTION 2
 #define MANY_SOLUTIONS 3
@@ -78,6 +78,7 @@ int LineSolve( const double b, const double c, double* x) {
 int SquareSolve( const double a, const double b, const double c, double* x1, double* x2) {
 	assert(x1 != NULL);
 	assert(x2 != NULL);
+	assert(x1 != x2);
 	double D = b * b - 4 * a * c;
 	if( IS_BELOW_ZERO(D)) {
 		return NO_SOLUTION;
