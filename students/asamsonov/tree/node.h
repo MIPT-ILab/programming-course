@@ -44,7 +44,8 @@ enum Node_exceptions {
 	NEXC_NODE_NILL_POINTER  = 804,
 	NEXC_TOKEN_NOT_OK       = 805,
 	NEXC_NODE_CHILD_FULL    = 806,
-	NEXC_NODE_UB            = 807,
+	NEXC_FILE_CORR_POINTER  = 807,
+	NEXC_NODE_UB            = 808,
 };
 
 //}-------------node-consts-----------------------------------------------
@@ -113,6 +114,8 @@ Node_exceptions std_node_t_OK (node_t *token);
 
 Node_exceptions std_node_t_dump (node_t *token, FILE *fo);
 
+Node_exceptions std_node_t_print (node_t *token, FILE *fo);
+
 // -------------------------------------------------------------------------------------------------------------------------
 // /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 // -------------------------------------------------------------------------------------------------------------------------
@@ -133,6 +136,11 @@ Node_exceptions Node_dump (Node *myNode,
 						   FILE *fo = stderr, 
 						   Node_exceptions (*node_t_OK) (node_t *token) = std_node_t_OK, 
 						   Node_exceptions (*node_t_dump) (node_t *token, FILE *fo) = std_node_t_dump);
+
+Node_exceptions Node_print (Node *myNode, 
+							FILE* fo, 
+							int tabs = 0, 
+							Node_exceptions (*node_t_print) (node_t *token, FILE *fo) = std_node_t_print);
 
 Node_exceptions Node_add (Node *root, 
 						  Childs dest, 

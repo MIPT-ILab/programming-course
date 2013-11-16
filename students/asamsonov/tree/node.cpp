@@ -180,14 +180,17 @@ Node_exceptions std_node_t_dump (node_t *token, FILE *fo)
 {
 	if (!token)
 		return NEXC_TOKEN_NILL_POINTER;
-	int ok = std_node_t_OK (token);
+	if (!fo)
+		return NEXC_FILE_CORR_POINTER;
+
+	Node_exceptions ok = std_node_t_OK (token);
 	if (!NODE_T_FORMAT)
 		return NEXC_OK;
 
-	Node_exceptions ok = NEXC_OK;
+	ok = NEXC_OK;
 
 	fprintf (fo, "Hello @, I'm token. %.8X. // %s\n", token, ok ? "ok" : "I'M NOT OK!!!!1!!!1!!1! NOT OK!!!!$@#!!1!");
-	fprintf (fo, "I'm equal to__ " NODE_T_FORMAT " __.\n", *token);
+	fprintf (fo, "\t" "I'm equal to__ " NODE_T_FORMAT " __.\n", *token);
 
 	fprintf (fo, "token: That's all.\n\n");
 	return NEXC_OK; // Check printfs, man.
@@ -219,6 +222,9 @@ Node_exceptions Node_dump (Node *myNode,
 						   Node_exceptions (*node_t_OK) (node_t *token), 
 						   Node_exceptions (*node_t_dump) (node_t *token, FILE *fo))
 {
+	if (!fo)
+		return NEXC_FILE_CORR_POINTER;
+
 	Node_exceptions ok = Node_OK (myNode, node_t_OK);
 
 	fprintf (fo, "Hello @, I'm Node. %.8X. // %s\n", myNode, (ok == NEXC_OK) ? "ok" : "I'M NOT OK!!!!1!!!1!!1! NOT OK!!!!$@#!!1!");
@@ -233,6 +239,79 @@ Node_exceptions Node_dump (Node *myNode,
 
 	fprintf (fo, "Node: That's all.\n\n");
 	return NEXC_OK; // Check printfs, man.
+}
+
+// -------------------------------------------------------------------------------------------------------------------------
+// /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+// -------------------------------------------------------------------------------------------------------------------------
+
+Node_exceptions std_node_t_print (node_t *token, FILE *fo)
+{
+	if (!token)
+		return NEXC_TOKEN_NILL_POINTER;
+	if (!fo)
+		return NEXC_FILE_CORR_POINTER;
+
+	fprintf (fo, NODE_T_FORMAT, *token);
+
+	return NEXC_OK;
+}
+
+//{-------------Node-functions-----------------------------------
+//! @brief		Checks if Node and it's token are OK.
+//!
+//! @param		myNode       Node to check.
+//! @param		fo           file to print into.
+//! @param		tabs         number of tabulations.
+//! @param		node_t_print function that prints Node token.
+//!
+//! @return		exception, if it was catched.
+//!
+//! @see     std_node_t_print() 
+//}-------------Node-functions-------------------------------------
+
+Node_exceptions Node_print (Node *myNode, 
+							FILE* fo, 
+							int tabs, 
+							Node_exceptions (*node_t_print) (node_t *token, FILE *fo))
+{
+	if (!myNode)
+		return NEXC_NODE_NILL_POINTER;
+	if (!fo)
+		return NEXC_FILE_CORR_POINTER;
+
+	for (int i = 0; i < tabs; i++)
+		fputc ('\t', fo);
+	fputc ('(' , fo);
+	fputc ('\n', fo);
+
+	if (myNode->lt)
+		Node_print (myNode->lt, fo, tabs + 1, node_t_print);
+	else {
+		for (int i = 0; i < tabs + 1; i++)
+			fputc ('\t', fo);
+		fprintf (fo, "nill\n");
+	}
+
+	for (int i = 0; i < tabs; i++)
+		fputc ('\t', fo);
+	node_t_print (&myNode->token, fo);
+	fputc ('\n', fo);
+
+	if (myNode->rt)
+		Node_print (myNode->rt, fo, tabs + 1, node_t_print);
+	else {
+		for (int i = 0; i < tabs + 1; i++)
+			fputc ('\t', fo);
+		fprintf (fo, "nill\n");
+	}
+
+	for (int i = 0; i < tabs; i++)
+		fputc ('\t', fo);
+	fputc (')' , fo);
+	fputc ('\n', fo);
+
+	return NEXC_OK;
 }
 
 // -------------------------------------------------------------------------------------------------------------------------
