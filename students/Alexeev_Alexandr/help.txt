@@ -1,0 +1,34 @@
+List of assembler instructions:
+
+push 'value' //To input value into stack    
+push ax      //To input value from register 'ax' into stack
+push bx      //To input value from register 'bx' into stack
+push cx      //To input value from register 'cx' into stack
+push dx      //To input value from register 'dx' into stack
+pop          //To get the last value from stack and delete it   
+pop ax       //To get the last value from stack and push it in register 'ax' 
+pop bx       //To get the last value from stack and push it in register 'bx' 
+pop cx       //To get the last value from stack and push it in register 'cx' 
+pop dx       //To get the last value from stack and push it in register 'dx' 
+dump         //To see all information about stack                                                            
+add          //To sum two last values from stack, delete it and push result into stack                       
+sub          //To sub two last values from stack, delete it and push result into stack                       
+mul          //To multiplicate two last values from stack, delete it and push result into stack              
+div          //To divine two last values from stack, delete it and push result into stack                    
+sin          //To calculate sinus for last value from stack, delete it and push result into stack            
+cos          //To calculate cosinus for last value from stack, delete it and push result into stack          
+sqrt         //To calculate square root for last value from stack, delete it and push result into stack      
+pow          //To pow last value from stack into prelast value, delete it and push result into stack        
+:'value'     //Description of label with number 'value'
+jmp :'value' //To jump to label with number 'value'
+jbe :'value' //To pop 2 elements from stack and jump to label with number 'value' if first element >= second element 
+jba :'value' //To pop 2 elements from stack and jump to label with number 'value' if first element <= second element 
+je :'value'  //To pop 2 elements from stack and jump to label with number 'value' if first element > second element 
+ja :'value'  //To pop 2 elements from stack and jump to label with number 'value' if first element < second element 
+jb :'value'  //To pop 2 elements from stack and jump to label with number 'value' if first element = second element 
+jnb :'value' //To pop 2 elements from stack and jump to label with number 'value' if first element != second element 
+call :'value'//To call function witch begining in label with number 'value'
+ret          //To break current function and jump to next command after call
+out          //To pop element from stack and print it
+halt         //To break all operation in cpu
+end          //End of program. Must be the last command in your code.                                                                          
