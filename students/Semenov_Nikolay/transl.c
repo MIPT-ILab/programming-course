@@ -36,11 +36,11 @@ Add assert, to check command name!
 	char cmd[CMD_SIZE] ;
 	char reg[REG_SIZE] ;
 	int cmd_n, check, val, reg_n ;
-	int f = 1;
+	int flag = 1 ;
 	
-	while(f)
+	while(flag)
 	{
-		fscanf(open,"%s", &cmd);
+		fscanf(open,"%s", &cmd) ;
 
 		if(cmd[1] == 'U') cmd_n = 3 ; //Mulv
 		if(cmd[0] == 'P') cmd_n = 0 ; //Push
@@ -51,7 +51,6 @@ Add assert, to check command name!
 		if(cmd[0] == ':') cmd_n = 6 ; // :
 		if(cmd[2] == 'T') cmd_n = 7 ; //OUT
 		if(cmd[1] == 'N') cmd_n = 8 ; //End
-		if(cmd[0] == 'C') cmd_n = 9 ; //Close
 
 		switch(cmd_n)
 		{
@@ -79,19 +78,18 @@ Add assert, to check command name!
 				break ;
 			case 2: fprintf(stream," 3 ") ; break ;//ADD
 			case 3: fprintf(stream," 4 ") ; break ;//MUL
-			case 4: fscanf(open,"%d", &val) ;
+			case 4: fscanf(open,"%d", &val)  ;
 				fprintf(stream," 5 %d", val) ; //JMP
 				break ;
-			case 5: fscanf(open,"%d", &val) ;
+			case 5: fscanf(open,"%d", &val)  ;
 				fprintf(stream," 6 %d", val) ; //JBE 
 				break ;
 			case 6: fprintf(stream," -1 %c", cmd[1]) ; //:LABEL
 				break ;
 			case 7: fprintf(stream," 8 ") ; //OUT
 				break ;
-			case 8: fprintf(stream," 9 ") ; //END
-				break ;
-			case 9: f = 0 ;
+			case 8: fprintf(stream," -2 ") ;
+					flag = 0 ; //END
 				break ; 
 			default: assert('Wrong argument' == 0) ; 
 				break ;

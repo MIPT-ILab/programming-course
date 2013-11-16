@@ -17,7 +17,7 @@
 
 //----------------------------------------------------------------------
 /** ********************************************************************
- Constracts a sctack
+ Constracts an empty sctack
  @param			this_	link to the memory for a stack
 ***********************************************************************/
 void Stack_constract(Stack_t *this_){
@@ -59,11 +59,12 @@ int Stack_OK(const Stack_t *this_){
  @param[in]		this_	link for a stack
 ***********************************************************************/
 void Stack_Dump(const Stack_t *this_){ //elmStack_t = int
-	printf("!# Stack_t // %s\n", (Stack_OK(this_))? "ok" : "ERROR STRUKT");
+	printf("!# Stack_t // %s\n", (Stack_OK(this_))? "ok" : "BROKEN STACK");
+	if(!this_) return;
 	printf("!# in #%p\n", (this_ -> arr));
 	printf("!# count = %d < %d == %d\n", this_ -> count, this_ -> maxSize, MaxSizeStackT);
 	printf("!# arr:\n");
-	repeatI(this_ -> count)
+	if(this_ -> arr) repeatI(this_ -> count)
 		printf("!#   %d : %d in #%p\n", I, this_ -> arr[I], (this_ -> arr + I));
 }
 //---------------------------
@@ -73,7 +74,7 @@ void Stack_Dump(const Stack_t *this_){ //elmStack_t = int
  @param[in]		elm		an element
  @note 			stack overflow exeption is possible
 ***********************************************************************/
-void push(Stack_t *this_, elmStack_t elm){
+void Stack_push(Stack_t *this_, elmStack_t elm){
 	STACK_ASSERT
 	assert(this_->count  <  this_->maxSize - 1, "stack overflow")
 	this_->arr[this_->count]  =  elm;
@@ -85,7 +86,7 @@ void push(Stack_t *this_, elmStack_t elm){
  @return		poped element
  @note 			empty stack exeption is possible
 ***********************************************************************/
-elmStack_t pop(Stack_t *this_){
+elmStack_t Stack_pop(Stack_t *this_){
 	STACK_ASSERT
 	assert(this_->count > 0, "empty stack");
 	this_->count --;

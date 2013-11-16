@@ -28,7 +28,7 @@ int stack_construct(struct stack *st)
         st->ch_start = (int*)calloc(ST_SIZE, sizeof(int)) ;
         st->top = st->ch_start + 1 ;
           
-        return 0               ;
+        return 0 ;
 }
 
 int stack_destruct(struct stack *st)
@@ -45,7 +45,6 @@ int push_stack(struct stack *st, int elem)
         ++st->top          ;
         *(st->top) = elem  ;
         ok_stack(st)       ; 
-        printf("Done!\n");
           
         return 0           ;
 }
@@ -55,8 +54,7 @@ int pop_stack(struct stack *st)
         ok_stack(st)           ;        
         int val = *(st->top)   ;          
         --st->top              ;
-        ok_stack(st)           ;  
-        printf("Yep!\n");      
+        ok_stack(st)           ;       
             
         return val             ;
 }
@@ -82,6 +80,7 @@ int mul(struct stack *st)//Multiply last and prev.
 int out(struct stack *st)//Print the last element
 {
 	int last = pop_stack(st)	;
+	push_stack(st, last)        ;
 	printf("%d\n", last)	    ;	
 	
 	return 0		            ;
@@ -93,10 +92,14 @@ int comp(struct stack *st)//Compare last+prev
 	int val_2 = pop_stack(st) ;
 	if(val_2 > val_1) 
 	{
+		push_stack(st, val_2) ;
+		push_stack(st, val_1) ;
 		return 1 ;
 	}
 	else
 	{
+		push_stack(st, val_2) ;
+		push_stack(st, val_1) ;
 		return 0 ;
 	}
 }
@@ -140,21 +143,30 @@ int main()
   data_lbls_constr(&lbl[0], NUM_LBL) ;  
 
   int counter = 0 ;
-  int stop = 0    ;
-  while(stop != END)
+  
+  while(1)
   {
-  	fscanf(stream ,"%d", &data[counter]);
-  	if(data[counter] == 9) break;
-  	counter++;
-  	if(data[counter-1] == JMP_CMD) lbl[data[counter]] = counter + 1 ; 
+  	fscanf(stream ,"%d", &data[counter])     ;
+  	if(data[counter] == -2 ) break           ;
+  	//++counter;
+  	if(data[counter] == -1)
+  	{ 	
+  		++counter                            ;
+  		fscanf(stream ,"%d", &data[counter]) ;
+  		lbl[data[counter]] = counter         ;
+  	} 
+  	++counter                                ;
   }	 
   
-  stack_construct(&MyStack);
+  stack_construct(&MyStack) ;
   
-  for(int step = 0 ; step < counter ; step++ )
+  for(int step = 0 ; step < counter ; ++step )
   {   
   	switch (data[step])
-	{
+	{ 
+		case -1: ++step  ; 
+				 break   ;
+
 		case 0: step++ ;
 	         	switch(data[step])//Push register
 		   	    {
@@ -166,10 +178,10 @@ int main()
 							break                          ;  
 		   	 	}
 			 	break ;
-		case 1: step++ ;//Push value 
+		case 1: ++step ;//Push value 
 			 	push_stack(&MyStack, data[step]) ;
 			 	break ;
-		case 2: step++ ;//Move into register
+		case 2: ++step ;//Move into register
                 switch(data[step])
 		  	 	{
 		  			case 0: ax = pop_stack(&MyStack) ; break       ; 
@@ -184,19 +196,20 @@ int main()
 			 	break ;
 		case 4: mul(&MyStack) ;
 			 	break ;
-	  	case 5: step++ ;//JMP
-	  			assert('Wrong label' == 0);
+	  	case 5: ++step ;//JMP
+	  			//assert('Wrong label' == 0) ;
 	  			step = lbl[data[step]] ;
+
 	  			break ;
 		case 6: if(comp(&MyStack))//JBE
 				{
-					step++ ;
-					assert('Wrong label' == 0);
+					++step ;
+					//assert('Wrong label' == 0);
 					step = lbl[data[step]] ;
 				}
-				else step++ ;
+				else ++step ;
 				break;
-		case 7: step++ ;
+		case 7: ++step ;
 				lbl[data[step]] = step + 1 ;
 	  	case 8: out(&MyStack) ;//OUT
 			 	break ;		

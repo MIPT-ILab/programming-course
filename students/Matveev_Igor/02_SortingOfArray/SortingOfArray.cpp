@@ -28,7 +28,7 @@ if (!(cond)) {                              \
 
 #define SORTED   1
 #define UNSORTED 0
-
+// FIXME Not an error, function's name should be infinitive verb, for example, 'sort'
 int Sorting(int Size, float *Data);
 
 /**
@@ -43,6 +43,29 @@ main - Requires an array, allocates the necessery memory(and free it after work)
       @return main: Standart return
 **/
 //-------------------------------------------------------------------------------------------------
+// FIXME This test should be asserted
+// [crady@cradylap 02_SortingOfArray]$ ./a.out 
+// Hi! Give me an array and I sort it!
+//
+// How many numbers are there in your array?
+// 3.2
+// OK. Give me the numbers over space.
+// 3 2 3 
+//
+// All is OK. Your sorted array:
+// 0.2 2 3 
+//
+// FIXME This test hangs. Try to fix this.
+// [crady@cradylap 02_SortingOfArray]$ ./a.out 
+// Hi! Give me an array and I sort it!
+//
+// How many numbers are there in your array?
+// 5
+// OK. Give me the numbers over space.
+// 4 3 2 6
+// ^C
+// [crady@cradylap 02_SortingOfArray]$ 
+//
 int main()
 {
       char proof = 0;
@@ -100,6 +123,7 @@ Sorting - Sorts the array
 **/
 int Sorting(int Size, float *Data)
 {
+      // FIXME And what if Data is equal to NULL?
       char order = UNSORTED;
       int stop = Size - 1, lsch = 0, i = 0;
       float tmp = 0;
