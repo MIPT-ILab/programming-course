@@ -1,0 +1,23 @@
+push 1
+pop_bx
+push 1
+pop_ax
+:2
+push 10
+push_bx
+jae :1
+push_ax
+push_bx
+push 1
+add
+mul
+pop_ax
+push_bx
+push 1
+add
+pop_ay
+push_ax
+out
+jmp :2
+:1
+end
