@@ -258,9 +258,9 @@ Node_exceptions std_node_t_print (node_t *token, FILE *fo)
 }
 
 //{-------------Node-functions-----------------------------------
-//! @brief		Checks if Node and it's token are OK.
+//! @brief		Recursively prints Nodes in inorder.
 //!
-//! @param		myNode       Node to check.
+//! @param		myNode       Node to print.
 //! @param		fo           file to print into.
 //! @param		tabs         number of tabulations.
 //! @param		node_t_print function that prints Node token.
