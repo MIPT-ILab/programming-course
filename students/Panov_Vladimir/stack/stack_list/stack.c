@@ -37,16 +37,20 @@ int Stack_Destroy(stack* Stack) {
 	}
 	return 0;
 }
-
+//FIXME Do you really need double pointer to stack?
+//I think, that you can you simple 'stack *' here.
 stack* Stack_Push(stack **currentNode, const Stack_Type NewValue) {
 	stack * NewNode = (stack*) malloc(sizeof(stack));
+  // FIXME You can remove these braces, I think
+  // Just NewNode->Value = ...
 	(NewNode)->Value = NewValue;
 	(NewNode)->prev = *currentNode;
 	*currentNode = NewNode;
 	ASSERT_STACK_OK(*currentNode);
 	return *currentNode;
 }
-
+//FIXME Do you really need double pointer to stack?
+//I think, that you can you simple 'stack *' here.
 int Stack_Pop(stack **currentNode, Stack_Type* Value) {
 	ASSERT(Value != NULL);
 	if((*currentNode) == NULL) {
@@ -59,6 +63,8 @@ int Stack_Pop(stack **currentNode, Stack_Type* Value) {
 	return 1;
 }
 
+//FIXME Do you really need double pointer to stack?
+//I think, that you can you simple 'stack *' here.
 int Stack_Invert(stack **currentNode) {
 	stack* nextNode = NULL;
 	stack* prevNode = NULL;
