@@ -10,6 +10,8 @@
 #include <assert.h>
 #define size_stack 100
 /*creating structure for stack */
+// FIXME Move this to separate file. struct and function declaration to .h,
+// function defenitions to .c, then include .h here
 struct stack {
     int Data;
     struct stack *next;
@@ -17,6 +19,8 @@ struct stack {
 struct stack* push (int x, struct stack *ps); // adds a number into stack
 struct stack* pop (int* number_pop, struct stack *ps); /* takes a number from stack*/
 void dump (struct stack *ps); /* prints all elements of stack*/
+// FIXME You should to implement 'stack_ok' function, that checks stack's correctness.
+// FIXME You should add stack, that uses an array to store data.
 int main() {
     struct stack List; // Initialization
     struct stack *ps=NULL; // creates a создание переменной, указывающей на вершину стека
@@ -30,6 +34,9 @@ int main() {
     int size=0;
     int exit=0;
     char expression[100]; /*creates string for arithmetic expression*/
+
+    // FIXME Print some instructions for user. It is not obvious, how to use your program.
+    // FIXME I think, that ',' is more natural than '_'
     scanf("%s", expression);//separate numbers with '_'
     int i=0;
     int old_temp=0;
@@ -54,6 +61,7 @@ int main() {
             // making arithmetic operations and checking if cycle breaks
             switch (expression[i]) {
             case '+':
+            // FIXME Move this to separate function like 'add()'
                 assert(size>1);
                 ps=pop(&number_1, ps);
                 ps=pop(&number_2, ps);
@@ -61,6 +69,7 @@ int main() {
                 size--;
                 break;
             case '*':
+            // FIXME Move this to separate function like 'mul()'
                 assert(size>1);
                 ps=pop(&number_1, ps);
                 ps=pop(&number_2, ps);
@@ -68,6 +77,7 @@ int main() {
                 size--;
                 break;
             case '-':
+            // FIXME Move this to separate function like 'sub()'
                 assert(size>1);
                 ps=pop(&number_1, ps);
                 ps=pop(&number_2, ps);
@@ -89,6 +99,7 @@ int main() {
     return 0;
 }
 struct stack* push (int x, struct stack *ps) {
+    // FIXME What if ps == NULL?
     struct stack *p=(struct stack*)calloc(1, sizeof (struct stack));
     p->Data=x;
     p->next=ps;
@@ -96,12 +107,14 @@ struct stack* push (int x, struct stack *ps) {
 }
 struct stack* pop (int *number_pop, struct stack *ps) {
     assert(ps!=NULL);
+    // FIXME and what if number_pop == NULL?
     struct stack* temp=ps->next;
     *number_pop=ps->Data;
     free(ps);
     return temp;
 }
 void dump (struct stack *ps) {
+    // FIXME What if ps = NULL?
     struct stack* p=ps;
     while (p->next!=NULL) {
         printf ("%d\n", p->Data);
