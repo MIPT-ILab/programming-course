@@ -21,6 +21,11 @@ if (!(cond)) {\
 
 #define DBL_EPSILON 1e-8
 #define IS_BELOW_ZIRO(x) (x <  DBL_EPSILON)
+// FIXME
+// And what if DBL_EPSILON = 0.00000000001, a = -5?
+// In this case (-DBL_EPSILON > a) == true
+// You should to use absolute value here (abs() function in cmath.h)
+// Or, you can change one of < or > sings and this macro will become correct.
 #define IS_ZERO(a) (-DBL_EPSILON < a && a < DBL_EPSILON)
 #define IS_AFTER_ZIRO(x) (x > -DBL_EPSILON)
 
