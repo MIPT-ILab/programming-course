@@ -19,8 +19,9 @@ if (!(cond)) {\
     abort();\
     }
 
-#define DBL_EPSILON 0.00000000001
+#define DBL_EPSILON 1e-8
 #define IS_BELOW_ZIRO(x) (x <  DBL_EPSILON)
+#define IS_ZERO(a) (-DBL_EPSILON < a && a < DBL_EPSILON)
 #define IS_AFTER_ZIRO(x) (x > -DBL_EPSILON)
 
 
@@ -70,50 +71,6 @@ int sort( double array[], const int low, const int high){
 }
 
 //{=================================================================================
-//! read_int - Read number from string.
-//!
-//! @param[out]    *num	Number to read
-//!
-//! @note           Read strings while it isn't int.
-//}=================================================================================
-// FIXME
-//[crady@cradylap sort]$ ./a.out
-//# Input number of elements:
-//5.5
-// Why it can work with real number of elements?
-//#Input elements:1
-//2
-//3
-//4
-//5
-//
-//1.000000 2.000000 3.000000 4.000000 5.000000 
-//
-// [crady@cradylap sort]$ ./a.out
-// # Input number of elements:
-// 5
-// #Input elements:-4
-// 2
-// 3.4
-// 100500
-// 1
-//
-// Why it stack on this case?
-
-int read_int(int *num){
-	assert(num != NULL);
-	char s[100] = "";
-	int Complite = 0;
-	do{
-		scanf("%s", s);
-		Complite = sscanf(s, "%d", num);
-		if(Complite == 0 || *num <= 0)
-			printf("\n#Input ERROR. Enter number!!!\n");
-	}while(Complite == 0);
-	return 0;
-}
-
-//{=================================================================================
 //! read - Read number from string.
 //!
 //! @param[out]    *num	Number to read
@@ -128,8 +85,29 @@ int read(double *num){
 		scanf("%s", s);
 		Complite = sscanf(s, "%lf", num);
 		if(Complite == 0)
-			printf("\n#Input ERROR. Enter number!!!\n");
-	}while(Complite == 0 || *num < 1);
+			printf("\n#Input ERROR. Enter correct number!!!\n");
+	}while(Complite == 0);
+	return 0;
+}
+
+//{=================================================================================
+//! read_int - Read number from string.
+//!
+//! @param[out]    *num	Number to read
+//!
+//! @note           Read strings while it isn't int.
+//}=================================================================================
+int read_int(int *num){
+	assert(num != NULL);
+	*num = 0;
+	double dnum = 0;
+	while(*num < 1) {
+		read(&dnum);
+		if(IS_ZERO(dnum - (int)dnum))
+			*num = (int) dnum;
+		else
+			printf("\n# Input ERROR. Input correct number!!!\n");
+	}
 	return 0;
 }
 
@@ -143,7 +121,7 @@ int read(double *num){
 //}=================================================================================
 int inputData(double *array, const int n) {
 	assert(array != 0);
-	printf("#Input elements:");
+	printf("#Input elements:\n");
 	int i;
 	for(i = 0; i < n; i++){
 		read(array+i);

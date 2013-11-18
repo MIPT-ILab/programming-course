@@ -104,6 +104,7 @@ int stack_dump(FILE* stream, stack* user_stack);
 stack* stack_construct(int size)
 {
 	stack* new_stack = (stack*) calloc(1, sizeof(stack));
+	VERIFY(new_stack != NULL);
 	new_stack -> size = 0;
 	new_stack -> maxsize = size;
 	new_stack -> data = (double *) calloc(size, sizeof(new_stack -> data[0]));
@@ -234,6 +235,7 @@ int stack_destruct(stack* user_stack)
 	user_stack -> data = NULL;
 	user_stack -> size = 0;
 	free(user_stack);
+	user_stack = NULL;
 	return OK;
 }
 
@@ -275,7 +277,7 @@ int stack_dump(FILE* stream, stack* user_stack)
 	for (int i = user_stack -> maxsize - 1; i >= 0; --i)
 
 	{
-		fprintf(stream, "%.3: ", i + 1);
+		fprintf(stream, "%.3d: ", i + 1);
 		if (fprintf(stream, "%c %lg \n",  ((user_stack -> size > i)&&(i >= 0)) ? '*' : ' ', user_stack -> data[i]) < 0 ) return ERR_PRINT;
 		
 	}

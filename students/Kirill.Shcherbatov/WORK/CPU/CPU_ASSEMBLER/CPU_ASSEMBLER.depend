@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1384523363 source:/home/kirill/Документы/WORK/CPU/CPU_ASSEMBLER/assembler.cpp
+	<stdio.h>
+	<stdlib.h>
+	"../../debug_defines.h"
+	"assembler.h"
+
+1384512169 /home/kirill/Документы/WORK/debug_defines.h
+	<assert.h>
+	<stdio.h>
+
+1384523445 /home/kirill/Документы/WORK/CPU/CPU_ASSEMBLER/assembler.h
+	<stdlib.h>
+	<string.h>
+	"../../debug_defines.h"
+	"../cpu_consts.h"
+
+1384514301 /home/kirill/Документы/WORK/CPU/cpu_consts.h
+

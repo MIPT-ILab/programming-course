@@ -1,0 +1,40 @@
+in
+push -2
+sum
+pop cx
+mov bx 1
+mov ax 1
+
+call 0
+
+push bx
+out
+out 0
+
+end
+
+:0
+    push cx
+    push -1
+    sum
+    pop cx
+    
+    push 0
+    push cx
+    jb 1 
+   
+    push ax
+    push bx
+     sum
+    
+    push bx
+    pop ax
+    
+    pop bx
+    
+    call 0
+    
+    ret
+
+:1
+    ret

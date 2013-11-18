@@ -12,10 +12,12 @@ typedef struct stack{
 //                                       nullifies the stack___can be used only once
 void initialize(STACK *link)
 {
+    // FIXME May be assert this?
     if(link->is_initialized==NULL){
         printf("Error: you can not initialize stack one more time\n");
         abort();
     }else{
+    // FIXME Not an error: I prefer to define this line exactly above 'for()'
         int i=0;
 
         link->size=0;
@@ -29,6 +31,7 @@ void initialize(STACK *link)
 //                               check if the stack was initialaized_____if not abort prodram
 void is_ok(STACK *link)
 {
+    // FIXME May be assert this?
     if(link->is_initialized!=NULL){
         printf("Error: any operation is impossible without initializing, please use initialize(STACK *link) function to do it\n");
         abort();
@@ -39,6 +42,7 @@ void is_ok(STACK *link)
 void push(STACK *link, int new_value)
 {
     is_ok(link);
+    // FIXME May be assert this?
 
     if(link->size==STACKSIZE){
         printf("Error: stack overflow\n");
@@ -79,6 +83,7 @@ void dump(STACK *link)
 void delete(STACK *link)
 {
     is_ok(link);
+    // FIXME May be assert this?
 
     if(link->size==0){
         printf("Error: stack underflow\n");
@@ -90,11 +95,13 @@ void delete(STACK *link)
 
 //----------------------------------------------pop(STACK *link)----------------------------------------------
 //                                       returns the content of the last element
+// FIXME Pop MUST destroy stack's head
 int pop(STACK *link)
 {
     is_ok(link);
 
-    if(link->size==0){
+     // FIXME May be assert this?
+   if(link->size==0){
         printf("Error: stack underflow\n");
         abort();
     }else{
