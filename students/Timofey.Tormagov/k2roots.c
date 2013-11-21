@@ -28,13 +28,6 @@ main()
 	float coef_a = 0 , coef_b = 0 , coef_c = 0;
 	printf("# Введите через пробел коэффициенты A,B,C в соответсвии с формулой Ax^2+Bx+C=0 \n");
 	scanf("%f %f %f",&coef_a,&coef_b,&coef_c);
-	/*
-	Здесь сделать защиту на ввод букв
-	assert(root_x1 != NULL);           
- 	assert(root_x2 != NULL);
- 	assert(root_x1 != root_x2);
-	*/
-	/*  Выделить функцию с структурой*/ 
 	if (coef_a != 0) 
 	{
 		//!< Переменная для значения дискриминанта уравнения
