@@ -56,7 +56,7 @@ int main()
             break;
         }
 
-        else
+        else if (!error_count)
         {
             printf("ERROR in %d line", i);
             fprintf(error, "ERROR in %d line", i);
@@ -67,7 +67,13 @@ int main()
     fclose(error);
     if (error_count)
     {
-        fprintf(writing, ""); //найдена ошибка-транслирование неверно, чистим неверный код
+        /*
+        TRAMTARARAM!!!
+        Find error => we delete all code
+        so CPU.c call this prog.txt
+        and if it will be with error, our CPU will fail.
+        */
+        fprintf(writing, "");
     }
     fclose(writing);
     return 0;
