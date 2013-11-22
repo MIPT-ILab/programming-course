@@ -198,6 +198,7 @@ int main()
 	char ch[2];
 	st.count = -1;
 	stack_construct (&st);
+	printf ("RPN solver v. 1.0 by Alexander Pronin\n");
 	printf ("Enter an expression in RPN.\n");
 	printf ("Attention! In the end of expression must be the EOF symbol!\n");
 	while (!stop) {
