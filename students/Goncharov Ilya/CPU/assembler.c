@@ -17,6 +17,7 @@ int main()
     FILE* writing;
     FILE* reading;
     FILE* error;
+    int c = 1;
     char command [10];
     int x = 0, i = 0, error_count = 0;
 
@@ -24,43 +25,47 @@ int main()
     assert(reading != NULL);
     writing = fopen("prog.txt", "w");
     error = fopen("error.txt", "w");
-    while(++i)
+
+    while ((++i)&&(c!=EOF))
     {
-        fscanf(reading, "%s", command);
+        c = fscanf(reading, "%s", command);
 
-        if ( (!error_count) && (!strcmp(command, "push_ax")) )
+        if (c!=EOF)
         {
-            fprintf(writing, "%d ", push_ax);
-        }
+            if ( !strcmp(command, "push_ax") )
+            {
+                fprintf(writing, "%d ", push_ax);
+            }
 
-        else if ( (!error_count) && (!strcmp(command, "push")) )
-        {
-            fscanf(reading, "%d", &x);
-            fprintf(writing, "%d %d ", push, x);
-        }
+            else if ( !strcmp(command, "push") )
+            {
+                fscanf(reading, "%d", &x);
+                fprintf(writing, "%d %d ", push, x);
+            }
 
-        else if ( (!error_count) && (!strcmp(command, "mul")) )
-        {
-            fprintf(writing, "%d ", mul);
-        }
+            else if ( !strcmp(command, "mul") )
+            {
+                fprintf(writing, "%d ", mul);
+            }
 
-        else if ( (!error_count) && (!strcmp(command, "add")) )
-        {
-            fprintf(writing, "%d ", add);
-        }
+            else if ( !strcmp(command, "add") )
+            {
+                fprintf(writing, "%d ", add);
+            }
 
 
-        else if ( (!error_count) && (!strcmp(command, "end")) )
-        {
-            fprintf(writing, "%d", end);
-            break;
-        }
+            else if ( !strcmp(command, "end") )
+            {
+                fprintf(writing, "%d", end);
+                break;
+            }
 
-        else if (!error_count)
-        {
-            printf("ERROR in %d line", i);
-            fprintf(error, "ERROR in %d line", i);
-            error_count = 1;
+            else
+            {
+                printf("ERROR in %d line\n", i);
+                fprintf(error, "ERROR in %d line\n", i);
+                error_count = 1;
+            }
         }
     }
     fclose(reading);
@@ -68,7 +73,6 @@ int main()
     if (error_count)
     {
         /*
-        TRAMTARARAM!!!
         Find error => we delete all code
         so CPU.c call this prog.txt
         and if it will be with error, our CPU will fail.
