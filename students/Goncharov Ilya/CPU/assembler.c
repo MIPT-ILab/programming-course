@@ -30,7 +30,7 @@ int main()
 
         if ( (!error_count) && (!strcmp(command, "push_ax")) )
         {
-            fprintf(writing, "%d", push_ax);
+            fprintf(writing, "%d ", push_ax);
         }
 
         else if ( (!error_count) && (!strcmp(command, "push")) )
