@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 /*
 0 - end
@@ -9,47 +10,49 @@
 4 - push_ax
 */
 
+enum {end, push, mul, add, push_ax};
+
 int main()
 {
     FILE* writing;
     FILE* reading;
     FILE* error;
-    FILE* delete;
     char command [10];
-    int x, i = 0, error_count = 0;
+    int x = 0, i = 0, error_count = 0;
 
     reading = fopen("source.txt", "r");
+    assert(reading != NULL);
     writing = fopen("prog.txt", "w");
     error = fopen("error.txt", "w");
     while(++i)
     {
         fscanf(reading, "%s", command);
 
-        if (strcmp(command, "push_ax") == 0)
+        if ( (!error_count) && (!strcmp(command, "push_ax")) )
         {
-            fprintf(writing, "%d", 4);
+            fprintf(writing, "%d", push_ax);
         }
 
-        else if ( strcmp(command, "push") == 0 )
+        else if ( (!error_count) && (!strcmp(command, "push")) )
         {
             fscanf(reading, "%d", &x);
-            fprintf(writing, "%d %d ", 1, x);
+            fprintf(writing, "%d %d ", push, x);
         }
 
-        else if ( strcmp(command, "mul") == 0 )
+        else if ( (!error_count) && (!strcmp(command, "mul")) )
         {
-            fprintf(writing, "%d ", 2);
+            fprintf(writing, "%d ", mul);
         }
 
-        else if (strcmp(command, "add") == 0)
+        else if ( (!error_count) && (!strcmp(command, "add")) )
         {
-            fprintf(writing, "%d ", 3);
+            fprintf(writing, "%d ", add);
         }
 
 
-        else if (strcmp(command, "end") == 0)
+        else if ( (!error_count) && (!strcmp(command, "end")) )
         {
-            fprintf(writing, "%d", 0);
+            fprintf(writing, "%d", end);
             break;
         }
 
@@ -61,13 +64,11 @@ int main()
         }
     }
     fclose(reading);
-    fclose(writing);
     fclose(error);
     if (error_count)
     {
-        delete = fopen("prog.txt", "w");
-        fprintf(delete, "");
+        fprintf(writing, ""); //найдена ошибка-транслирование неверно, чистим неверный код
     }
-
+    fclose(writing);
     return 0;
 }
