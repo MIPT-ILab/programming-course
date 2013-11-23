@@ -1,0 +1,4 @@
+push_ax
+push_ax
+mul
+end
