@@ -17,9 +17,9 @@ int main()
     FILE* writing;
     FILE* reading;
     FILE* error;
-    int c = 1;
+    int c = 0;
     char command [10];
-    int x = 0, i = 0, error_count = 0;
+    int x = 0, i = 0, error_count = 0, end_count = 0;
 
     reading = fopen("source.txt", "r");
     assert(reading != NULL);
@@ -57,6 +57,7 @@ int main()
             else if ( !strcmp(command, "end") )
             {
                 fprintf(writing, "%d", end);
+                end_count = 1;
                 break;
             }
 
@@ -68,17 +69,21 @@ int main()
             }
         }
     }
+    if (!end_count)
+    {
+        printf("ERROR, not found END");
+        fprintf(error, "ERROR, not found END");
+        error_count = 1;
+    }
+    fclose(writing);
     fclose(reading);
     fclose(error);
     if (error_count)
     {
         /*
-        Find error => we delete all code
-        so CPU.c call this prog.txt
-        and if it will be with error, our CPU will fail.
+        Find error => remove file with program
         */
-        fprintf(writing, "");
+        remove("prog.txt");
     }
-    fclose(writing);
     return 0;
 }
