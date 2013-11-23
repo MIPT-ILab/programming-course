@@ -1,0 +1,9 @@
+push 1
+pop ax
+push 89
+push 12
+add
+pop bx
+out ax
+out bx
+end
