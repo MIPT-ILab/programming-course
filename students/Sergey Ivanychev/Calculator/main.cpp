@@ -4,18 +4,23 @@
 			@author						Sergey Ivanychev, group 376, DCAM MIPT
 			@mainpage
 
-			@version					V 1.0
+			@version					V 1.1
 
 			@par						This is calculator that uses the idea of recursive descent parser.
 										It supports any expressions with brackets, real (positive and negative) numbers, spaces
 			
+			@par						Changelog V1.1
+										- Added functions support. All functions are described in functions.h and in the first print.
+										  In functions.c you may find basic information and links between syntax and used C function.
+
 			@par						Grammar
 										
-										G = E \0
-										E = T {[+-] T}*
-										T = P {[*\] P}*
-										P = [+-]* {N | (E)}
-										N = [0-9]+ {.[0-9]* | nul} 
+										G ::= E \0
+										E ::= T {[+-] T}*
+										T ::= P {[*\] P}*
+										P ::= [+-]* {N | (E) | F}
+										F ::= [a-zA-Z]+ (E+)
+										N ::= [0-9]+ {.[0-9]* | nul} 
 
 **/
 
@@ -58,7 +63,7 @@ int main(int argc, char* argv[])
 	//SetConsoleCP (1251);
 	//SetConsoleOutputCP (1251);
 	
-	strerr = fopen("log.txt", "w");
+	strerr = stdout;			//fopen("log.txt", "w");
 	assert(strerr != NULL);
 
 	bool strerr_opened	= true;
@@ -67,13 +72,24 @@ int main(int argc, char* argv[])
 	FILE* strin  = NULL;
 	FILE* strout = NULL;
 
+#define _S(func, name, argc)			\
+			name						\
+			"\n"
+#define _NUM(num)
+
 	printf(	"# Program %s\n\n# Compiled %s\n# %s\n\n# Developedby Ivanychev Sergey\n# V 1.0"
 			"# Hi, this is calculator which solve one-line expressions\n"
 			"# I'm able to deal with real numbers with leading signs, spaces and brackets\n"
 			"\n#Example -(-3 + 6) + 5 * (65 / 11)\n"
 			"# You'll see: 32.5455\n"
 			"# Don't forget to use '.' and NOT ','\n"
-			"# Enjoy\n\n", __FILE__, __DATE__, __TIME__);
+			"\n# Supported functions:"
+
+			#include "functions.h"
+
+			"\n# Enjoy\n\n", __FILE__, __DATE__, __TIME__);
+#undef _S
+#undef _NUM
 
 	strin = stdin; //fopen("input.txt", "r");
 	FILED_VERIFY(strin == NULL, 1, "# MAIN ERROR: input stream hasn't been opened for input\n");
