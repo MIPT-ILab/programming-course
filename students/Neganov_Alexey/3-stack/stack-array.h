@@ -1,5 +1,7 @@
 #include "stack.h"
+// FIXME Common name will be 'constructor'
 struct Stack_t * Stack_Construct(int size);
+// FIXME 'destructor'
 int Stack_Destruct(struct Stack_t *st);
 int Stack_OK(const struct Stack_t *st);
 int Stack_Dump(const struct Stack_t *st);

@@ -33,6 +33,7 @@ struct Stack_t
 //!
 //! @return        OK
 //}========================================================================================================
+// FIXME You can move 'else {...}' prt to Stack_Ok, I think.
 int Stack_Dump(const struct Stack_t *st)
    {
    if (!st)
@@ -64,6 +65,7 @@ int Stack_Dump(const struct Stack_t *st)
 //}========================================================================================================
 int Stack_Destruct(struct Stack_t **st)
    {
+   // FIXME You can move this to separate function or assert this.
     if(!st)
        {
        printf("Bad pointer to stack!\n");
@@ -96,6 +98,7 @@ int Stack_Destruct(struct Stack_t **st)
 int Stack_Push(struct Stack_t **st, const elem_t value)
     {
     assert(st);
+    // FIXME I would like to call it "newElement" or something like that.
     struct Stack_t *addition = (struct Stack_t*)calloc(1, sizeof(struct Stack_t));
     assert(addition);
     addition->value = value;
@@ -177,6 +180,7 @@ int Stack_Arithmetic(struct Stack_t **st, const int action)
          case SUB: Stack_Push(st, -ax+bx); break;
          case MUL: Stack_Push(st, ax*bx); break;
          case DIV:
+         // FIXME Something wrong with code style here. :)
             {if(IS_ZERO(ax))
                {
                Stack_Push(st,bx);

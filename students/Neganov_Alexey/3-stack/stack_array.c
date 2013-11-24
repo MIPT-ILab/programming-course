@@ -35,6 +35,13 @@ struct Stack_t
 //}========================================================================================================
 int Stack_OK(const struct Stack_t *st)
    {
+   // FIXME. I'll split this big expression to several variables like:
+   // const bool isCorrectPtr = st;
+   // const bool isCorrectDataPtr = st->data;
+   // const bool sizeGreaterThenNull = ...;
+   // return isCorrectPtr && isCorrectDataPtr...;
+   // It is more readable. Or, maybe, you can add commentaries over expression.
+   // Also, you can return some error's code, that will be checked in Stack_Dump.
    return (st && st->data && st->size > 0 && 0 <= st->count && st->count < st->size);
    }
 //{========================================================================================================
@@ -81,6 +88,7 @@ int Stack_Assert(const struct Stack_t *st)
    if(!Stack_OK(st))
       {
       Stack_Dump(st);
+      // FIXME May be rewrite it like 'assert(false, "error with stack")'?
       assert(!"error with stack");
       }
     return OK;
@@ -154,6 +162,7 @@ int Stack_Push(struct Stack_t *st, const elem_t value)
 elem_t Stack_Pop(struct Stack_t *st)
    {
     Stack_Assert(st);
+    // FIXME add some messages in assert? 'assert(st->count>0, "Too few elements to pop")'
     assert(st->count>0);
     st->count--;
     elem_t result = st->data[st->count];
@@ -224,6 +233,8 @@ int Stack_Arithmetic(struct Stack_t *st, const int action)
 //!
 //! @return     OK or ERROR
 //}========================================================================================================
+// FIXME may be you move this function to separate header file?
+// IOUtils.h, for example and include it in both stacks implementation.
 int double_warriorscanf(double *value)
    {
    if (!value) return ERROR;
@@ -254,23 +265,29 @@ int Stack_Interface(struct Stack_t *st)
          {
          case UNKNOWN: printf("#Unknown command\n"); break;
          case PUSH:
+            // FIXME May be move this to separate function?
+            // func_call();
+            // break;
             if (double_warriorscanf(&ax)==OK)
                Stack_Push(st, ax);
             else
                printf("\n#ERROR!\n#It was incorrect input there. Be more careful and try again.\n");
             break;
          case POP:
+            // FIXME May be move this to separate function?
             if(st->count>0) printf("%lg\n", Stack_Pop(st));
             else printf("#Empty stack\n\n");
             break;
          case DUMP: Stack_Dump(st); break;
          case EXIT:
+            // FIXME May be move this to separate function?
             if(Stack_Destruct(st) == OK)
                printf("#Stack was successfully destructed.\n");
             cond=0;
             break;
          default:
             {
+            // FIXME May be move this to separate function?
             switch (Stack_Arithmetic(st, action(command)))
                {
                case NOT_ENOUGH: printf("#Not enough elements in stack\n\n"); break;
