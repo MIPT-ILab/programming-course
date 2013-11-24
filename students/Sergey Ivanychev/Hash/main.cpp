@@ -6,10 +6,17 @@
 		@par							That program checks performance of different hashing algorithmes, building .csv files
 										to build plots in Excel.
 		
-		@version						V 1.00
+		@version						V 1.01
+		
+		@par							Changelog V 1.01
+										- Hash structure redesigned. Now tere's only one function pointer
+										- New hash_set_function created. It saves func pointer to the structure
+										- Function names changes
 
 		@par							This is prototype of hash table, which can onlu include words and strings.
 										Inputted file is 1984.txt, because WINDOWS CONSOLE IS SO SHIT
+
+		@par							Refactoring stopped on 327 list.cpp line
 										
 **/
 #include <iostream>
@@ -58,14 +65,14 @@ void rus_toupper(char* first_letter);
 
 		@return							0
 **/
-int generate_stats(hash* my_hash, const char* name_file, FILE* strin, unsigned long long(*h_func)(char*));
+int generate_stats(hash* my_hash, const char* name_file, FILE* strin, unsigned long long(*h_func)(const char*));
 
 //+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1
 //+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1
 
 #define RELOAD_HASH_															\
 	hash_destruct(&my_hash);													\
-	ret = hash_construct(&my_hash);												\
+	ret = hash_ctor(&my_hash);												\
 																				\
 	if (ret == NULL)															\
 	{																			\
@@ -102,7 +109,7 @@ int main(int argc, char* argv[])
 	}
 
 	hash* my_hash = NULL;
-	int ret = hash_construct(&my_hash);
+	int ret = hash_ctor(&my_hash);
 	
 	if (ret == NULL)
 	{
@@ -114,19 +121,19 @@ int main(int argc, char* argv[])
 
 	fputc('\n', strout);
 
-	generate_stats(my_hash, "func_H0.csv", strin, my_hash->h0);
+	generate_stats(my_hash, "func_H0.csv", strin, hash_func_zero);
 	fprintf(stdout, "1\n");
 	RELOAD_HASH_;
-	generate_stats(my_hash, "func_h_ascii_first.csv", strin, my_hash->h_ascii_first);
+	generate_stats(my_hash, "func_h_ascii_first.csv", strin, hash_func_first_ascii);
 	fprintf(stdout, "2\n");
 	RELOAD_HASH_;
-	generate_stats(my_hash, "func_h_ascii_sum.csv", strin, my_hash->h_ascii_sum);
+	generate_stats(my_hash, "func_h_ascii_sum.csv", strin, hash_func_sum_ascii);
 	fprintf(stdout, "3\n");
 	RELOAD_HASH_;
-	generate_stats(my_hash, "func_h_ascii_sum_over_num.csv", strin, my_hash->h_ascii_sum_over_num);
+	generate_stats(my_hash, "func_h_ascii_sum_over_num.csv", strin, hash_func_average_ascii);
 	fprintf(stdout, "4\n");
 	RELOAD_HASH_;
-	generate_stats(my_hash, "func_h_bits_move.csv", strin, my_hash->h_bits_move);
+	generate_stats(my_hash, "func_h_bits_move.csv", strin, hash_func_bits_move);
 	fprintf(stdout, "5\n");
 	RELOAD_HASH_;
 
@@ -168,8 +175,8 @@ int get_word(FILE* strin, char* save_to)
 	if (c == EOF) return 0;
 	while ((my_isalpha(c = fgetc(strin)) == 1)&&(word_size < MAXLEN - 1)) save_to[word_size++] = c;
 	save_to[word_size] = 0;
-
 	rus_toupper(save_to);
+	//printf("%s\n", save_to);
 	return word_size;
 }
 
@@ -177,18 +184,20 @@ int get_word(FILE* strin, char* save_to)
 //+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1
 
 
-int generate_stats(hash* my_hash, const char* name_file, FILE* strin, unsigned long long(*h_func)(char*))
+int generate_stats(hash* my_hash, const char* name_file, FILE* strin, unsigned long long(*h_func)(const char*))
 {
 	FILE* strout = fopen(name_file, "w");
 	assert(strout);
 	char word[MAXLEN] = {};
 	long i = 0;
+	int ret = hash_set_function(my_hash, h_func);
+	assert(ret == HASH_OK);
 	while (get_word(strin, word) > 0)
 	{
 		//printf("%d words\n", i++);
 		i++;
 		if (i % 1000 == 0) printf("%d\n", i);
-		int hash = h_func(word) % my_hash->size;
+		int hash = my_hash -> hash_func(word) % my_hash->size;
 		list_add(my_hash->table[hash], word);
 	}
 	for (int i = 0; i < HASH_SIZE; ++i) fprintf(strout, "%d;%d\n",i, my_hash->table[i]->len);

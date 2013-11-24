@@ -19,7 +19,7 @@ extern FILE* strerr;
 int list_interrupt_handler(list* my_list, int cond);
 
 /**
-			list_construct							constructs list
+			list_ctor							constructs list
 
 			@param[out]			my_list				argumented list
 			
@@ -29,7 +29,7 @@ int list_interrupt_handler(list* my_list, int cond);
 													
 **/
 
-int list_construct(list** my_list);
+int list_ctor(list** my_list);
 
 /**
 			list_check								verifies conditiuon of list
@@ -212,24 +212,13 @@ int list_interrupt_handler(list* my_list, int cond)
 //+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1
 //+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1
 
-int list_construct(list** my_list)
+int list_ctor(list** my_list)
 {
 	OUT_DEB("### LIST CONSTRUCT BEGIN ###\n");
 	OUT_DEB("# Constructing list...\n");
-	if (my_list == NULL)
-	{
-		OUT_DEB("# LIST CONSTRUCT ERROR: Argumented pointer is NULL\n");
-		OUT_DEB("# Terminating...");
-		OUT_DEB("### LIST CONSTRUCT END ###\n");
-		return LIST_CONSTR_PTR_NULL;
-	}
+	PRECOND(my_list == NULL, LIST_CONSTR_PTR_NULL, "# LIST CONSTRUCT ERROR: Argumented pointer is NULL\n### LIST CONSTRUCT END ###\n");
 	*my_list = (list*) calloc(1, sizeof(list));
-	if (*my_list == NULL) 
-	{
-		OUT_DEB("# LIST CONSTRUCT ERROR: Calloc failed (returned NULL)\n");
-		OUT_DEB("### LIST CONSTRUCT END ###\n");
-		return LIST_CONSTR_CALLOC_FAILED;
-	}
+	VERIFY(*my_list == NULL, LIST_CONSTR_CALLOC_FAILED, "# LIST CONSTRUCT ERROR: Calloc failed (returned NULL)\n### LIST CONSTRUCT END ###\n");
 
 	(*my_list) -> head = NULL;
 	(*my_list) -> tail = NULL;
@@ -300,17 +289,9 @@ int list_destruct(list* my_list)
 		OUT_DEB("# In %d'th element now", i);
 		OUT_DEB("### LIST DESTRUCT END ###\n");
 
-		if (ret != ELEM_OK)
-		{
-			OUT_DEB("DESTRUCT ERROR: Element hasn't been destructed (ERROR %d)", ret);
-			OUT_DEB("# Terminating...");
-			OUT_DEB("### LIST DESTRUCT END ###\n");
+		VERIFY(ret != ELEM_OK, LIST_DESTR_ELEM_DESTR_FAILED, "DESTRUCT ERROR: Element hasn't been destructed (ERROR %d)\n### LIST DESTRUCT END ###\n" _ ret);
 
-			return LIST_DESTR_ELEM_DESTR_FAILED;
-		}
 		OUT_DEB("# Destructed");
-
-
 		current_elem = next_elem;
 
 	}
@@ -337,36 +318,14 @@ int list_add(list* my_list, char* value)
 	int ret = list_check(my_list);
 
 	OUT_DEB("# value = [%s], len = %d\n", value, my_list -> len);
-
-	if (my_list == NULL)
-	{
-		OUT_DEB("# LIST ADD: Argumented pointer is NULL");
-		OUT_DEB("# Terminating...");
-		OUT_DEB("### LIST ADD END ###\n");
-
-		return LIST_ADD_PTR_NULL;
-	}
-
-	if (value == NULL)
-	{
-		OUT_DEB("# LIST ADD: Argumented pointer of value is NULL");
-		OUT_DEB("# Terminating...");
-		OUT_DEB("### LIST ADD END ###\n");
-
-		return LIST_ADD_VALUE_PTR_NULL;
-	}
-
+	PRECOND(my_list == NULL, LIST_ADD_PTR_NULL, "# LIST ADD: Argumented pointer is NULL\n### LIST ADD END ###\n");
+	PRECOND(value == NULL, LIST_ADD_VALUE_PTR_NULL, "# LIST ADD: Argumented pointer of value is NULL\n### LIST ADD END ###\n"); 
+	
 	list_elem* find_such = NULL;
 	ret = list_search_word(my_list, value, &find_such);
 	
-	if (ret == LIST_BAD)
-	{
-		OUT_DEB("# CPU ADD WORD: SOMETHING BAD HAPPENED WHILE SEARCHING\nTerminating...\n");
-		OUT_DEB("### LIST ADD END ###\n");
-
-		return LIST_BAD;
-	}
-
+	VERIFY(ret == LIST_BAD, LIST_BAD, "# CPU ADD WORD: SOMETHING BAD HAPPENED WHILE SEARCHING\nTerminating...\n### LIST ADD END ###\n");
+	
 	if (ret == LIST_SEARCH_FOUND)
 	{
 		ret = list_occur_change(find_such, 1);
@@ -387,7 +346,7 @@ int list_add(list* my_list, char* value)
 	}
 
 	list_elem* added = NULL;
-	ret = list_elem_construct(&(added), value);
+	ret = list_elem_ctor(&(added), value);
 	if (ret != ELEM_OK)
 		{
 			OUT_DEB("# Construction failed");

@@ -14,7 +14,7 @@ extern FILE* strerr;
 												ELEM_CONSTR_VAL_OUT_OF_RANGE	-	value size is out of range
 												ELEM_OK
 **/
-int list_elem_construct(list_elem** my_elem, char* value);
+int list_elem_ctor(list_elem** my_elem, const char* value);
 
 /**
 			list_elem_destruct					destructs list element
@@ -87,7 +87,7 @@ int list_elem_dump(list_elem* my_list);
 
 
 
-int list_elem_construct(list_elem** my_elem, char* value)
+int list_elem_ctor(list_elem** my_elem, const char* value)
 {
 	OUT_DEB("# Starting construction of list elem...\n");
 	if (my_elem == NULL) 

@@ -13,7 +13,7 @@
 const int POISON = -228;
 const int DUMPED_ELEMENTS_IF_ERROR = 10;
 const int MAX_VALUE = 100;
-
+const int BITSPERBYTE = 8;
 
 
 typedef char list_elem_type;
@@ -40,11 +40,7 @@ typedef struct hash_s
 {
 	list* table[HASH_SIZE];
 
-	unsigned long long(*h0)						(char* word);
-	unsigned long long(*h_ascii_first)			(char* word);
-	unsigned long long(*h_ascii_sum)				(char* word);
-	unsigned long long(*h_ascii_sum_over_num)	(char* word);
-	unsigned long long(*h_bits_move)				(char* word);
+	unsigned long long(*hash_func)(const char* word);
 	int size;
 } hash;
 
@@ -52,7 +48,7 @@ typedef struct hash_s
 
 //---------------------------------------------------------------
 
-int list_elem_construct(list_elem** my_elem, char* value);
+int list_elem_ctor(list_elem** my_elem, const char* value);
 
 int list_elem_destruct(list_elem* my_elem);
 
@@ -68,7 +64,7 @@ int list_elem_dump(list_elem* my_list);
 
 int list_interrupt_handler(list* my_list, int cond);
 
-int list_construct(list** my_list);
+int list_ctor(list** my_list);
 
 int list_check(list* my_list);
 
@@ -94,19 +90,23 @@ int hash_check(hash* my_hash);
 
 int hash_destruct(hash** my_hash);
 
-int hash_construct(hash** my_hash);
+int hash_ctor(hash** my_hash);
 
 int hash_dump(hash* my_hash);
 
-unsigned long long hash_func1(char* word);
+unsigned long long hash_func_zero(const char* word);
 
-unsigned long long hash_func2(char* word);
+unsigned long long hash_func_first_ascii(const char* word);
 
-unsigned long long hash_func3(char* word);
+unsigned long long hash_func_sum_ascii(const char* word);
 
-unsigned long long hash_func4(char* word);
+unsigned long long hash_func_average_ascii(const char* word);
 
-unsigned long long hash_func5(char* word);
+unsigned long long hash_func_bits_move(const char* word);
+
+int hash_set_function(hash* my_hash, unsigned long long (*hash_func)(const char* word));
+
+int generate_stats(hash* my_hash, const char* name_file, FILE* strin, unsigned long long(*h_func)(const char*));
 		/*
 		current_elem -> prev = NULL;
 		current_elem -> next = NULL;
@@ -121,3 +121,27 @@ unsigned long long hash_func5(char* word);
 #else
 	#define OUT_DEB if (0)
 #endif
+
+#define PRECOND(cond, err_ret, string)			\
+	if ((cond))									\
+	{											\
+		OUT_DEB(string);						\
+		return err_ret;							\
+	}
+
+#define POSTCOND(cond, err_ret, string)			\
+	if ((cond))									\
+	{											\
+		OUT_DEB(string);						\
+		return err_ret;							\
+	}
+
+#define VERIFY(cond, err_ret, string)			\
+	if ((cond))									\
+	{											\
+		OUT_DEB(string);						\
+		return err_ret;							\
+	}
+
+#define _ ,
+
