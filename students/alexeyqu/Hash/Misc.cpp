@@ -31,8 +31,7 @@ int Delete_All_Except_Letters_And_Spaces_From_Input_File_Or_Simple_Delete_All_Pu
 
         if (isalpha (c)) c = toupper (c);
 
-        if (!ispunct (c)) fprintf (output, "%c", c);
-        else continue;
+        if (isalpha (c) || isdigit (c) || isspace (c)) fprintf (output, "%c", c);
     }
 
     return HT_OK;

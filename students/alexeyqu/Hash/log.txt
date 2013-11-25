@@ -1,5 +1,0 @@
-Hashtable.
-Author: AQ
-Compiled from /home/aq/MIPT_Prog/Hash/Hash_main.cpp file
-on Nov 25 2013 21:52:50
-
