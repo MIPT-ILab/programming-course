@@ -1,0 +1,139 @@
+AQ 1.13
+
+BEGIN
+//TRY COMMENT
+MSG "a*x^2 + b*x + c = 0"
+EOL
+MSG "Enter a, b, c:"
+EOL
+
+IN
+POP AX			//dsAUI
+IN
+POP BX
+IN
+POP CX
+
+PUSH AX
+PUSH 0
+EQU
+PUSH BX		// SHIT
+PUSH 0
+EQU
+AND
+PUSH 1
+JE :1
+
+PUSH AX
+PUSH 0
+JE :3
+
+MSG "Quadratic equation."
+EOL
+PUSH 4
+PUSH AX
+PUSH CX
+MUL
+MUL
+PUSH BX
+PUSH BX
+MUL
+SUB
+POP DX
+
+PUSH DX
+PUSH 0
+GT
+PUSH 1
+JE :4
+
+PUSH DX
+PUSH 0
+JE :5
+
+PUSH DX
+PUSH 0
+LT
+PUSH 1
+JE :6
+
+: 9
+
+END
+
+EOL
+
+: 1
+PUSH CX
+PUSH 0
+JE :2
+MSG "0 != 0. Invalid equation."
+EOL
+JMP :9
+
+: 2
+MSG "0 = 0. The equation lacks numerical stability."
+EOL
+JMP :9
+
+: 3
+MSG "Linear equation."
+EOL
+PUSH CX
+PUSH -1
+MUL
+PUSH BX
+DIV
+MSG "x = " 
+OUT
+JMP :9
+
+: 4
+MSG "Discriminant is negative. 0 real roots."
+EOL
+JMP :9
+
+: 5
+MSG "Discriminant = 0. 1 real root."
+EOL
+PUSH BX
+PUSH -1
+MUL
+PUSH AX
+PUSH 2
+MUL
+DIV
+MSG "x = "
+OUT
+JMP :9
+
+: 6
+MSG "Discriminant is positive. 2 real roots."
+EOL
+PUSH BX
+PUSH -1
+MUL
+PUSH DX
+SQRT
+ADD
+PUSH AX
+PUSH 2
+MUL
+DIV
+MSG "x1 = "
+OUT
+TAB
+
+PUSH BX
+PUSH -1
+MUL
+PUSH DX
+SQRT
+SUB
+PUSH AX
+PUSH 2
+MUL
+DIV
+MSG "x2 = "
+OUT
+JMP :9

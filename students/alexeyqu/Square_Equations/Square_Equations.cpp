@@ -1,9 +1,9 @@
 /** **********************************************************************************
- * @file    Square_Equations.c
+ * @file    Square_Equations.cpp
  * @mainpage
- * @date    2013-09-28 00:50
+ * @date    2013-10-22 12:02
  * @author  Alexey Kulikov <alexeyqu@gmail.com>, group 376, DCAM MIPT
- * @version 1.031
+ * @version 1.032
  *
  * @note    V1.00:
  *          - added SolveSquare() function
@@ -28,8 +28,7 @@
  *            (is_zero, above_zero, below_zero)
  *
  * @par     V1.031
- *          - style of define flags determinig ASSERT is standart now
- *          - gcc doesn't allow to use constants in cases, does it? For now, define is used.
+ *          - style of define flags determining ASSERT is standart now
  *
  * Solve a quadratic equation considering particular cases.
  *
@@ -46,7 +45,7 @@
 #include <math.h>
 #include <float.h>
 
-#define SS_INVALID_EQUATION -1 //!< @def Value returned by SolveSquare function if number of roots is infinite
+const int SS_INVALID_EQUATION = -1; //!< Value returned by SolveSquare function if number of roots is infinite
 
 #ifndef NDEBUG
     #define DBG printf ("# "),
