@@ -7,17 +7,17 @@
  *
  * Hashtable.
  *
- * @defgroup    elem
- * @defgroup    list
- * @defgroup    hash
- * @defgroup    misc
- *
  * @par     V1.00
  *          - Realised structures elem_t, list_t, hashtable_t ( see file @link Hash.h @endlink )
  *          - Added basic functions for working with these structures
  *          - Realised 6 different hash functions ( see file @link Hash_functions.cpp @endlink )
  *          - Added system of error catches
  *          - Added primitive print into .xls file to estimate effectiveness of hash functions
+ *
+ * @defgroup    elem
+ * @defgroup    list
+ * @defgroup    hash
+ * @defgroup    misc
 ******************************************************************************/
 
 #include "Hash.h"
@@ -41,6 +41,8 @@ int main()
     FILE* input = fopen ("input.txt", "w+");
     FILE* output;
 
+    ASSERT (log); ASSERT (text); ASSERT (input);
+
     fprintf (log, "Hashtable.\n");
     fprintf (log, "Author: AQ\n");
     fprintf (log, "Compiled from %s file\n"
@@ -54,15 +56,17 @@ int main()
     int res_input = scanf ("%d", &max_hashvalue);
 
     ASSERT (res_input);
+//    ASSERT (max_hashvalue < MAX_HASHVALUE);
 
-    HTEC (Delete_All_Except_Letters_And_Spaces_From_Input_File_Or_Simple_Delete_All_Punctuation (text, input));
+    HTEC (Adapt_Input (text, input));
 
-    clock_t t_start = 0, t_finish = 0;
+    clock_t t_start = 0, t_finish = 0; //!< For timing hash functions
 
     #define TRY_HASH_( num )\
     {\
         printf ("Processing #%d hash function..\n", num);\
         output = fopen ("output-"#num".xls", "w");\
+        ASSERT (output);\
             HTEC (Hashtable_Construct (&hashtable, max_hashvalue));\
         t_start = clock();\
             HTEC (Hashtable_Fill (&hashtable, input, hash_##num));\
