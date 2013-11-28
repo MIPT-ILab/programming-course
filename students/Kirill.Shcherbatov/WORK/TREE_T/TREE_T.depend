@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1384955815 source:/home/kirill/Документы/WORK/TREE_T/tree_t.c
+	<stdio.h>
+	<stdlib.h>
+	"../debug_defines.h"
+
+1384512169 /home/kirill/Документы/WORK/debug_defines.h
+	<assert.h>
+	<stdio.h>
+
