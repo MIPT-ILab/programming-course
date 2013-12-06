@@ -1,0 +1,170 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+#include "tree_t.h"
+
+#define DEBUG
+
+#ifdef DEBUG
+    #define OUT printf
+#else
+    #define OUT if (0) printf
+#endif
+
+struct tree_elem_t *node_constructor ()
+{
+    OUT ("# called node_constructor()\n");
+    struct tree_elem_t *new_node = (struct tree_elem_t*)calloc (1, sizeof (struct tree_elem_t));
+    assert (new_node != NULL);
+
+    new_node -> data = (char*)calloc (255, sizeof(char));
+
+    new_node -> link = (struct tree_elem_t**)calloc (2, sizeof (struct tree_elem_t*));
+    assert (new_node -> link != NULL);
+
+    new_node -> link[0] = NULL;
+    new_node -> link[1] = NULL;
+
+    return new_node;
+}
+
+void tree_destructor (struct tree_elem_t *tree)
+{
+    OUT ("# called tree_destructor([%p])\n", tree);
+    assert (tree != NULL);
+
+    if (tree -> link [0] != NULL) tree_destructor (tree -> link [0]);
+    if (tree -> link [1] != NULL) tree_destructor (tree -> link [1]);
+
+    tree -> link[0] = NULL;
+    tree -> link[1] = NULL;
+    free (tree -> link);
+
+    tree -> link = NULL;
+    if (tree -> data != NULL) free (tree->data);
+    tree->data = NULL;
+
+    free (tree);
+    tree = NULL;
+}
+
+struct tree_elem_t *tree_add_lr (struct tree_elem_t *tree, struct tree_elem_t *addon, char add_right)
+{
+    OUT ("# called tree_add_left()\n");
+    assert (tree != NULL);
+    assert (addon != NULL);
+    assert (add_right == 0 || add_right == 1);
+    struct tree_elem_t *old = NULL;
+    if (tree->link[add_right] != NULL) old=tree->link[add_right];
+    tree->link[add_right] = addon;
+    return old;
+}
+
+void tree_print (const struct tree_elem_t *tree, FILE *target_source, const char mode)
+{
+    OUT ("# called tree_print([%p], [%p], mode=%d)\n", tree, target_source, mode);
+
+    assert (tree != NULL);
+    assert (target_source != NULL);
+    assert (mode == PRE_ORDER || mode == IN_ORDER || mode == POST_ORDER );
+
+    fprintf (target_source, "(");
+    if (mode == PRE_ORDER) fprintf (target_source, " %s ", tree->data);
+    if (tree->link[0] != NULL) tree_print (tree->link[0], target_source, mode); else fprintf (target_source, " nil ");
+    if (mode == IN_ORDER) fprintf (target_source, " %s ", tree->data);
+    if (tree->link[1] != NULL) tree_print (tree->link[1], target_source,mode); else fprintf (target_source, " nil ");
+    if (mode == POST_ORDER) fprintf (target_source, " %s ", tree->data);
+    fprintf (target_source, ")");
+}
+
+struct tree_elem_t *tree_read (const char info[], unsigned *index, const char mode)
+{
+    OUT ("# called tree_read([%p], [%p]=%u)", info, index, *index);
+
+    assert (info != NULL);
+    assert (index != NULL);
+    assert (mode == PRE_ORDER || mode == IN_ORDER || mode == POST_ORDER );
+
+    while (info[*index] == ' ' || info[*index] == ')') (*index)++;
+    OUT ("# cure char is %c", info[*index]);
+
+    if (info[*index] == '(')
+    {
+        OUT ("# finded (\n");
+        (*index)++;
+        struct tree_elem_t *ret_node = node_constructor ();
+        assert (ret_node != NULL);
+
+        #define READ_DATA                                                       \
+        unsigned i = 0;                                                         \
+        while (info[*index] == ' ' || info[*index] == ')') (*index)++;          \
+        while (info[*index] != ' ') ret_node->data[i++] = info[(*index)++];     \
+        ret_node->data[i]='\0';                                                 \
+        OUT ("# readed value %s\n", ret_node->data);
+
+        switch (mode)
+        {
+            case 0:
+            {
+                READ_DATA;
+                ret_node->link[0] = tree_read (info, index, mode);
+                ret_node->link[1] = tree_read (info, index, mode);
+                break;
+            }
+            case 1:
+            {
+                ret_node->link[0] = tree_read (info, index, mode);
+                READ_DATA;
+                ret_node->link[1] = tree_read (info, index, mode);
+                break;
+            }
+            case 2:
+            {
+                READ_DATA;
+                
+                break;
+            }
+        }
+        OUT ("# BUILDED [%p]!\n", ret_node);
+        return ret_node;
+
+    } else
+        if (info[*index] == 'n')
+            {
+                OUT ("# find n <> nil?\n ret nil\n");
+                (*index)+=3;
+                return NULL;
+            } else
+                {
+                    printf ("BAD TREE!\n");
+                    exit (1);
+                }
+
+}
+
+int main ()
+{
+    FILE *f = fopen ("tree.txt", "r");
+    assert (f != NULL);
+    char *memory = (char *)calloc(128, sizeof(char));
+    assert (memory != NULL);
+    unsigned i = 0;
+    while (fscanf (f, "%c", &memory[i]) != EOF) i++;
+    //memory = st_memory;
+    for (unsigned j=0; j<i; j++) printf ("%c", memory[j]);
+    printf ("\n");
+    char *memory_st = memory;
+
+    unsigned int idx = 0;
+    struct tree_elem_t *my_tree = tree_read (memory, &idx, IN_ORDER);
+    free (memory_st);
+
+    fclose (f);
+
+    f = fopen ("tree2.txt", "w");
+    tree_print (my_tree, f, IN_ORDER);
+    fclose(f);
+
+    tree_destructor (my_tree);
+    return 0;
+}

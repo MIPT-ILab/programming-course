@@ -1,0 +1,18 @@
+struct tree_elem_t
+{
+    char *data;
+    struct tree_elem_t **link;
+};
+
+enum PRINT_TREE_MODES
+{
+    PRE_ORDER = 0,
+    IN_ORDER = 1,
+    POST_ORDER = 2
+};
+
+struct tree_elem_t *node_constructor ()
+void tree_destructor (struct tree_elem_t *tree)
+struct tree_elem_t *tree_add_lr (struct tree_elem_t *tree, struct tree_elem_t *addon, char add_right)
+void tree_print (const struct tree_elem_t *tree, FILE *target_source, const char mode)
+struct tree_elem_t *tree_read (const char info[], unsigned *index, const char mode)

@@ -1,7 +1,0 @@
-# depslib dependency file v1.0
-1385360092 source:/home/kirill/Документы/WORK/HASH/main.c
-	<stdio.h>
-	<stdlib.h>
-	<assert.h>
-	<string.h>
-

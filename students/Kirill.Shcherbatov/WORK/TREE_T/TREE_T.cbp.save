@@ -36,15 +36,6 @@
 		<Unit filename="tree_t.cpp" />
 		<Unit filename="tree_t.h" />
 		<Extensions>
-			<DoxyBlocks>
-				<comment_style block="1" line="1" />
-				<doxyfile_project output_language="Russian" />
-				<doxyfile_build />
-				<doxyfile_warnings warn_if_undocumented="1" />
-				<doxyfile_output html_help="1" />
-				<doxyfile_dot class_diagrams="1" have_dot="1" />
-				<general use_at_in_tags="1" />
-			</DoxyBlocks>
 			<code_completion />
 			<envvars />
 			<debugger />
