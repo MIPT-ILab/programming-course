@@ -7,7 +7,7 @@ struct hash_table_record_t
 
 typedef struct
 {
-	hash_table_record_t** table;
+	struct hash_table_record_t** table;
 	unsigned table_size;
 } hash_table_t;
 

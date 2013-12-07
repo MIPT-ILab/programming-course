@@ -15,6 +15,8 @@
 char *expression = NULL,
      *expression_start_point = NULL;
 
+double ax = 0, bx = 0, cx = 0, dx = 0;
+
 char left_indent = 0;
 
 void   MemoryFree ();
@@ -23,7 +25,12 @@ double GetN ();
 double GetP ();
 double GetE ();
 double GetT ();
+double GetId ();
+double AssnOp ();
+double Compound ();
+double Op ();
 double GetG4 ();
+double Pgm ();
 
 int main(int, char *argv[])
 {
@@ -46,13 +53,14 @@ int main(int, char *argv[])
 
     expression_start_point = expression;
     double result = GetG4 ();
-    printf ("Result is %lg\n", result);
+    printf (">>>\tResult is %lg\n", result);
     MemoryFree ();
 	expression = NULL;
     return 0;
 }
 
 #define MK_INDENT for (register unsigned i = 0; i<left_indent; i++) putchar (' ');
+
 
 void MemoryFree ()
 {
@@ -92,13 +100,13 @@ void BugEnd ()
 double GetG4 ()
 {
     MK_INDENT;
-    OUT ("# called GetT; expression[%p] is %s\n", expression, expression);
+    OUT ("# called GetG4; expression[%p] is %s\n", expression, expression);
     left_indent++;
 
     assert (expression != NULL);
 
     double val = 0.0;
-    val = GetE ();
+    val = Pgm ();
     if (*expression != 0)
     {
         printf ("!:\texpected end of line\n", *expression);
@@ -110,6 +118,183 @@ double GetG4 ()
     OUT ("# end GetG0(); will return %lg\n", val);
 
     return val;
+}
+
+double Compound ()
+{
+    MK_INDENT;
+    OUT ("# called Compound; expression[%p] is %s\n", expression, expression);
+    left_indent++;
+
+    double val = 0;
+    if (*expression == '{')
+    {
+        expression++;
+        while (*expression != '}') val = Op ();
+        expression++;
+    }
+
+    left_indent--;
+    MK_INDENT;
+    OUT ("# end Compound();\n");
+    return val;
+}
+
+double Pgm ()
+{
+    MK_INDENT;
+    OUT ("# called Pgm; expression[%p] is %s\n", expression, expression);
+    left_indent++;
+
+    double val = 0;
+    while (*expression != 0) val = Op();
+
+    left_indent--;
+    MK_INDENT;
+    OUT ("# end Pgm();\n");
+    return val;
+}
+
+double Op ()
+{
+    MK_INDENT;
+    OUT ("# called Op; expression[%p] is %s\n", expression, expression);
+    left_indent++;
+
+   char *old_point = expression;
+   double val = 0;
+
+   val = AssnOp ();
+   if (expression == old_point)
+   {
+        val = Compound ();
+        if (expression == old_point)
+        {
+            printf ("!:\tBad syntax\n");
+            BugEnd ();
+        }
+    }
+    if (*expression != ';' && *expression != 0)
+    {
+        printf ("!:\tBad syntax\n");
+        BugEnd ();
+    }
+    expression++;
+
+    left_indent--;
+    MK_INDENT;
+    OUT ("# end Op(); will return %lg\n", val);
+    return val;
+}
+
+double AssnOp ()
+{
+    MK_INDENT;
+    OUT ("# called AssnOp; expression[%p] is %s\n", expression, expression);
+    left_indent++;
+
+    switch (*expression)
+    {
+        case 'a':
+            if (*(expression+1)=='=')
+            {
+                expression+=2;
+                ax = GetE();
+                left_indent--;
+                return ax;
+            }
+        case 'b':
+            if (*(expression+1)=='=')
+            {
+                expression+=2;
+                bx = GetE();
+                left_indent--;
+                return bx;
+            }
+        case 'c':
+            if (*(expression+1)=='=')
+            {
+                expression+=2;
+                cx = GetE();
+                left_indent--;
+                return cx;
+            }
+        case 'd':
+            if (*(expression+1)=='=')
+            {
+                expression+=2;
+                dx = GetE();
+                left_indent--;
+                return dx;
+            }
+        default:
+            left_indent--;
+            return 0;
+    }
+}
+
+double GetId ()
+{
+    MK_INDENT;
+    OUT ("# called GetId; expression[%p] is %s\n", expression, expression);
+    //expression++;
+    switch (*(expression))
+    {
+        case 'a':
+            expression++;
+            return ax;
+        case 'b':
+            expression++;
+            return bx;
+        case 'c':
+            expression++;
+            return cx;
+        case 'd':
+            expression++;
+            return dx;
+        case 'P':
+            expression++;
+            return M_PI;
+        case 'E':
+            expression++;
+            return M_E;
+        case 'S':
+            expression++;
+            if (*expression == '(')
+            {
+                expression++;
+                left_indent++;
+                double val = sin (GetP ());
+                if (*expression != ')')
+                    {
+                        printf ("!:\tNo closing brace\n");
+                        BugEnd ();
+                    }
+                expression++;
+                left_indent--;
+                return val;
+            }
+        case 'C':
+            expression++;
+            if (*expression == '(')
+            {
+                expression++;
+                left_indent++;
+                double val = cos (GetP ());
+                if (*expression != ')')
+                    {
+                        printf ("!:\tNo closing brace\n");
+                        BugEnd ();
+                    }
+                expression++;
+                left_indent--;
+                return val;
+            }
+        default:
+            MK_INDENT;
+            OUT ("# end GetId; It isn't Id.\n");
+            return 0;
+    }
 }
 
 double GetT ()
@@ -175,7 +360,7 @@ double GetP ()
     left_indent++;
 
     assert (expression != NULL);
-
+    char *old_point = expression;
     double val = 0;
     if (*expression == '(')
     {
@@ -186,7 +371,11 @@ double GetP ()
             printf ("!:\tMissing closing brace ')'\n");
             BugEnd ();
         }
-    } else val = GetN ();
+    } else
+        {
+            val = GetId();
+            if (old_point == expression) val = GetN ();
+        }
 
     left_indent--;
     MK_INDENT;

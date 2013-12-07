@@ -3,7 +3,6 @@
 #include <assert.h>
 #include <string.h>
 #include <math.h>
-#include <windows.h>
 
 #define DEBUG
 
@@ -107,7 +106,7 @@ double GetG4 ()
     assert (expression != NULL);
 
     double val = 0.0;
-    val = Pgm ();
+    val = GetE ();
     if (*expression != 0)
     {
         printf ("!:\texpected end of line\n", *expression);
@@ -123,48 +122,24 @@ double GetG4 ()
 
 double Compound ()
 {
-    MK_INDENT;
-    OUT ("# called Compound; expression[%p] is %s\n", expression, expression);
-    left_indent++;
-
     double val = 0;
     if (*expression == '{')
     {
         expression++;
         while (*expression != '}') val = Op ();
-        expression++;
     }
-
-    left_indent--;
-    MK_INDENT;
-    OUT ("# end Compound();\n");
     return val;
 }
 
 double Pgm ()
 {
-    MK_INDENT;
-    OUT ("# called Pgm; expression[%p] is %s\n", expression, expression);
-    left_indent++;
-
-    double val = 0;
-    while (*expression != 0) val = Op();
-
-    left_indent--;
-    MK_INDENT;
-    OUT ("# end Pgm();\n");
-    return val;
+    
 }
 
 double Op ()
 {
-    MK_INDENT;
-    OUT ("# called Op; expression[%p] is %s\n", expression, expression);
-    left_indent++;
-
    char *old_point = expression;
    double val = 0;
-
    val = AssnOp ();
    if (expression == old_point)
    {
@@ -175,45 +150,27 @@ double Op ()
             BugEnd ();
         }
     }
-    left_indent--;
-    if (*expression != ';' && *expression != 0)
-    {
-        printf ("!:\tBad syntax\n");
-        BugEnd ();
-    }
-    expression++;
-    MK_INDENT;
-    OUT ("# end Op(); will return %lg\n", val);
-    system("pause");
     return val;
 }
 
 double AssnOp ()
 {
-    MK_INDENT;
-    OUT ("# called AssnOp; expression[%p] is %s\n", expression, expression);
-    left_indent++;
-
     switch (*expression)
     {
         case 'a':
             expression+=2;
-            left_indent--;
             if (*(expression-1) = '=') ax = GetE();
             return ax;
         case 'b':
             expression+=2;
-            left_indent--;
             if (*(expression-1) = '=') bx = GetE();
             return bx;
         case 'c':
             expression+=2;
-            left_indent--;
             if (*(expression-1) = '=') cx = GetE();
             return cx;
         case 'd':
             expression+=2;
-            left_indent--;
             if (*(expression-1) = '=') dx = GetE();
             return dx;
         default: return 0;
@@ -224,9 +181,8 @@ double GetId ()
 {
     MK_INDENT;
     OUT ("# called GetId; expression[%p] is %s\n", expression, expression);
-    left_indent++;
-    //expression++;
-    switch (*(expression))
+    expression++;
+    switch (*(expression-1))
     {
         case 'a':
             return ax;
@@ -241,36 +197,16 @@ double GetId ()
         case 'E':
             return M_E;
         case 'S':
-            if (*expression == '(')
-            {
-                expression++;
-                double val = sin (GetP ());
-                if (*expression != ')')
-                    {
-                        printf ("!:\tNo closing brace\n");
-                        BugEnd ();
-                    }
-                expression++;
-                return val;
-            }
+            if (*(expression+1) == '(')
+                return sin(GetP());
         case 'C':
-            if (*expression == '(')
-            {
-                expression++;
-                double val = cos (GetP ());
-                if (*expression != ')')
-                    {
-                        printf ("!:\tNo closing brace\n");
-                        BugEnd ();
-                    }
-                expression++;
-                return val;
-            }
+            if (*(expression+1) == '(')
+                return cos(GetP());
         default:
             MK_INDENT;
             OUT ("# end GetId; It isn't Id.\n");
     }
-    left_indent--;
+    expression--;
     MK_INDENT;
     OUT ("# end GetId;\n");
 }
