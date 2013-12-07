@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <assert.h>
-#include <Windows.h>
 #include "defines.h"
 #include "hash_t.cpp"
 
@@ -26,7 +25,7 @@ int main(int, char *argv[])
 	scanf ("%d", &mode);
 
 	char *file_name = NULL;
-	if (argv[1] != NULL) file_name = _strdup(argv[1]);
+	if (argv[1] != NULL) file_name = strdup(argv[1]);
 	else
 	{
 		printf("No input filename argument, enter the name of the file to hashing\n");

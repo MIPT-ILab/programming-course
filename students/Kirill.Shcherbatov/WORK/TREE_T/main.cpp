@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 #include "defines.h"
 #include "tree_t.cpp"
 
@@ -11,8 +12,22 @@ int main(int, char *argv[])
 		"# %s %s:\n\n",
 		argv[0], __FILE__, __DATE__, __TIME__);
 
-    FILE *f = fopen ("tree.txt", "r");
+    printf("Tree builder test.\n");
+	printf("Using:\t'TREE' program_file_to_process\n\n");
+
+	char *file_name = NULL;
+	if (argv[1] != NULL) file_name = strdup(argv[1]);
+	else
+	{
+		printf("No input filename argument, enter the name of the file with the expression\n");
+		file_name = (char*)calloc(255, sizeof(char));
+		assert(file_name != NULL);
+		scanf("%s", file_name);
+	}
+
+    FILE *f = fopen (file_name, "r");
     assert (f != NULL);
+    if (file_name != NULL) free(file_name);
 
     char *memory = (char *)calloc(128, sizeof(char));
     assert (memory != NULL);
@@ -26,7 +41,7 @@ int main(int, char *argv[])
 
     free (memory);
 
-    f = fopen ("tree_result.txt", "w");
+    f = fopen ("result.txt", "w");
     tree_print (my_tree, f, POST_ORDER);
     fclose(f);
 

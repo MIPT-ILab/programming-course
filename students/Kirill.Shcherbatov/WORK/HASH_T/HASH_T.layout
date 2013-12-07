@@ -26,10 +26,17 @@
 	</File>
 	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="868" topLine="39" />
+			<Cursor1 position="1254" topLine="21" />
 		</Cursor>
 		<Folding>
-			<Collapse line="30" />
+			<Collapse line="13" />
+			<Collapse line="29" />
+			<Collapse line="45" />
+			<Collapse line="47" />
+			<Collapse line="49" />
+			<Collapse line="54" />
+			<Collapse line="59" />
+			<Collapse line="64" />
 		</Folding>
 	</File>
 </CodeBlocks_layout_file>

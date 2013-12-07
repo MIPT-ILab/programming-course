@@ -4,23 +4,34 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 <body>
 <tt>
-Build started on: <u>07-12-2013 at 00:48.54</u><br />
-Build ended on: <u>07-12-2013 at 00:48.54</u><p />
+Build started on: <u>07-12-2013 at 01:18.29</u><br />
+Build ended on: <u>07-12-2013 at 01:18.30</u><p />
 <b>-------------- Build: Debug in TREE_T (compiler: GNU GCC Compiler - Strict + Fast (SINGLE FILES ONLY))---------------</b><br />
-mingw32-g++.exe "C:\Users\Kirill\Documents\WORK\HASH_T\main.cpp" -o bin\Debug\TREE_T.exe -mconsole  -Wall  -g  -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal -Winline -Wunreachable-code -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Weffc++ -Wmain -Wextra -Wall -g -pipe -fexceptions -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wempty-body -Wformat-security -Wformat=2 -Wignored-qualifiers -Wlogical-op -Wmissing-field-initializers -Wnon-virtual-dtor -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -D_DEBUG -D_EJUGDE_CLIENT_SIDE -D_EJC<br />
-In file included from C:\Users\Kirill\Documents\WORK\HASH_T\main.cpp:6:0:<br />
-<font color="#0000ff">C:\Users\Kirill\Documents\WORK\HASH_T\defines.h:6:0: warning: "OUT" redefined [enabled by default]</font><br />
-  #define OUT   printf<br />
+mingw32-g++.exe "C:\Users\Kirill\Documents\WORK\TREE_T\main.cpp" -o bin\Debug\TREE_T.exe -mconsole  -Wall  -g  -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal -Winline -Wunreachable-code -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Weffc++ -Wmain -Wextra -Wall -g -pipe -fexceptions -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wempty-body -Wformat-security -Wformat=2 -Wignored-qualifiers -Wlogical-op -Wmissing-field-initializers -Wnon-virtual-dtor -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -D_DEBUG -D_EJUGDE_CLIENT_SIDE -D_EJC<br />
+In file included from C:\Users\Kirill\Documents\WORK\TREE_T\main.cpp:6:0:<br />
+<font color="#0000ff">C:\Users\Kirill\Documents\WORK\TREE_T\tree_t.cpp:122:0: warning: "READ_DATA" redefined [enabled by default]</font><br />
+             #define READ_DATA<br />
  ^<br />
-In file included from c:\program files (x86)\codeblocks\mingw\include\rpc.h:40:0,<br />
-                 from c:\program files (x86)\codeblocks\mingw\include\windows.h:82,<br />
-                 from C:\Users\Kirill\Documents\WORK\HASH_T\main.cpp:5:<br />
-c:\program files (x86)\codeblocks\mingw\include\rpcdce.h:14:0: note: this is the location of the previous definition<br />
- #define OUT<br />
+C:\Users\Kirill\Documents\WORK\TREE_T\tree_t.cpp:93:0: note: this is the location of the previous definition<br />
+             #define READ_DATA                                                       \<br />
  ^<br />
-Output size is 296,46 KB<br />
+C:\Users\Kirill\Documents\WORK\TREE_T\tree_t.cpp: In function 'tree_elem_t* tree_add_lr(tree_elem_t*, tree_elem_t*, char)':<br />
+<font color="#0000ff">C:\Users\Kirill\Documents\WORK\TREE_T\tree_t.cpp:51:29: warning: array subscript has type 'char' [-Wchar-subscripts]</font><br />
+     if (tree-&gt;link[add_right] != NULL) old=tree-&gt;link[add_right];<br />
+                             ^<br />
+<font color="#0000ff">C:\Users\Kirill\Documents\WORK\TREE_T\tree_t.cpp:51:64: warning: array subscript has type 'char' [-Wchar-subscripts]</font><br />
+     if (tree-&gt;link[add_right] != NULL) old=tree-&gt;link[add_right];<br />
+                                                                ^<br />
+<font color="#0000ff">C:\Users\Kirill\Documents\WORK\TREE_T\tree_t.cpp:52:25: warning: array subscript has type 'char' [-Wchar-subscripts]</font><br />
+     tree-&gt;link[add_right] = addon;<br />
+                         ^<br />
+C:\Users\Kirill\Documents\WORK\TREE_T\tree_t.cpp: In function 'tree_elem_t* tree_read(const char*, unsigned int*, char)':<br />
+<font color="#0000ff">C:\Users\Kirill\Documents\WORK\TREE_T\tree_t.cpp:91:16: warning: switch missing default case [-Wswitch-default]</font><br />
+         switch (mode)<br />
+                ^<br />
+Output size is 294,16 KB<br />
 <font color="#0000ff">Process terminated with status 0 (0 minutes, 0 seconds)</font><br />
-<font color="#0000ff">0 errors, 1 warnings (0 minutes, 0 seconds)</font><br />
+<font color="#0000ff">0 errors, 5 warnings (0 minutes, 0 seconds)</font><br />
 </tt>
 </body>
 </html>
