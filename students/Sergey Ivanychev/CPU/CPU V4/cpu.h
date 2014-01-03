@@ -14,6 +14,31 @@
 
 
 
+const double EPSILON = 0.00000000001;
+
+const int CPU_STACK_SIZE = 1000;
+
+const int POISON = 666;
+
+const int POISON_MARK = -228;
+
+const int CMD_MAXLEN = 30;
+
+const int NUM_OF_POINTERS = 1000;
+
+const int SIZE_OF_FUNC_STACK = 1000;
+
+const int MAXCODES = 1000;
+
+const int MAXVARS  = 50;
+
+const int MAX_VAR_NAME = 20;
+
+const int NUM_OF_VARS = 50;
+
+const int LENGTH_MARKS = 50;
+
+const int NAME_LEN = 30;
 
 
 #define IS_ZERO(x) (fabs(x) < EPSILON)   //DBL_EPSILON fucks up 
@@ -26,7 +51,7 @@
 
 
 
-
+/*
 #define _EJC
 
 #ifdef _EJC
@@ -34,7 +59,7 @@
 #else
 	#define OUT if (0)
 #endif
-
+*/
 //    /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\  
 //   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \ 
 //  /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ 
@@ -134,22 +159,20 @@ typedef struct
 **/
 
 
-const int MAXCODES = 1000;
 
 
-typedef struct
+typedef struct cpu_s
 {
 	stack* cpu_stack;
 	double ax, bx, cx, dx, sys_reg;
 	stack* func_stack;
 	double memory[MAXCODES];
+	double cash[MAXVARS];
 	int siz_mem;
 	int cur;
 } cpu;
 
 stack* stack_construct(int size);
-
-const int NAME_LEN = 15;
 
 /**
 		pointer			structure with MARK - the integer pointer itself and NAME - name of mark
@@ -159,6 +182,11 @@ typedef struct pointer_s
 	int mark;
 	char name[NAME_LEN];
 } pointer;
+
+typedef struct var_s
+{
+	char name[MAX_VAR_NAME];
+} var;
 
 //    /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\  
 //   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \ 
@@ -199,13 +227,15 @@ int stack_err_catch(int error_code, char* string, ...);
 
 cpu* cpu_construct(int stack_size);
 
+int cpu_def(cpu* my_cpu, int def_arg);
+
 void cpu_destruct(cpu* my_cpu);
 
 int cpu_check(cpu* my_cpu, FILE* strerr);
 
-int cpu_push(cpu* my_cpu, int push_arg, ...);
+int cpu_push(cpu* my_cpu, int push_arg1, double push_arg2);
 
-int cpu_pop(cpu* my_cpu, int pop_arg, double* return_value);
+int cpu_pop(cpu* my_cpu, int pop_arg1, int pop_arg2, double* return_value);
 
 int cpu_in(cpu* my_cpu, int in_arg);
 
@@ -254,6 +284,28 @@ int cpu_jmp(cpu* my_cpu, int ptr);
 int cpu_load(cpu* my_cpu, FILE* strbin);
 
 int cpu_ret(cpu* my_cpu);
+
+//------------> TO DO FUNCTIONS
+
+int cpu_ctan(cpu* my_cpu);
+
+int cpu_ln(cpu* my_cpu);
+
+int cpu_log(cpu* my_cpu);
+
+int cpu_arcsin(cpu* my_cpu);
+
+int cpu_arccos(cpu* my_cpu);
+
+int cpu_arctg(cpu* my_cpu);
+
+int cpu_exp(cpu* my_cpu);
+
+int cpu_pow(cpu* my_cpu);
+
+int cpu_fac(cpu* my_cpu);
+
+//------------>
 //    /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\  
 //   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \ 
 //  /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ 
@@ -274,9 +326,11 @@ int plot(char* input_stream, char* output_stream, char* error_stream, cpu* my_cp
 
 
 //--------------------ASSEMBLER-----------------------------------------
-double* assemble(FILE* strin, FILE* strerr, pointer* pts, int (*error_catcher)(FILE* strerr, int cond));
+double* assemble(FILE* strin, FILE* strerr, pointer* pts, var* vars, int (*error_catcher)(FILE* strerr, int cond));
 
-int asm_main();
+int asm_main(char* filename);
+
+int asm_cmd_def(FILE* strin, var* vars, double* codes, int* cur_code);
 
 int asm_is_mrk(FILE* strin, FILE* strerr, char* word, int* cur_code, pointer* pts, int (*error_catcher)(FILE* strerr, int cond));
 
@@ -288,13 +342,13 @@ int asm_push_code(double* codes, int* cur_code, double value);
 
 int asm_str_convert(char* word, double* reg);
 
-int asm_cmd_push(FILE* strin, double* codes, int* cur_code);
+int asm_cmd_push(FILE* strin, var* var, double* codes, int* cur_code);
 
 int asm_str_convert(char* word, double* reg);
 
 int asm_cmd_in(FILE* strin, double* codes, int* cur_code);
 
-int asm_cmd_pop(FILE* strin, double* codes, int* cur_code);
+int asm_cmd_pop(FILE* strin, var* var, double* codes, int* cur_code);
 
 int asm_cmd_out(FILE* strin, double* codes, int* cur_code);
 

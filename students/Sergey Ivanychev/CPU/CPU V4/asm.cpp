@@ -26,7 +26,7 @@ if (error_catcher(strerr, func) != ASM_ERROR_CATCHER_OK)				\
 		return						pointer of commands double array if successfull, otherwise NULL
 **/
 
-double* assemble(FILE* strin, FILE* strerr, pointer* pts, int (*error_catcher)(FILE* strerr, int cond))
+double* assemble(FILE* strin, FILE* strerr, pointer* pts, var* vars, int (*error_catcher)(FILE* strerr, int cond))
 {
 	VERIFY(strin  != NULL);
 	VERIFY(strerr != NULL);
@@ -69,8 +69,11 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts, int (*error_catcher)(F
 
 		switch (c)
 		{
+		case CMD_DEF:
+			RUN_AND_VERIFY(asm_cmd_def(strin, vars, codes, &cur_code));
+			break;
 		case CMD_PUSH:
-			RUN_AND_VERIFY(asm_cmd_push(strin, codes, &cur_code));
+			RUN_AND_VERIFY(asm_cmd_push(strin, vars, codes, &cur_code));
 			break;
 		case CMD_IN:
 			RUN_AND_VERIFY(asm_cmd_in(strin, codes, &cur_code));
@@ -82,7 +85,7 @@ double* assemble(FILE* strin, FILE* strerr, pointer* pts, int (*error_catcher)(F
 			RUN_AND_VERIFY(asm_cmd_mov(strin, codes, &cur_code));
 			break;
 		case CMD_POP:
-			RUN_AND_VERIFY(asm_cmd_pop(strin, codes, &cur_code));
+			RUN_AND_VERIFY(asm_cmd_pop(strin, vars, codes, &cur_code));
 			break;
 		case CMD_JMP:
 		case CMD_JBE:

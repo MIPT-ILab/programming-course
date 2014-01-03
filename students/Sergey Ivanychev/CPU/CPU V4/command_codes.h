@@ -33,7 +33,11 @@ enum commands
 	CMD_FUNC  =	1029,
 	CMD_CALL  =	1030,
 	CMD_RET   =	1031,
-	CMD_IN    =	1032,
+	CMD_ASIN  = 1032,
+	CMD_FAC   = 1033,
+	CMD_LN    = 1034,
+	CMD_DEF	  = 1035,
+	CMD_IN    =	1036,
 };
 
 
@@ -50,7 +54,8 @@ enum streams
 	STR_st		  =	906,				// stack
 	STR_ch		  =	907,				// char
 	STR_value	  =	908,
-	STR_sys_reg   =	909,
+	STR_var		  = 909,
+	STR_sys_reg   =	910,
 };
 
 enum cpu_errors
@@ -81,7 +86,9 @@ enum cpu_errors
 	LOAD_ERROR_UNEXPECTED_END_OF_FILE	= 1123,
 	CPU_POINTER_OUT_OF_RANGE			= 1124,
 	CPU_IN_BAD_TOKEN					= 1125,
-	CPU_IN_READING_FAILURE				= 1126,
+	CPU_ERROR_LOG_NEGATIVE_ARG			= 1126,			//Add message	
+	CPU_IN_READING_FAILURE				= 1127,
+
 };
 
 enum asm_func_errors
@@ -106,9 +113,16 @@ enum asm_func_errors
 	ASM_BAD_MOV_TOKEN_1					= 1517,
 	ASM_BAD_MOV_TOKEN_2					= 1518,
 	ASM_FUNC_BAD_MARK					= 1519,
-	ASM_STRIN_BAD						= 1520,
+	ASM_TOO_LONG_VAR					= 1520,				//
+	ASM_VAR_ALREADY_DEFINED				= 1521,				//add messages
+	ASM_TOO_MUCH_VARS					= 1522,				//
+	ASM_NO_SUCH_VAR						= 1523,				//
+	ASM_STRIN_BAD						= 1524,
 
 };
+
+
+
 
 const char* const asm_msgs[] = 
 {
@@ -132,10 +146,11 @@ const char* const asm_msgs[] =
 	"\nASM_CMD_MOV: unknown first argument token!\n",
 	"\nASM_CMD_MOV: unknown second argument token!\n",
 	"\nBad function name\n",
-
+	"\nToo long variable name\n",
+	"\nVariable has been already defined\n",
+	"\nToo many variables\n",
+	"\nNo such variable\n"
 	"\nInput stream is NULL\n",
-
-
 };
 
 
@@ -176,16 +191,3 @@ enum stack_errors
 };
 
 
-const double EPSILON = 0.00000000001;
-
-const int CPU_STACK_SIZE = 1000;
-
-const int POISON = 666;
-
-const int POISON_MARK = -228;
-
-const int CMD_MAXLEN = 30;
-
-const int NUM_OF_POINTERS = 11;
-
-const int SIZE_OF_FUNC_STACK = 100;

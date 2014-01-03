@@ -39,7 +39,7 @@ int cpu_check(cpu* my_cpu);
 									CPU_PUSH_INV_TOKEN if the token is invalid
 									CPU_OK if it's fine									
 **/
-int cpu_push(cpu* my_cpu, int push_arg, ...);
+int cpu_push(cpu* my_cpu, int push_arg1, double push_arg2);
 
 /**
 		cpu_pop							pops one element from cpu stack, saves it to the input pointer or register
@@ -55,7 +55,7 @@ int cpu_push(cpu* my_cpu, int push_arg, ...);
 										CPU_OK					if it's fine
 
 **/
-int cpu_pop(cpu* my_cpu, int pop_arg, double* return_value);
+int cpu_pop(cpu* my_cpu, int pop_arg1, int pop_arg2, double* return_value);
 
 /**
 		cpu_swap						function swaps two elements of stack
@@ -570,19 +570,19 @@ int cpu_check(cpu* my_cpu)
 		stack_push(my_cpu -> cpu_stack, my_cpu -> name);					\
 		return CPU_OK;
 
-int cpu_push(cpu* my_cpu, int push_arg, ...)
+int cpu_push(cpu* my_cpu, int push_arg1, double push_arg2)
 {
 	if (stack_full(my_cpu -> cpu_stack) != 0) return CPU_ERROR_STACK_FULL; 
 	
-	switch(push_arg)
+	switch(push_arg1)
 	{
 	case STR_value:
-		va_list args;
-		va_start(args, push_arg);
-		stack_push(my_cpu -> cpu_stack, va_arg(args, double));
-		va_end(args);
+		stack_push(my_cpu -> cpu_stack, push_arg2);
 		return CPU_OK;
-
+	case STR_var:
+		assert(0 <= push_arg2 && push_arg2 < MAXVARS);
+		stack_push(my_cpu -> cpu_stack, my_cpu -> cash[int(push_arg2)]);
+		return CPU_OK;
 	case REG_PUSH_(ax);
 	case REG_PUSH_(bx);
 	case REG_PUSH_(cx);
@@ -608,10 +608,8 @@ int cpu_push(cpu* my_cpu, int push_arg, ...)
 		if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_FINISH;			\
 		return CPU_OK;
 
-int cpu_pop(cpu* my_cpu, int pop_arg, double* return_value)
+int cpu_pop(cpu* my_cpu, int pop_arg1, int pop_arg2, double* return_value)
 {
-
-
 
 	if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_START;
 	if (return_value == NULL) return CPU_POP_VALUE_NULL;
@@ -621,7 +619,7 @@ int cpu_pop(cpu* my_cpu, int pop_arg, double* return_value)
 
 
 
-	switch (pop_arg)
+	switch (pop_arg1)
 	{
 	case STR_out:
 		*return_value = pop_value;
@@ -632,7 +630,10 @@ int cpu_pop(cpu* my_cpu, int pop_arg, double* return_value)
 	case REG_POP_(cx);
 	case REG_POP_(dx);
 	case REG_POP_(sys_reg);
-
+	case STR_var:
+		assert(0 <= pop_arg2 && pop_arg2 < MAXVARS);
+		my_cpu -> cash[pop_arg2] = pop_value;
+		return CPU_OK;
 	default:
 		return CPU_PUSH_INV_TOKEN;
 	}
@@ -668,7 +669,7 @@ int cpu_in(cpu* my_cpu, int in_arg)
 		case REG_POP_(dx);
 		case REG_POP_(sys_reg);
 	case STR_st:
-		cpu_push(my_cpu, STR_value, in_value);
+		cpu_push(my_cpu, STR_value, (int)in_value);
 		if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_FINISH;		
 		return CPU_OK;
 	default:
@@ -704,7 +705,7 @@ int cpu_out(FILE* fo, FILE* strerr, cpu* my_cpu, int out_arg, ...)
 	switch(out_arg)
 	{
 	case STR_st:
-		ret = cpu_pop(my_cpu, STR_out, &out_value);
+		ret = cpu_pop(my_cpu, STR_out, 0, &out_value);
 		if (ret != CPU_OK)
 		{
 			fprintf(strerr, "CPU_OUT: ERROR while popping\n");
@@ -753,7 +754,7 @@ int cpu_dub(cpu* my_cpu)
 
 	double value = 0;
 	
-	cpu_pop(my_cpu, STR_out, &value);
+	cpu_pop(my_cpu, STR_out, 0, &value);
 	
 	cpu_push(my_cpu, STR_value, value);
 	
@@ -776,8 +777,8 @@ int cpu_swap(cpu* my_cpu)
 	if ((my_cpu -> cpu_stack -> size) < 2) return CPU_NOT_ENOUGH_ARGS;
 	double val1 = 0;
 	double val2 = 0;
-	cpu_pop(my_cpu, STR_out, &val1);
-	cpu_pop(my_cpu, STR_out, &val2);
+	cpu_pop(my_cpu, STR_out, 0, &val1);
+	cpu_pop(my_cpu, STR_out, 0, &val2);
 	cpu_push(my_cpu, STR_value, val1);
 	cpu_push(my_cpu, STR_value, val2);
 	if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_FINISH;
@@ -902,7 +903,7 @@ int cpu_tan(cpu* my_cpu)
 	if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_START;
 	if (stack_empty(my_cpu -> cpu_stack))  return CPU_NOT_ENOUGH_ARGS;
 	double op = stack_pop(my_cpu -> cpu_stack);
-	if (IS_ZERO(op))
+	if (IS_ZERO(cos(op)))
 	{
 		stack_push(my_cpu -> cpu_stack, op);
 		return CPU_ERROR_DIV_BY_ZERO;
@@ -959,6 +960,63 @@ int cpu_pow(cpu* my_cpu)
 }
 
 
+//------------> TO DO FUNCTIONS
+
+
+//int cpu_ctan(cpu* my_cpu);
+
+int cpu_ln(cpu* my_cpu)
+{
+	if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_START;
+	if (stack_empty(my_cpu -> cpu_stack))  return CPU_NOT_ENOUGH_ARGS;
+	double op = stack_pop(my_cpu -> cpu_stack);
+	if (op < 0)
+	{
+		stack_push(my_cpu -> cpu_stack, op);
+		return CPU_ERROR_LOG_NEGATIVE_ARG;
+	}
+	stack_push(my_cpu -> cpu_stack, log(op));
+	if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_FINISH;
+	return CPU_OK;
+}
+
+//int cpu_log(cpu* my_cpu);
+
+int cpu_arcsin(cpu* my_cpu)
+{
+	if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_START;
+	if (stack_empty(my_cpu -> cpu_stack))  return CPU_NOT_ENOUGH_ARGS;
+	double op = stack_pop(my_cpu -> cpu_stack);
+	
+	stack_push(my_cpu -> cpu_stack, asin(op));
+	if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_FINISH;
+	return CPU_OK;
+}
+
+int cpu_fac(cpu* my_cpu)
+{
+	if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_START;
+	if (stack_empty(my_cpu -> cpu_stack))  return CPU_NOT_ENOUGH_ARGS;
+	double op = stack_pop(my_cpu -> cpu_stack);
+	
+	stack_push(my_cpu -> cpu_stack, tgamma(op + 1));
+	if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_FINISH;
+	return CPU_OK;
+}
+
+
+
+//int cpu_arccos(cpu* my_cpu);
+
+//int cpu_arctg(cpu* my_cpu);
+
+//int cpu_exp(cpu* my_cpu);
+
+//int cpu_fac(cpu* my_cpu);
+
+//------------>
+
+
 //    /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\  
 //   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \ 
 //  /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ 
@@ -973,8 +1031,8 @@ int cpu_##name(cpu* my_cpu, int ptr)															\
 	double  arg2 = 0;																			\
 	double  arg1 = 0;																			\
 	if ((my_cpu -> cpu_stack -> size) < 2) return CPU_NOT_ENOUGH_ARGS;							\
-	cpu_pop(my_cpu, STR_out, &arg2);															\
-	cpu_pop(my_cpu, STR_out, &arg1);															\
+	cpu_pop(my_cpu, STR_out, 0, &arg2);															\
+	cpu_pop(my_cpu, STR_out, 0, &arg1);															\
 	if (##expr) my_cpu -> cur = ptr;															\
 																								\
 	if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_FINISH;							\
@@ -1240,6 +1298,17 @@ int cpu_load(cpu* my_cpu, FILE* strbin)
 }
 
 
+
+
+int cpu_def(cpu* my_cpu, int def_arg)
+{
+	if (cpu_check(my_cpu) != CPU_CHECK_OK) return CPU_BROKEN_START;
+	assert(0 <= def_arg && def_arg < MAXVARS);
+
+	return CPU_OK;
+}
+
+
 //    /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\     /\  
 //   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \   /  \ 
 //  /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ /    \ 
@@ -1283,9 +1352,11 @@ int cpu_core(FILE* strout, FILE* strerr, cpu* my_cpu, double* value, int (*error
 	int		in_arg = 0;
 	int		push_arg1 = 0;
 	double	push_arg2 = 0;
-	int		pop_arg = 0;
+	int		pop_arg1 = 0;
+	int		pop_arg2 = 0;
 	int		out_arg = 0;
 	int		out_char = 0;
+	int		def_arg = 0;
 
 	int jump_ptr = 0;
 	while (true)
@@ -1308,9 +1379,11 @@ int cpu_core(FILE* strout, FILE* strerr, cpu* my_cpu, double* value, int (*error
 
 		case CMD_POP:
 			VERIFY_CUR;
-			pop_arg = (int) my_cpu -> memory[my_cpu -> cur++];
+			pop_arg1 = (int) my_cpu -> memory[my_cpu -> cur++];
+			VERIFY_CUR;
+			pop_arg2 = (int) my_cpu -> memory[my_cpu -> cur++];
 
-			cond = (*error_catcher)(strerr, my_cpu, cpu_pop(my_cpu, pop_arg, value));
+			cond = (*error_catcher)(strerr, my_cpu, cpu_pop(my_cpu, pop_arg1, pop_arg2, value));
 			if (cond == CPU_ERROR_CATCHER_BAD) return EXE_BAD;
 			break;
 
@@ -1353,6 +1426,13 @@ int cpu_core(FILE* strout, FILE* strerr, cpu* my_cpu, double* value, int (*error
 			cond = (*error_catcher)(strerr, my_cpu, cpu_in(my_cpu, in_arg));
 			if (cond == CPU_ERROR_CATCHER_BAD) return EXE_BAD;
 			break;
+		case CMD_DEF:
+			VERIFY_CUR;
+			def_arg = (int) my_cpu -> memory[my_cpu -> cur++];;
+
+			cond = (*error_catcher)(strerr, my_cpu, cpu_def(my_cpu, in_arg));
+			if (cond == CPU_ERROR_CATCHER_BAD) return EXE_BAD;
+			break;
 
 		CASE_COMMAND(CMD_SWAP,	swap(my_cpu));
 		CASE_COMMAND(CMD_DUB,	dub(my_cpu));
@@ -1367,6 +1447,10 @@ int cpu_core(FILE* strout, FILE* strerr, cpu* my_cpu, double* value, int (*error
 		CASE_COMMAND(CMD_POW,	pow(my_cpu));
 		CASE_COMMAND(CMD_DUMP,	dump(strerr, my_cpu));
 		CASE_COMMAND(CMD_RET,	ret(my_cpu));
+		CASE_COMMAND(CMD_ASIN,  arcsin(my_cpu));
+		CASE_COMMAND(CMD_LN,	ln(my_cpu));
+		CASE_COMMAND(CMD_FAC,   fac(my_cpu));
+
 
 		CASE_JUMP(CMD_JBE,		jbe(my_cpu, jump_ptr)); 
 		CASE_JUMP(CMD_JB,		jb(my_cpu, jump_ptr)); 

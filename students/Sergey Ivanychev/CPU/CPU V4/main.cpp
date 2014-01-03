@@ -75,7 +75,7 @@
 						-- Code style changes - many local defines used
 						-- Small fixes
 
-	@par				Changelog V1.2 Beta 1
+	@par				Changelog V 1.2 Beta 1
 						-- Now there're asm_main.cpp and asm.cpp which are scanning code.txt and build the binary file with instructions codes and arguments
 						--- It's been added from other program called asm.exe and could be easily divided into parts
 						-- Now there're functions and marks support (added instructions call, ret and func)
@@ -85,24 +85,35 @@
 						--- Added functions calling stack, which allows ret and call to work
 						-- Lots of other fixes and improvements
 
-	@par				Changelog V1.2 Beta 2
+	@par				Changelog V 1.2 Beta 2
 						-- Function CPU_IN() and instruction IN added, now you're allowed to print your own values
 						-- STACK_OK() fixed: now, if there's error, it prints the dump in stdout
 						-- Some documentation fixed
 						-- Some fixes across the whole code
 
-						Changelog V1.2 RC
+						Changelog V 1.2 RC
 						-Security update
 						-- Added fscanf_s() and fopen_s() support
 						-- Added a lot of extra verifications
 
-						Changelog V1.2 Beta 3
+						Changelog V 1.2 Beta 3
 						-- Assembler has been fully rewritten. 
 						--- Added asm_functions library with different token-analysing functions and error catcher
 						--- Reduced size of assembler(), now it's (hopefully) stunning and clear
 
-						Changelog V1.2
+						Changelog V 1.2
 						-- Changed writing and reading binaries, added support for fread() and fwrite()
+
+						Changelog V 1.3
+						-- Added variables support
+						--- Assembler now has it's own namespace
+						--- New instruction "def". Legal expressions are like "def x", "def my_variable"
+						--- Changed "push" and "pop" instructions to support varibles. If you want
+							to manipulate with variable ("value" for example), use "push var value", "pop var value".
+							Don't forget to declare them!
+						--- CPU structure now has it's own RAM, to contain variables' values
+						--- "pop" machine code changed. Now there're three numbers to support variables
+						-- Added console argumented input file support
 						
 						
 						
@@ -137,7 +148,7 @@ if (!(cond))												\
 	addition_close;											\
 	return ret;												\
 }
-int main()
+int main(int argc, char* argv[])
 {
 	FILE* strerr = NULL;
 	fopen_s(&strerr, "exe_log.txt", "w");
@@ -145,7 +156,7 @@ int main()
 	cpu* my_cpu = cpu_construct(CPU_STACK_SIZE);
 	
 	CHECK_PTR_HEALTH(my_cpu, "\nStack hasn't been constructed\n", 0);
-	int ret = asm_main();
+	int ret = asm_main("code.txt"); //argv[1]
 	
 	if (ret != ASM_OK)
 	{
@@ -180,6 +191,8 @@ int main()
 	fclose(strbin);
 	fclose(strout);
 	fclose(strerr);
+
+	//system("PAUSE");
 
 	return 0;
 }

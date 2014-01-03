@@ -2,7 +2,7 @@
 #include "cpu.h"
 #include "command_codes.h"
 
-const int LENGTH_MARKS = 20;
+
 
 
 /**
@@ -20,14 +20,16 @@ if (ptr == NULL)											\
 	return ret;												\
 }
 
-int asm_main()
+
+
+int asm_main(char* filename)
 {
 	FILE* strerr = NULL;
 	fopen_s(&strerr, "asm_log.txt", "w");
 	VERIFY(strerr != NULL);
 	
 	FILE* strin = NULL;
-	fopen_s(&strin, "code.txt", "r");
+	fopen_s(&strin, filename, "r");
 	CHECK_PTR_HEALTH(strin, "\nCode.txt opening error\n", ASM_FAIL);
 	
 	FILE* strout_bin = NULL;
@@ -42,10 +44,16 @@ int asm_main()
 	for (int i = 0; i < NUM_OF_POINTERS; ++i)
 	{
 		(pts[i]).mark = POISON_MARK;
-		for (int j = 0; j < 15; ++j) (pts[i]).name[j] = 0;
+		for (int j = 0; j < NAME_LEN; ++j) (pts[i]).name[j] = 0;
 	}
 
-	double* code = assemble(strin, strerr, pts, asm_error_catcher);
+	var vars[NUM_OF_VARS] = {};
+
+	for (int i = 0; i < NUM_OF_VARS; ++i)
+		for (int j = 0; j < MAX_VAR_NAME; ++j) (vars[i]).name[j] = 0;
+
+	
+	double* code = assemble(strin, strerr, pts, vars, asm_error_catcher);
 
 	if (code == NULL) 
 	{
@@ -73,7 +81,7 @@ int asm_main()
 	fopen_s(&strin, "code.txt", "r");
 	CHECK_PTR_HEALTH(strin, "\nCode.txt opening error\n", ASM_FAIL);
 
-	code = assemble(strin, strerr, pts, asm_error_catcher);
+	code = assemble(strin, strerr, pts, vars, asm_error_catcher);
 	CHECK_PTR_HEALTH(code, "\nAssemblation failed!\n", ASM_FAIL);
 	
 	/*
