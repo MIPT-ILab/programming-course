@@ -1,6 +1,9 @@
+// FIXME Fix encoding
 // CPU.cpp: определяет точку входа для консольного приложения.
 //
-
+// FIXME You use copy o Stack.h and Stack.cpp
+// Try to build your project that it will depend from Stack in a other folder
+// 'stack'. And remove these copies of file
 #include <stdio.h>
 #include "CPU.h"
 #include <string.h>

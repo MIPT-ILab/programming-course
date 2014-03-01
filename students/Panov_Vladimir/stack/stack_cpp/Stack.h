@@ -14,6 +14,7 @@ typedef double mytype;
 class Stack
 {
 public:
+// FIXME Data in class should be private. Try to google this.
 	mytype *data_;
 	int size_;
 	int count_;

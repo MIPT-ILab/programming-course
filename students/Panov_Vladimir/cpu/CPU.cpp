@@ -16,11 +16,13 @@ CPU::~CPU()
 }
 
 bool CPU::push(int Value) {
+// FIXME And if memory_ == NULL?
 	memory_->Push(Value);
 	return true;
 }
 
 bool CPU::add() {
+// FIXME And if memory_ == NULL?
 	mytype a = 0;
 	mytype b = 0;
 	if (!memory_->Pop(&a)) {
@@ -35,6 +37,7 @@ bool CPU::add() {
 }
 
 bool CPU::mul() {
+// FIXME And if memory_ == NULL?
 	mytype a = 0;
 	mytype b = 0;
 	if (!memory_->Pop(&a)) {
@@ -49,6 +52,7 @@ bool CPU::mul() {
 }
 
 bool CPU::out() {
+// FIXME And if memory_ == NULL?
 	mytype a = 0;
 	mytype b = 0;
 	if (!memory_->Pop(&a)) {
@@ -59,6 +63,7 @@ bool CPU::out() {
 }
 
 bool CPU::run(char* file) {
+// FIXME And if file == NULL?
 	FILE *f_in = fopen(file, "r");
 	if (!f_in) {
 		printf("%s, FILE NOT FOUND!!!\n", file);
@@ -90,6 +95,7 @@ bool CPU::run(char* file) {
 		}
 	}
 	fclose(f_in);
+  // FIXME And if memory_ == NULL?
 	memory_->Dump();
 	return true;
 }
@@ -218,6 +224,7 @@ bool CPU::run_assembled(char *asm_file) {
 		}
 	}
 	fclose(f_in);
+  // FIXME And if memory_ == NULL?
 	memory_->Dump();
 	return true;
 }

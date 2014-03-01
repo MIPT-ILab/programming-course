@@ -14,7 +14,8 @@
 struct Stack;
 
 typedef struct Stack Stack;
-
+// FIXME Why some variables starts with capital letters (FirstValue)
+// and other not (size)? Should be one style.
 Stack* Stack_Initialize(int size, int FirstValue);
 
 Stack* Stack_Destroy(Stack* Stack);
