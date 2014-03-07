@@ -1,2 +1,0 @@
-x
-log(5, pow(2*x, 3)) + exp(pow(x, 2) + 3 * tg(x / 2))

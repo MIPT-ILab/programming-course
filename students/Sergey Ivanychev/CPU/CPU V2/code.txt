@@ -1,9 +1,0 @@
-push ax
-pop
-tab
-push ax
-push ax
-mul
-pop
-enter
-end
