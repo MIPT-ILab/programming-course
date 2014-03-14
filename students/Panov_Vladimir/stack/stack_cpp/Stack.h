@@ -13,11 +13,11 @@ typedef double mytype;
 
 class Stack
 {
-public:
-// FIXME Data in class should be private. Try to google this.
+private:
 	mytype *data_;
 	int size_;
 	int count_;
+public:
 	Stack(int size);
 	~Stack();
 	bool Push(mytype Value);

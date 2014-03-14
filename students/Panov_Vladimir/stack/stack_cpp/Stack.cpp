@@ -16,8 +16,6 @@ Stack::~Stack() {
 }
 
 bool Stack::OK() const {
-// FIXME This is useless check. if 'this' is incorrect, you will never call this code.
-	ASSERT(this);
 	if ((0 <= count_ && count_ <= size_))
 		return true;
 	return false;

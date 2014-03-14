@@ -1,28 +1,30 @@
 #pragma once
 
 #include "Stack.h"
+#include "List.h"
 #include <iostream>
 #include <string>
 
 class CPU
 {
 public:
-	Stack *memory_;
 	CPU(int size);
 	~CPU();
-	bool run(char* file);
-  //FIXME source_file* should be const. assemble method may be const itself,
-  // while it does not modifies object state
-	bool assemble	(char *source_file, char *asm_file	 );
-
-  //FIXME asm_file* should be const. assemble method may be const itself,
-  // while it does not modifies object state
-	bool disassemble(char *asm_file	  ,	char *source_file);
-	bool run_assembled(char* asm_file);
+	bool run(const char* file);
+	bool assemble	(const char *source_file, char *asm_file	 );
+	bool disassemble(const char *asm_file	  ,	char *source_file);
+	bool run_assembled(const char* asm_file);
 private:
+	Stack *memory_;
+	mytype reg_ax_ = 0;
+	bool get_jump(List *list, const char *file);
+	bool get_asm_jump(List *list, const char *file);
+	bool push_ax();
+	bool pop_ax();
 	bool push(int Value);
 	bool add();
 	bool mul();
 	bool out();
+	bool jb();
 };
 

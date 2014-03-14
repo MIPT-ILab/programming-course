@@ -13,10 +13,11 @@ typedef double mytype;
 
 class Stack
 {
-public:
+private:
 	mytype *data_;
 	int size_;
 	int count_;
+public:
 	Stack(int size);
 	~Stack();
 	bool Push(mytype Value);
