@@ -25,12 +25,12 @@
 	if (!(_CrtCheckMemory()))	fprintf(stdout, "Memory fucked up, line [%d]", __LINE__);\
 if (cond)															\
 {																	\
-	fprintf(strerr, "ERROR# ");										\
-	fprintf(strerr, msg);											\
-	fprintf(strerr, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
-	fprintf(strlog, #place"_ERROR# ");								\
-	fprintf(strlog, msg);											\
-	fprintf(strlog, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRERR, "ERROR# ");										\
+	fprintf(STRERR, msg);											\
+	fprintf(STRERR, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRLOG, #place"_ERROR# ");								\
+	fprintf(STRLOG, msg);											\
+	fprintf(STRLOG, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
 																	\
 	return err_code;												\
 }
@@ -43,12 +43,12 @@ if (cond)															\
 if (!(_CrtCheckMemory()))	fprintf(stdout, "Memory fucked up, line [%d]", __LINE__);\
 if (cond)															\
 {																	\
-	fprintf(strerr, "VERIFY# ");									\
-	fprintf(strerr, msg, arg1);										\
-	fprintf(strerr, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
-	fprintf(strlog, "VERIFY_ERROR# ");								\
-	fprintf(strlog, msg, arg1);										\
-	fprintf(strlog, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRERR, "VERIFY# ");									\
+	fprintf(STRERR, msg, arg1);										\
+	fprintf(STRERR, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRLOG, "VERIFY_ERROR# ");								\
+	fprintf(STRLOG, msg, arg1);										\
+	fprintf(STRLOG, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
 																	\
 	return err_code;												\
 }
@@ -56,12 +56,12 @@ if (cond)															\
 	if (!(_CrtCheckMemory()))	fprintf(stdout, "Memory fucked up, line [%d]", __LINE__);\
 if (cond)															\
 {																	\
-	fprintf(strerr, "VERIFY# ");									\
-	fprintf(strerr, msg, arg1, arg2);								\
-	fprintf(strerr, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
-	fprintf(strlog, "VERIFY_ERROR# ");								\
-	fprintf(strlog, msg, arg1, arg2);								\
-	fprintf(strlog, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRERR, "VERIFY# ");									\
+	fprintf(STRERR, msg, arg1, arg2);								\
+	fprintf(STRERR, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRLOG, "VERIFY_ERROR# ");								\
+	fprintf(STRLOG, msg, arg1, arg2);								\
+	fprintf(STRLOG, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
 																	\
 	return err_code;												\
 }
@@ -70,12 +70,12 @@ if (cond)															\
 	if (!(_CrtCheckMemory()))	fprintf(stdout, "Memory fucked up, line [%d]", __LINE__);\
 if (cond)															\
 {																	\
-	fprintf(strerr, "VERIFY# ");									\
-	fprintf(strerr, msg, arg1, arg2, arg3);							\
-	fprintf(strerr, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
-	fprintf(strlog, "VERIFY_ERROR# ");								\
-	fprintf(strlog, msg, arg1, arg2, arg3);							\
-	fprintf(strlog, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRERR, "VERIFY# ");									\
+	fprintf(STRERR, msg, arg1, arg2, arg3);							\
+	fprintf(STRERR, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRLOG, "VERIFY_ERROR# ");								\
+	fprintf(STRLOG, msg, arg1, arg2, arg3);							\
+	fprintf(STRLOG, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
 																	\
 	return err_code;												\
 }
@@ -87,12 +87,12 @@ if (cond)															\
 
 
 #define ERR(msg)													\
-	fprintf(strerr, "ERROR# ");										\
-	fprintf(strerr, msg);											\
-	fprintf(strerr, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
-	fprintf(strlog, "PRECOND_ERROR# ");								\
-	fprintf(strlog, msg);											\
-	fprintf(strlog, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRERR, "ERROR# ");										\
+	fprintf(STRERR, msg);											\
+	fprintf(STRERR, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRLOG, "PRECOND_ERROR# ");								\
+	fprintf(STRLOG, msg);											\
+	fprintf(STRLOG, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
 
 #define _ )
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -101,12 +101,12 @@ if (cond)															\
 if (!(_CrtCheckMemory()))	fprintf(stdout, "Memory fucked up, line [%d]", __LINE__);\
 if (cond)															\
 {																	\
-	fprintf(strerr, "VERIFY# ");									\
-	fprintf(strerr, msg);											\
-	fprintf(strerr, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
-	fprintf(strlog, "VERIFY_ERROR# ");								\
-	fprintf(strlog, msg);											\
-	fprintf(strlog, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRERR, "VERIFY# ");									\
+	fprintf(STRERR, msg);											\
+	fprintf(STRERR, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRLOG, "VERIFY_ERROR# ");								\
+	fprintf(STRLOG, msg);											\
+	fprintf(STRLOG, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
 																	\
 }
 
@@ -114,12 +114,12 @@ if (cond)															\
 if (!(_CrtCheckMemory()))	fprintf(stdout, "Memory fucked up, line [%d]", __LINE__);\
 if (cond)															\
 {																	\
-	fprintf(strerr, "VERIFY# ");									\
-	fprintf(strerr, msg, arg1);										\
-	fprintf(strerr, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
-	fprintf(strlog, "VERIFY_ERROR# ");								\
-	fprintf(strlog, msg, arg1);										\
-	fprintf(strlog, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRERR, "VERIFY# ");									\
+	fprintf(STRERR, msg, arg1);										\
+	fprintf(STRERR, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRLOG, "VERIFY_ERROR# ");								\
+	fprintf(STRLOG, msg, arg1);										\
+	fprintf(STRLOG, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
 																	\
 																	\
 }
@@ -127,12 +127,12 @@ if (cond)															\
 	if (!(_CrtCheckMemory()))	fprintf(stdout, "Memory fucked up, line [%d]", __LINE__);\
 if (cond)															\
 {																	\
-	fprintf(strerr, "VERIFY# ");									\
-	fprintf(strerr, msg, arg1, arg2);								\
-	fprintf(strerr, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
-	fprintf(strlog, "VERIFY_ERROR# ");								\
-	fprintf(strlog, msg, arg1, arg2);								\
-	fprintf(strlog, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRERR, "VERIFY# ");									\
+	fprintf(STRERR, msg, arg1, arg2);								\
+	fprintf(STRERR, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRLOG, "VERIFY_ERROR# ");								\
+	fprintf(STRLOG, msg, arg1, arg2);								\
+	fprintf(STRLOG, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
 																	\
 																	\
 }
@@ -141,12 +141,12 @@ if (cond)															\
 	if (!(_CrtCheckMemory()))	fprintf(stdout, "Memory fucked up, line [%d]", __LINE__);\
 if (cond)															\
 {																	\
-	fprintf(strerr, "VERIFY# ");									\
-	fprintf(strerr, msg, arg1, arg2, arg3);							\
-	fprintf(strerr, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
-	fprintf(strlog, "VERIFY_ERROR# ");								\
-	fprintf(strlog, msg, arg1, arg2, arg3);							\
-	fprintf(strlog, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRERR, "VERIFY# ");									\
+	fprintf(STRERR, msg, arg1, arg2, arg3);							\
+	fprintf(STRERR, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
+	fprintf(STRLOG, "VERIFY_ERROR# ");								\
+	fprintf(STRLOG, msg, arg1, arg2, arg3);							\
+	fprintf(STRLOG, "\nFILE: %s\n%d line\n", __FILE__, __LINE__);	\
 																	\
 																	\
 }
@@ -162,10 +162,10 @@ if (cond)															\
 #define DEBUG_MODE
 
 #ifdef DEBUG_MODE
-#define D_OUT(thing) fprintf(strlog, "DEBUG# "); fprintf(strlog, thing); fputc('\n', strlog);
-#define D_OUT1(thing, arg1) fprintf(strlog, "DEBUG# "); fprintf(strlog, thing, arg1); fputc('\n', strlog);
-#define D_OUT2(thing, arg1, arg2) fprintf(strlog, "DEBUG# "); fprintf(strlog, thing, arg1 ,arg2); fputc('\n', strlog);
-#define D_OUT3(thing, arg1, arg2, arg3) fprintf(strlog, "DEBUG# "); fprintf(strlog, thing, arg1, arg2, arg3); fputc('\n', strlog);
+#define D_OUT(thing) fprintf(STRLOG, "DEBUG# "); fprintf(STRLOG, thing); fputc('\n', STRLOG);
+#define D_OUT1(thing, arg1) fprintf(STRLOG, "DEBUG# "); fprintf(STRLOG, thing, arg1); fputc('\n', STRLOG);
+#define D_OUT2(thing, arg1, arg2) fprintf(STRLOG, "DEBUG# "); fprintf(STRLOG, thing, arg1 ,arg2); fputc('\n', STRLOG);
+#define D_OUT3(thing, arg1, arg2, arg3) fprintf(STRLOG, "DEBUG# "); fprintf(STRLOG, thing, arg1, arg2, arg3); fputc('\n', STRLOG);
 #define DBG_FREE
 #else
 #define D_OUT(thing)
