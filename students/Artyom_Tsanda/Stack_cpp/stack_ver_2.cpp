@@ -23,6 +23,8 @@ stack_t::stack_t():
     count_(0)
     {
         memset(data_,0,_STACKSIZE_);
+	// FIXME It is not error, but commonly we don't use
+	// "using namespace std", just std::cout
         cout<<"Hello. Stack has been already launched."<<endl;
         ;
     }
@@ -50,7 +52,7 @@ double stack_t::pop()
     count_--;
     return data_[count_];
 }
-
+// FIXME Check the style, skipped 'space' before 'const'
 bool stack_t::OK()const
 {
     if(count_<0 || count_>_STACKSIZE_)
@@ -79,7 +81,7 @@ bool stack_t::dump() const
     }else
         return false;
 }
-
+// FIXME Check the style, skipped 'space' before 'const'
 int stack_t::size()const
 {
     if(OK())
@@ -87,7 +89,9 @@ int stack_t::size()const
     else
         return -1;
 }
-
+// FIXME Not an error, but this function commonly
+// is named as 'top()', just show you a head of a stack
+// FIXME Check the style, skipped 'space' before 'const'
 double stack_t::get()const
 {
     if(count_<1 || count_>_STACKSIZE_){
