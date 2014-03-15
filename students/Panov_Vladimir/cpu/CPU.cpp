@@ -71,6 +71,7 @@ bool CPU::out() {
 	if (!memory_->Pop(&a)) {
 		return false;
 	}
+	// FIXME std::cout and std::err is more appropriate way to print messages in c++.
 	printf("OUT: %lf\n", a);
 	return true;
 }
@@ -96,9 +97,11 @@ bool CPU::get_jump(List *list, const char *file) {
 	ASSERT(file);
 	FILE *f_in = fopen(file, "r");
 	if (!f_in) {
+	  // FIXME std::cout and std::err is more appropriate way to print messages in c++.
 		printf("%s, FILE NOT FOUND!!!\n", file);
 		return false;
 	}
+	// FIXME std::cout and std::err is more appropriate way to print messages in c++.
 	printf("file find\n");
 	int num_jump = 0;
 	char cmd_str[100];
@@ -144,14 +147,17 @@ bool CPU::run(const char* file) {
 	ASSERT(memory_);
 	List list;
 	if (!get_jump(&list, file)) {
+	  // FIXME std::cout and std::err is more appropriate way to print messages in c++.
 		printf("ERROR in file %s", file);
 		return false;
 	}
 	FILE *f_in = fopen(file, "r");
 	if (!f_in) {
+	  // FIXME std::cout and std::err is more appropriate way to print messages in c++.
 		printf("%s, FILE NOT FOUND!!!\n", file);
 		return false;
 	}
+	// FIXME std::cout and std::err is more appropriate way to print messages in c++.
 	printf("file find\n");
 	char cmd_str[100];
 	list.dump();
@@ -193,6 +199,7 @@ bool CPU::run(const char* file) {
 					for (int i = 0; i <= pos && fgets(cmd_str, sizeof(cmd_str), f_in); i++);
 				}
 				else {
+				  // FIXME std::cout and std::err is more appropriate way to print messages in c++.
 					printf("ERROR jump not found in file: %s cmd: %s\n", file, cmd);
 					return false;
 				}
@@ -203,6 +210,7 @@ bool CPU::run(const char* file) {
 			is_done = true;
 		}
 		if (!is_done) {
+		  // FIXME std::cout and std::err is more appropriate way to print messages in c++.
 			printf("#ERROR in file: %s cmd: %s", file, cmd);
 			return false;
 		}
@@ -217,17 +225,20 @@ bool CPU::assemble(const char *source_file, char *asm_file) {
 	ASSERT(asm_file);
 	List list;
 	if (!get_jump(&list, source_file)) {
+	  // FIXME std::cout and std::err is more appropriate way to print messages in c++.
 		printf("ERROR in file %s", source_file);
 		return false;
 	}
 	list.dump();
 	FILE *src_file = fopen(source_file, "r");
 	if (!src_file) {
+	  // FIXME std::cout and std::err is more appropriate way to print messages in c++.
 		printf("#%s file not found!\n", source_file);
 		return false;
 	}
 	FILE *asm_File = fopen(asm_file, "w");
 	if (!asm_File) {
+	  // FIXME std::cout and std::err is more appropriate way to print messages in c++.
 		printf("#%s file not create!\n", asm_file);
 		fclose(src_file);
 		return false;
@@ -271,8 +282,10 @@ bool CPU::assemble(const char *source_file, char *asm_file) {
 			sscanf(cmd_str + strlen(cmd), "%s", jump);
 			int num_jump = 0;
 			int pos = list.search(jump, &num_jump);
+			// FIXME std::cout and std::err is more appropriate way to print messages in c++.
 			printf("key: %s, pos: %d, num:%d\n", jump, pos, num_jump);
 			if (pos < 0) {
+			  // FIXME std::cout and std::err is more appropriate way to print messages in c++.
 				printf("ERROR in file: %s cmd: %s", source_file, cmd_str);
 				return false;
 			}
@@ -280,6 +293,7 @@ bool CPU::assemble(const char *source_file, char *asm_file) {
 			is_done = true;
 		}
 		if (!is_done) {
+		  // FIXME std::cout and std::err is more appropriate way to print messages in c++.
 			printf("#ERROR, file: %s is not all recognize", source_file);
 		}
 	}
@@ -293,11 +307,13 @@ bool CPU::disassemble(const char *asm_file, char *source_file) {
 	ASSERT(source_file);
 	FILE *asm_File = fopen(asm_file, "r");
 	if (!asm_File) {
+	  // FIXME std::cout and std::err is more appropriate way to print messages in c++.
 		printf("#%s file not create!\n", asm_file);
 		return false;
 	}
 	FILE *src_file = fopen(source_file, "w");
 	if (!src_file) {
+	  // FIXME std::cout and std::err is more appropriate way to print messages in c++.
 		printf("#%s file not found!\n", source_file);
 		fclose(asm_File);
 		return false;
@@ -306,6 +322,7 @@ bool CPU::disassemble(const char *asm_file, char *source_file) {
 	if (!get_asm_jump(&list, asm_file)) {
 		fclose(asm_File);
 		fclose(src_file);
+		// FIXME std::cout and std::err is more appropriate way to print messages in c++.
 		printf("ERROR!!! in file: %s", asm_file);
 		return false;
 	}
@@ -363,9 +380,11 @@ bool CPU::run_assembled(const char *asm_file) {
 	ASSERT(memory_);
 	FILE *f_in = fopen(asm_file, "r");
 	if (!f_in) {
+	  // FIXME std::cout and std::err is more appropriate way to print messages in c++.
 		printf("%s, FILE NOT FOUND!!!\n", asm_file);
 		return false;
 	}
+	// FIXME std::cout and std::err is more appropriate way to print messages in c++.
 	printf("file find\n");
 	char cmd_str[100];
 	while (fgets(cmd_str, sizeof(cmd_str), f_in)) {
@@ -397,11 +416,13 @@ bool CPU::run_assembled(const char *asm_file) {
 				int pos;
 				sscanf(cmd_str, "%d %d", &cmd, &pos);
 				if (pos < 0) {
+				  // FIXME std::cout and std::err is more appropriate way to print messages in c++.
 					printf("ERROR in file: %s cmd: %s", asm_file, cmd_str);
 					return false;
 				}
 				int result = fseek(f_in, 0L, SEEK_SET);
 				if (result) {
+				  // FIXME std::cout and std::err is more appropriate way to print messages in c++.
 					printf("ERROR in file %s\n", asm_file);
 					return false;
 				}
@@ -409,7 +430,8 @@ bool CPU::run_assembled(const char *asm_file) {
 			}
 			break;
 		default:
-			printf("#Command is not recognize\n");
+		  // FIXME std::cout and std::err is more appropriate way to print messages in c++.
+			printf("#Command is not recognized\n");
 			return false;
 			break;
 		}
