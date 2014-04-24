@@ -5,15 +5,21 @@
 |	@file Vector.cpp									                          |
 |	@date March 20, 2014								                          |
 |	@author Kirill Korolev <kirill.korolef@gmail.com>	                          |
-|	@vertion 1.0 (March 20, 2014)						                          |
+|	@version 1.0 (March 20, 2014)						                          |
 |														                          |
 |	@note The program has been created for learning basic features of the C++     | 
-|         language.			                                                      |
+|         language.		                                                          |
+|                                                                                 |
+|	@note Ver. 1.1 (April 23, 2014):                                              |
+|		- A view of "#include" file has beeb changed                              |
+|		- "main" function has been added for testing                              |
+|		- "=" operator has been modified                                          |
+|		- Assertion for "&" elements has been corrected                           |
 |														                          |	
 **********************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 
 #define NDEBUG 
 
@@ -92,7 +98,7 @@ Vector_t::Vector_t():
 
 Vector_t::Vector_t(const Vector_t & v)
 {
-	ASSERT(v != NULL, "Cons.: Vector v has a NULL address.");
+	ASSERT(* v != NULL, "Cons.: Vector v has a NULL address.");
 	x = v.x;
 	y = v.y;
 	printf("[C] A (%lg, %lg) vector has been created [C]\n", x, y);
@@ -156,7 +162,7 @@ Vector_t::Vector_t(double a):
 
 Vector_t Vector_t::operator+ (const Vector_t & v)
 {
-	ASSERT(&v != NULL, "Op.+: The Vector v has a NULL address.");
+	ASSERT(* v != NULL, "Op.+: The Vector v has a NULL address.");
 	return (Vector_t(v.x + x, v.y + y));
 }
 
@@ -175,7 +181,7 @@ Vector_t Vector_t::operator+ (const Vector_t & v)
 
 Vector_t Vector_t::operator- (const Vector_t & v)
 {
-	ASSERT(&v != NULL, "Op.-: The Vector v has a NULL address.");
+	ASSERT(* v != NULL, "Op.-: The Vector v has a NULL address.");
 	return (Vector_t(x - v.x, y - v.y));
 }
 
@@ -200,13 +206,13 @@ Vector_t Vector_t::operator/ (double num)
 
 Vector_t operator* (const Vector_t & v, double num)
 {
-	ASSERT(v != NULL, "Op.*: Vector v has a NULL address.");
+	ASSERT(* v != NULL, "Op.*: Vector v has a NULL address.");
 	return (Vector_t(v.x * num, v.y * num));
 }
 
 Vector_t operator* (double num, const Vector_t & v)
 {
-	ASSERT(v != NULL, "Op.*: Vector v has a NULL address.");
+	ASSERT(* v != NULL, "Op.*: Vector v has a NULL address.");
 	return (Vector_t(v.x * num, v.y * num));
 }
 
@@ -225,6 +231,22 @@ Vector_t operator* (double num, const Vector_t & v)
 
 Vector_t Vector_t::operator= (const Vector_t & v)
 {
-	ASSERT(v != NULL, "Op.=: Vector v has a NULL address.");
-	return(Vector_t(v));
+	ASSERT(* v != NULL, "Op.=: Vector v has a NULL address.");
+	if (this != &v)
+	{
+		x = v.x;
+		y = v.y;
+	}
+	return(* this);
+}
+
+int main()
+{
+	Vector_t v1(5, 4);
+	Vector_t v2(7, 4);
+	Vector_t v3 = v1 + 4 * v2;
+	printf("%lf %lf", v3.x, v3.y);
+
+	system("PAUSE");
+	return 0;
 }
