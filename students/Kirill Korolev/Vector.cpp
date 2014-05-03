@@ -1,26 +1,26 @@
 /** *******************************************************************************
-|													    |
-|	A C++ realisation of vectors' class and its basic functions.                |                                         |
-|												          |
-|	@file Vector.cpp									          |
-|	@date March 20, 2014								          |
-|	@author Kirill Korolev <kirill.korolef@gmail.com>	                      |
-|	@version 1.0 (March 20, 2014)						                |
-|												          |
-|	@note The program has been created for learning basic features of the C++   | 
-|         language.		                                                    |
+|								                  |
+|	A C++ realisation of vectors' class and its basic functions.              |                                         |
+|										  |
+|	@file Vector.cpp							  |
+|	@date March 20, 2014						          |
+|	@author Kirill Korolev <kirill.korolef@gmail.com>	                  |
+|	@version 1.0 (March 20, 2014)						  |
+|						                                  |
+|	@note The program has been created for learning basic features of the C++ | 
+|         language.		                                                  |
 |                                                                                 |
-|	@note Ver. 1.1 (April 23, 2014):                                            |
-|		- A view of "#include" file has beeb changed                          |
-|		- "main" function has been added for testing                          |
-|		- "=" operator has been modified                                      |
-|		- Assertion for "&" elements has been corrected                       |
+|	@note Ver. 1.1 (April 23, 2014):                                          |
+|		- A view of "#include" file has beeb changed                      |
+|		- "main" function has been added for testing                      |
+|		- "=" operator has been modified                                  |
+|		- Assertion for "&" elements has been corrected                   |
 |     @note Ver. 1.2 (May 03, 2014):                                              |
 |           - A tab shift has been fixed                                          |
 |           - Assert for links has been removed                                   |
 |           - "=" operator has been modified                                      |
 |           - A pause has been removed from main func.                            |
-|												          |	
+|				                                                  |	
 **********************************************************************************/
 
 #include <cstdio>
@@ -29,35 +29,35 @@
 #define NDEBUG 
 
 #ifndef NDEBUG		
-	#define ASSERT( cond, messege )                        \ /**< Checking of correctness of data */
-        if ( ! ( cond ) )                                    \
+	#define ASSERT( cond, messege )                          \ /**< Checking of correctness of data */
+        if ( ! ( cond ) )                                        \
 		{                                                \
-			printf("Fatal error: %s,     "             \
-				   "file: %s, line: %d \n",          \
-				   #messege, __FILE__, __LINE__);    \
-			abort();                                   \
+			printf("Fatal error: %s,     "           \
+				   "file: %s, line: %d \n",      \
+				   #messege, __FILE__, __LINE__);\
+			abort();                                 \
 		}
 #else
 	#define ASSERT( cond, messege )
 #endif
 
 /** *******************************************************************************
-|				                                                          |
-|	Vector_t - a class which consists of coordinates	                      |
-|	       data and basic math functions fo vectors.                            |
-|	                                                                            |
+|				                                                  |
+|	Vector_t - a class which consists of coordinates	                  |
+|	       data and basic math functions fo vectors.                          |
+|	                                                                          |
 **********************************************************************************/
 
 class Vector_t
 {
 	public:
-		double x, y;					  /**< The coordinates */
+		double x, y;			            /**< The coordinates */
  	private:
-		Vector_t();				              /**< A basic constractor */	
+		Vector_t();				    /**< A basic constractor */	
 	public:	
 		Vector_t(const Vector_t & v);               /**< v1 = v2; v1(v2); Vector_t v */
-		Vector_t(double xx, double yy);	        /**< Vector_t(3, 4); v = Vector_t(3, 4); v(3, 4) */
-		explicit Vector_t(double a);	    	        /**< Vector_t(5)  */
+		Vector_t(double xx, double yy);	            /**< Vector_t(3, 4); v = Vector_t(3, 4); v(3, 4) */
+		explicit Vector_t(double a);	    	    /**< Vector_t(5)  */
 		~Vector_t();                                /**< A basic distructor */
 		Vector_t operator+ (const Vector_t & v);    /**< v1 + v2; v1 + v2 + v3 */
 		Vector_t operator- (const Vector_t & v);    /**< v1 - v2; v1 - v2 - v3 */
@@ -66,19 +66,19 @@ class Vector_t
 };
 
 /** *******************************************************************************
-|									                            |
-|	operator* - an operator for			                                  |
-|	multiplication of a vector and a number.                                    |
-|	                                                                            |
-|	@param num - a number for the multiplication                                |
-|		   v   - a vector                                                     |
-|		                                                                      |
-|	@return Vector_t class element - a vector                                   |
-|			which is a result of the multiplication.                        |
-|	                                                                            |
-|	@note The two vertions of the operator are for different orders of          |
+|									          |
+|	operator* - an operator for			                          |
+|	multiplication of a vector and a number.                                  |
+|	                                                                          |
+|	@param num - a number for the multiplication                              |
+|		   v   - a vector                                                 |
+|		                                                                  |
+|	@return Vector_t class element - a vector                                 |
+|			which is a result of the multiplication.                  |
+|	                                                                          |
+|	@note The two vertions of the operator are for different orders of        |
 |            parametres.                                                          |
-|	                                                                            |
+|	                                                                          |
 **********************************************************************************/
 
 Vector_t operator* (double num, const Vector_t & v);    /**< a * v */
@@ -92,14 +92,14 @@ Vector_t::Vector_t():
 }
 
 /** *******************************************************************************
-|								       				    |
-|	A constructor for a Vector_t class.				                      |
-|													    |
-|	@param v - a vector	  								    |
-|													    |
-|	@note The constructor creates a copy of vector "v" with same coordinates and|
-|		  print a messege about creation.					          |
-|													    |
+|								                  |
+|	A constructor for a Vector_t class.				          |
+|					                                          |
+|	@param v - a vector	  					          |
+|									          |
+|	@note The constructor creates a copy of vector "v" with same coordinates  |
+|               and print a messege about creation.				  |
+|										  |
 **********************************************************************************/
 
 Vector_t::Vector_t(const Vector_t & v)
@@ -118,14 +118,14 @@ Vector_t::~Vector_t()
 }
 
 /** *******************************************************************************
-|							   						    |
-|	A constructor for a Vector_t class.						          |
-|													    |
-|	@param xx, yy - coordinates		  		   			          |
-|													    |
-|	@note The constructor creates a vector with different coordinates x and y   |
-|           and print a messege about creation.						    |
-|													    |
+|							   	                  |
+|	A constructor for a Vector_t class.				          |
+|									          |
+|	@param xx, yy - coordinates		  		   	          |
+|								                  |
+|	@note The constructor creates a vector with different coordinates x and y |
+|           and print a messege about creation.				          |
+|									          |
 **********************************************************************************/
 
 Vector_t::Vector_t(double xx, double yy):
@@ -136,14 +136,14 @@ Vector_t::Vector_t(double xx, double yy):
 }
 
 /** *******************************************************************************
-|													    |
-|	A constructor for a Vector_t class.							    |
-|													    |
-|	@param a - a coordinate									    |
-|													    |
-|	@note The constructor creates a vector with same coordinates x and y and    |
-|		  print a messege about creation.						    | 
-|													    |
+|										  |
+|	A constructor for a Vector_t class.					  |
+|										  |
+|	@param a - a coordinate							  |
+|										  |
+|	@note The constructor creates a vector with same coordinates x and y and  |
+|		  print a messege about creation.				  | 
+|										  |
 **********************************************************************************/
 
 Vector_t::Vector_t(double a):
@@ -154,16 +154,16 @@ Vector_t::Vector_t(double a):
 }
 
 /** *******************************************************************************
-|													    |
-|	operator+ - an operator for								    |
-|	addition of a vector and a number (class function).                         |
-|	                                                                            |
-|	@param num  - a number for the multiplication                               |
-|		   this - a current vector                                            |
-|		                                                                      |
-|	@return Vector_t class element - a vector                                   |
-|			which is a result of the division.                              |
-|	                                                                            |
+|									          |
+|	operator+ - an operator for						  |
+|	addition of a vector and a number (class function).                       |
+|	                                                                          |
+|	@param num  - a number for the multiplication                             |
+|		   this - a current vector                                        |
+|		                                                                  |
+|	@return Vector_t class element - a vector                                 |
+|			which is a result of the division.                        |
+|	                                                                          |
 **********************************************************************************/
 
 Vector_t Vector_t::operator+ (const Vector_t & v)
@@ -173,16 +173,16 @@ Vector_t Vector_t::operator+ (const Vector_t & v)
 }
 
 /** *******************************************************************************
-|													    |
-|	operator- - an operator for								    |
-|	subtruction of 2 vectors (class function).                                  |
-|	                                                                            |
-|	@param v    - a vector for the subtraction                                  |
-|		   this - a current vector                                            |
-|		                                                                      |
-|	@return Vector_t class element - a vector                                   |
-|			which is a result of the subtraction.                           |
-|	                                                                            |
+|									          |
+|	operator- - an operator for					          |
+|	subtruction of 2 vectors (class function).                                |
+|	                                                                          |
+|	@param v    - a vector for the subtraction                                |
+|		   this - a current vector                                        |
+|		                                                                  |
+|	@return Vector_t class element - a vector                                 |
+|			which is a result of the subtraction.                     |
+|	                                                                          |
 **********************************************************************************/
 
 Vector_t Vector_t::operator- (const Vector_t & v)
@@ -192,16 +192,16 @@ Vector_t Vector_t::operator- (const Vector_t & v)
 }
 
 /** *******************************************************************************
-|												          |
-|	operator/ - an operator for								    |
-|	division of a vector and a number (class function).                         |
-|	                                                                            |
-|	@param num  - a number for the division                                     |
-|		   this - a current vector                                            |
-|		                                                                      |
-|	@return Vector_t class element - a vector                                   |
-|			which is a result of the division.                              |
-|	                                                                            |
+|								                  |
+|	operator/ - an operator for					          |
+|	division of a vector and a number (class function).                       |
+|	                                                                          |
+|	@param num  - a number for the division                                   |
+|		   this - a current vector                                        |
+|		                                                                  |
+|	@return Vector_t class element - a vector                                 |
+|			which is a result of the division.                        |
+|	                                                                          |
 **********************************************************************************/
 
 Vector_t Vector_t::operator/ (double num)
@@ -223,16 +223,16 @@ Vector_t operator* (double num, const Vector_t & v)
 }
 
 /** *******************************************************************************
-|													    |
-|	operator= - an operator for								    |
-|	assignment of a vector (class function).                                    |
-|	                                                                            |
-|	@param v    - a vector for an assignment                                    |
-|		   this - a current vector                                            |
-|		                                                                      |
-|	@return Vector_t class element - a vector                                   |
-|			which is a result of the assignment.                            |
-|	                                                                            |
+|					                                          |
+|	operator= - an operator for					          |
+|	assignment of a vector (class function).                                  |
+|	                                                                          |
+|	@param v    - a vector for an assignment                                  |
+|		   this - a current vector                                        |
+|		                                                                  |
+|	@return Vector_t class element - a vector                                 |
+|			which is a result of the assignment.                      |
+|	                                                                          |
 **********************************************************************************/
 
 Vector_t & Vector_t::operator= (const Vector_t & v)
