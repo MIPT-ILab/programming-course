@@ -1,6 +1,6 @@
 /** *******************************************************************************
 |								                  |
-|	A C++ realisation of vectors' class and its basic functions.              |                                         |
+|	A C++ realisation of vectors' class and its basic functions.              |                              
 |										  |
 |	@file Vector.cpp							  |
 |	@date March 20, 2014						          |
